@@ -6,6 +6,9 @@ export const metadata: Metadata = { title: "Quality" };
 export default function QualityPage() {
   return (
     <div className="wrap pad">
+      <figure className="page-photo">
+        <img src="/images/lab.png" alt="Chromatography system and vial rack on a laboratory bench" />
+      </figure>
       <div className="page-title">
         <p className="eyebrow">Quality</p>
         <h1>The standard behind the label.</h1>

@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { categoryById, defaultVariant, hasPriceRange, inStock, minPrice, type Product } from "@/lib/catalog";
 import { money } from "@/lib/format";
+import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
-import { Vial } from "@/components/vial";
 
 export function ProductCard({ product }: { product: Product }) {
   const store = useStore();
@@ -16,21 +16,20 @@ export function ProductCard({ product }: { product: Product }) {
     <article className="card">
       <Link href={`/product/${product.slug}`} className="card-art" aria-label={product.name}>
         {product.badge && <span className="flag">{product.badge}</span>}
-        <Vial tone={category.tone} code={product.code} />
+        <ProductPhoto slug={product.slug} alt="" />
       </Link>
       <button
         className={`wish ${wished ? "on" : ""}`}
         aria-label={wished ? `Remove ${product.name} from wishlist` : `Save ${product.name}`}
         onClick={() => store.toggleWish(product.slug)}
       >
-        {wished ? "♥" : "♡"}
+        <Heart filled={wished} />
       </button>
       <div className="card-body">
         <p className="eyebrow">{category.name}</p>
         <h3>
           <Link href={`/product/${product.slug}`}>{product.name}</Link>
         </h3>
-        <p className="muted">{product.tagline}</p>
         <p className="muted">{product.variants.map((item) => item.label).join(" · ")}</p>
         <div className="card-row">
           <span className="price">
@@ -47,5 +46,13 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </div>
     </article>
+  );
+}
+
+function Heart({ filled }: { filled: boolean }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+      <path d="M12 19s-7-4.4-7-9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.6-7 9-7 9z" />
+    </svg>
   );
 }

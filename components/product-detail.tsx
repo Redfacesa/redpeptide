@@ -10,8 +10,8 @@ import {
 } from "@/lib/catalog";
 import { money } from "@/lib/format";
 import { ProductCard } from "@/components/product-card";
+import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
-import { Vial } from "@/components/vial";
 
 export function ProductDetail({ product }: { product: Product }) {
   const store = useStore();
@@ -28,7 +28,7 @@ export function ProductDetail({ product }: { product: Product }) {
     <div className="wrap pad">
       <div className="product">
         <div className="product-art">
-          <Vial tone={category.tone} code={product.code} />
+          <ProductPhoto slug={product.slug} alt={`${product.name} vial`} />
         </div>
         <div>
           <p className="crumbs">

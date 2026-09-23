@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { categoryById, getProduct, getVariant } from "@/lib/catalog";
+import { getProduct, getVariant } from "@/lib/catalog";
 import { FREE_SHIPPING_AT, money, shippingCost } from "@/lib/format";
+import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
-import { Vial } from "@/components/vial";
 
 export default function CartPage() {
   const store = useStore();
@@ -32,7 +32,7 @@ export default function CartPage() {
           <div>
             {lines.map(({ line, product, variant }) => (
               <article className="line" key={`${line.slug}-${line.variantId}`}>
-                <Vial tone={categoryById(product.category).tone} code={product.code} />
+                <ProductPhoto slug={product.slug} alt="" />
                 <div>
                   <h2 style={{ fontSize: 28 }}><Link href={`/product/${product.slug}`}>{product.name}</Link></h2>
                   <p className="muted">{variant.label} · {variant.sku}</p>

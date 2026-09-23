@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { categoryById, getProduct, getVariant, products } from "@/lib/catalog";
+import { getProduct, getVariant, products } from "@/lib/catalog";
 import { money } from "@/lib/format";
+import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
-import { Vial } from "@/components/vial";
 
 const links = [
   { href: "/shop", label: "Shop" },
@@ -97,11 +97,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <MenuIcon />
           </button>
           <Link href="/" className="brand" aria-label="RedPeptide home">
-            <span className="mark">R</span>
-            <span>
-              <strong>RedPeptide</strong>
-              <span>Research supply</span>
-            </span>
+            RedPeptide
           </Link>
           <nav className="nav" aria-label="Primary">
             {links.map((link) => (
@@ -115,7 +111,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
           <div className="tools">
-            <button className="icon-btn" aria-label="Search catalog" onClick={() => setSearchOpen(true)}>
+            <button className="search-launch" onClick={() => setSearchOpen(true)}>
+              <SearchIcon />
+              <span>Search</span>
+            </button>
+            <button className="icon-btn search-icon" aria-label="Search catalog" onClick={() => setSearchOpen(true)}>
               <SearchIcon />
             </button>
             <Link className="icon-btn" href="/account" aria-label="Account">
@@ -145,13 +145,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <footer className="footer">
         <div className="wrap footer-grid">
           <div>
-            <Link href="/" className="brand">
-              <span className="mark">R</span>
-              <span>
-                <strong>RedPeptide</strong>
-                <span>Research supply</span>
-              </span>
-            </Link>
+            <Link href="/" className="brand">RedPeptide</Link>
             <p style={{ marginTop: 12 }}>
               Reference-style catalog for lyophilized research peptides. Company registration, payments, and live certificates come next.
             </p>
@@ -190,7 +184,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <div className="overlay" role="presentation">
           <div className="modal" role="dialog" aria-modal="true" aria-labelledby="age-title">
             <p className="eyebrow">Access notice</p>
-            <h2 id="age-title" style={{ fontSize: 40 }}>Confirm you are 18 or older.</h2>
+            <h2 id="age-title">Confirm you are 18 or older.</h2>
             <p className="muted" style={{ margin: "10px 0 16px" }}>
               RedPeptide lists research peptides for laboratory use. The catalog is limited to adults and does not provide medical advice or dosing guidance.
             </p>
@@ -206,7 +200,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <div className="overlay" onClick={() => setCartOpen(false)}>
           <aside className="drawer" role="dialog" aria-modal="true" aria-label="Cart" onClick={(event) => event.stopPropagation()}>
             <div className="row">
-              <h2 style={{ fontSize: 32 }}>Cart</h2>
+              <h2>Cart</h2>
               <button className="icon-btn" aria-label="Close cart" onClick={() => setCartOpen(false)}>✕</button>
             </div>
             {lines.length === 0 ? (
@@ -214,7 +208,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             ) : (
               lines.map(({ line, product, variant }) => (
                 <div className="line" key={`${line.slug}-${line.variantId}`}>
-                  <Vial tone={categoryById(product.category).tone} code={product.code} />
+                  <ProductPhoto slug={product.slug} alt="" />
                   <div>
                     <strong>{product.name}</strong>
                     <div className="muted">{variant.label} · {variant.sku}</div>
