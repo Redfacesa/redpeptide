@@ -1416,6 +1416,6 @@ export function getArticle(slug: string) {
 export const faqs = [
   { q: "What currency is charged?", a: "The price list is in South African rand. The shop shows an estimate in the currency of the country you open it from. Redface Pay charges the rand amount." },
   { q: "Who takes payment?", a: "Checkout opens Redface Pay, the universal payment system for this store. Card and supported local methods are handled there." },
-  { q: "Can I change a price?", a: "Yes. The catalog admin at /admin updates sizes, rand prices, and stock. A merchant key also writes those products into the Redface Pay database." },
+  { q: "Can I change a price?", a: "Yes. The catalog admin at /admin can change a rand price, change stock, or add a compound. Checkout still charges the rand amount." },
   { q: "Is this for human use?", a: "No. Every vial is labeled research use only. The shop does not provide preparation or dosing instructions." },
 ];

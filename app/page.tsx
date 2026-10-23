@@ -1,8 +1,12 @@
 import Link from "next/link";
-import { categories, products } from "@/lib/catalog";
+import { categories } from "@/lib/catalog";
+import { readMergedCatalog } from "@/lib/catalog-store";
 import { ProductCard } from "@/components/product-card";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const products = await readMergedCatalog();
   const featured = products.filter((product) => product.featured);
 
   return (

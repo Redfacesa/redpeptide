@@ -1,74 +1,39 @@
 import { products } from "@/lib/catalog";
-
-type Row = { slug: string; variantId: string; price: number; stock: number; name?: string; label?: string };
-
-const FILE = ".data/catalog-overrides.json";
-
-async function kv() {
-  try {
-    const { env } = await import(/* webpackIgnore: true */ "cloudflare:workers");
-    return (env as { CATALOG?: { get: (k: string) => Promise<string | null>; put: (k: string, v: string) => Promise<void> } }).CATALOG ?? null;
-  } catch {
-    return null;
-  }
-}
-
-async function readFileRows(): Promise<Row[] | null> {
-  try {
-    const { readFile } = await import("node:fs/promises");
-    const parsed = JSON.parse(await readFile(FILE, "utf8")) as Row[];
-    return Array.isArray(parsed) ? parsed : null;
-  } catch {
-    return null;
-  }
-}
-
-async function writeFileRows(rows: Row[]) {
-  const { mkdir, writeFile } = await import("node:fs/promises");
-  await mkdir(".data", { recursive: true });
-  await writeFile(FILE, JSON.stringify(rows));
-}
+import { requireCatalogEditor } from "@/lib/admin-auth";
+import { catalogFromEditor, readMergedCatalog, readSavedCatalog, writeSavedCatalog, type PriceRow } from "@/lib/catalog-store";
+import type { Product } from "@/lib/catalog";
 
 export async function GET() {
-  const store = await kv();
-  if (store) {
-    const saved = await store.get("overrides");
-    return Response.json({ rows: saved ? JSON.parse(saved) : null, products: products.length });
-  }
-  return Response.json({ rows: await readFileRows(), products: products.length });
+  const [saved, merged] = await Promise.all([readSavedCatalog(), readMergedCatalog()]);
+  return Response.json({ rows: saved.rows, added: saved.added, products: merged });
 }
 
 export async function POST(request: Request) {
-  const password = request.headers.get("x-admin-password") || "";
-  const expected = process.env.ADMIN_PASSWORD || "";
-  if (!expected || password !== expected) {
-    return Response.json({ message: "Set ADMIN_PASSWORD on the worker, then sign in with it." }, { status: 401 });
-  }
-  const body = (await request.json()) as { rows?: Row[] };
-  const rows = body.rows ?? [];
-  const store = await kv();
-  let saved = false;
-  if (store) {
-    await store.put("overrides", JSON.stringify(rows));
-    saved = true;
-  } else {
-    try {
-      await writeFileRows(rows);
-      saved = true;
-    } catch {
-      saved = false;
-    }
-  }
+  const editor = await requireCatalogEditor(request);
+  if (!editor.ok) return Response.json({ message: editor.message }, { status: editor.status });
+
+  const body = (await request.json()) as { products?: Product[]; rows?: PriceRow[] };
+  const incoming = body.products ?? [];
+  const built = catalogFromEditor(incoming.length ? incoming : products);
+  if ("error" in built) return Response.json({ message: built.error }, { status: 400 });
+
+  const before = await readSavedCatalog();
+  const where = await writeSavedCatalog(built);
+  if (!where) return Response.json({ message: "The catalog store is not connected." }, { status: 500 });
 
   const merchantId = process.env.NOVION_MERCHANT_ID || "";
   const apiKey = process.env.REDFACE_API_KEY || "";
   let synced = 0;
   if (merchantId && apiKey) {
     const endpoint = process.env.REDFACE_COMMERCE_API ?? "https://bpzzgilwlkghgfkvkkxx.supabase.co/functions/v1/commerce-api";
-    for (const row of rows) {
-      const product = products.find((item) => item.slug === row.slug);
-      const variant = product?.variants.find((item) => item.id === row.variantId);
-      if (!product || !variant || !(row.price > 0)) continue;
+    const previous = new Map(before.rows.map((row) => [`${row.slug}:${row.variantId}`, row]));
+    for (const row of built.rows) {
+      const earlier = previous.get(`${row.slug}:${row.variantId}`);
+      const base = products.find((product) => product.slug === row.slug)?.variants.find((variant) => variant.id === row.variantId);
+      const changed = earlier
+        ? earlier.price !== row.price || earlier.stock !== row.stock
+        : !base || base.price !== row.price || base.stock !== row.stock;
+      if (!changed) continue;
       const response = await fetch(`${endpoint}/products`, {
         method: "POST",
         headers: {
@@ -78,7 +43,7 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           merchant_id: merchantId,
-          name: `${product.name} ${variant.label}`,
+          name: `${row.name ?? row.slug} ${row.label ?? row.variantId}`,
           price: row.price,
           currency: "ZAR",
           stock_quantity: row.stock,
@@ -89,7 +54,7 @@ export async function POST(request: Request) {
     }
   }
 
-  const where = store ? "the Novion catalog store" : saved ? "the local catalog file" : "nowhere — the catalog store is not connected";
-  const pay = merchantId && apiKey ? ` ${synced} sizes were sent to Redface Pay.` : " Add NOVION_MERCHANT_ID and REDFACE_API_KEY to sync the Redface Pay product database.";
-  return Response.json({ ok: saved, message: `Saved to ${where}.${pay}` });
+  const place = where === "kv" ? "the Novion catalog store" : "the local catalog file";
+  const pay = merchantId && apiKey ? ` ${synced} sizes were sent to Redface Pay.` : "";
+  return Response.json({ ok: true, message: `Saved to ${place}.${pay}`, products: await readMergedCatalog() });
 }

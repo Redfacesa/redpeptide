@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { getProduct, getVariant } from "@/lib/catalog";
+import { getVariant } from "@/lib/catalog";
 import { FREE_SHIPPING_AT, shippingCost } from "@/lib/format";
 import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
@@ -11,8 +11,7 @@ export default function CartPage() {
   const store = useStore();
   const { format } = useMoney();
   const lines = store.cart.flatMap((line) => {
-    const found = getProduct(line.slug);
-    const product = found && store.liveProduct(found);
+    const product = store.findProduct(line.slug);
     const variant = product && getVariant(product, line.variantId);
     return product && variant ? [{ line, product, variant }] : [];
   });

@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { getProduct } from "@/lib/catalog";
 import { ProductCard } from "@/components/product-card";
 import { useStore } from "@/components/store";
 
 export default function WishlistPage() {
   const store = useStore();
   const items = store.wishlist.flatMap((slug) => {
-    const product = getProduct(slug);
+    const product = store.findProduct(slug);
     return product ? [product] : [];
   });
 

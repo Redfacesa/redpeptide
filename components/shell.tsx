@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { getProduct, getVariant, products } from "@/lib/catalog";
+import { getVariant } from "@/lib/catalog";
 import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
@@ -59,19 +59,18 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const hits = useMemo(() => {
     const q = query.trim().toLowerCase();
     const list = !q
-      ? products.slice(0, 6)
-      : products
+      ? store.catalog.slice(0, 6)
+      : store.catalog
           .filter((product) =>
             `${product.name} ${product.tagline} ${product.category}`.toLowerCase().includes(q),
           )
           .slice(0, 8);
-    return list.map((product) => store.liveProduct(product));
+    return list;
   }, [query, store]);
 
   const lines = store.cart
     .map((line) => {
-      const found = getProduct(line.slug);
-      const product = found && store.liveProduct(found);
+      const product = store.findProduct(line.slug);
       const variant = product && getVariant(product, line.variantId);
       if (!product || !variant) return null;
       return { line, product, variant };

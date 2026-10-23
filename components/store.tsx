@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { getProduct, getVariant, type Product } from "@/lib/catalog";
+import { getVariant, products, type Product } from "@/lib/catalog";
 
 export type CartLine = { slug: string; variantId: string; qty: number };
 
@@ -57,6 +57,8 @@ type StoreValue = {
   signOut: () => void;
   orders: Order[];
   placeOrder: (order: Omit<Order, "id" | "createdAt">) => Order;
+  catalog: Product[];
+  findProduct: (slug: string) => Product | undefined;
   liveProduct: (product: Product) => Product;
   toast: string | null;
   cartCount: number;
@@ -80,7 +82,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [toast, setToast] = useState<string | null>(null);
-  const [overrides, setOverrides] = useState<Record<string, { price: number; stock: number }>>({});
+  const [catalog, setCatalog] = useState<Product[]>(products);
 
   useEffect(() => {
     setAgeOk(localStorage.getItem(keys.age) === "1");
@@ -92,12 +94,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     fetch("/api/admin")
       .then((response) => response.json())
       .then((payload) => {
-        const data = payload as { rows?: { slug: string; variantId: string; price: number; stock: number }[] | null };
-        const next: Record<string, { price: number; stock: number }> = {};
-        for (const row of data.rows ?? []) {
-          if (row.price > 0) next[`${row.slug}:${row.variantId}`] = { price: row.price, stock: row.stock };
-        }
-        setOverrides(next);
+        const data = payload as { products?: Product[] };
+        if (data.products?.length) setCatalog(data.products);
       })
       .catch(() => undefined);
   }, []);
@@ -117,16 +115,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   }, [toast]);
 
   const api = useMemo<StoreValue>(() => {
-    const liveProduct = (product: Product): Product => ({
-      ...product,
-      variants: product.variants.map((variant) => {
-        const hit = overrides[`${product.slug}:${variant.id}`];
-        return hit ? { ...variant, price: hit.price, stock: hit.stock } : variant;
-      }),
-    });
+    const findProduct = (slug: string) => catalog.find((product) => product.slug === slug);
+    const liveProduct = (product: Product) => findProduct(product.slug) ?? product;
     return {
       ready,
       ageOk,
+      catalog,
+      findProduct,
       liveProduct,
       confirmAge: () => {
         localStorage.setItem(keys.age, "1");
@@ -134,8 +129,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       },
       cart,
       add: (slug, variantId, qty = 1) => {
-        const found = getProduct(slug);
-        const product = found && liveProduct(found);
+        const product = findProduct(slug);
         const variant = product && getVariant(product, variantId);
         if (!product || !variant) return;
         if (variant.stock <= 0) {
@@ -156,8 +150,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setToast(`${product.name} ${variant.label} added to cart`);
       },
       setQty: (slug, variantId, qty) => {
-        const found = getProduct(slug);
-        const product = found && liveProduct(found);
+        const product = findProduct(slug);
         const variant = product && getVariant(product, variantId);
         const capped = variant ? Math.min(variant.stock, qty) : qty;
         setCart((current) =>
@@ -210,7 +203,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       toast,
       cartCount: cart.reduce((sum, line) => sum + line.qty, 0),
     };
-  }, [ready, ageOk, cart, wishlist, profile, orders, toast, overrides]);
+  }, [ready, ageOk, cart, wishlist, profile, orders, toast, catalog]);
 
   return <StoreContext.Provider value={api}>{children}</StoreContext.Provider>;
 }

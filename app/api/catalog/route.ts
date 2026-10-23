@@ -1,6 +1,5 @@
-import { readOverrides } from "@/lib/catalog-store";
+import { readMergedCatalog } from "@/lib/catalog-store";
 
 export async function GET() {
-  const rows = await readOverrides();
-  return Response.json({ rows: rows ?? [] });
+  return Response.json({ products: await readMergedCatalog() });
 }

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { countries, getProduct, getVariant } from "@/lib/catalog";
+import { countries, getVariant } from "@/lib/catalog";
 import { shippingCost } from "@/lib/format";
 import { useMoney } from "@/components/currency";
 import { useStore } from "@/components/store";
@@ -41,8 +41,7 @@ export default function CheckoutPage() {
   const lines = useMemo(
     () =>
       store.cart.flatMap((line) => {
-        const found = getProduct(line.slug);
-        const product = found && store.liveProduct(found);
+        const product = store.findProduct(line.slug);
         const variant = product && getVariant(product, line.variantId);
         return product && variant ? [{ line, product, variant }] : [];
       }),

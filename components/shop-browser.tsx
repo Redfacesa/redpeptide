@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { categories, inStock, products, type CategoryId } from "@/lib/catalog";
+import { categories, inStock, type CategoryId } from "@/lib/catalog";
 import { ProductCard } from "@/components/product-card";
 import { useStore } from "@/components/store";
 
@@ -37,7 +37,7 @@ export function ShopBrowser() {
 
   const items = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let list = products.map((product) => store.liveProduct(product)).filter((product) => {
+    let list = store.catalog.filter((product) => {
       const categoryOk = category === "all" || product.category === category;
       const textOk = !q || `${product.name} ${product.tagline} ${product.summary}`.toLowerCase().includes(q);
       const stockOk = !availableOnly || inStock(product);
