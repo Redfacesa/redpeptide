@@ -1,4 +1,5 @@
 import { categories, products, type CategoryId, type Product, type Variant } from "@/lib/catalog";
+import { readStore, writeStore } from "@/lib/storage";
 
 export type PriceRow = { slug: string; variantId: string; price: number; stock: number; name?: string; label?: string };
 
@@ -6,15 +7,6 @@ export type SavedCatalog = { rows: PriceRow[]; added: Product[] };
 
 const FILE = ".data/catalog-overrides.json";
 const categoryIds = new Set<string>(categories.map((category) => category.id));
-
-async function kv() {
-  try {
-    const { env } = await import(/* webpackIgnore: true */ "cloudflare:workers");
-    return (env as { CATALOG?: { get: (key: string) => Promise<string | null>; put: (key: string, value: string) => Promise<void> } }).CATALOG ?? null;
-  } catch {
-    return null;
-  }
-}
 
 function parseSaved(raw: string): SavedCatalog {
   const parsed = JSON.parse(raw) as PriceRow[] | SavedCatalog;
@@ -26,34 +18,12 @@ function parseSaved(raw: string): SavedCatalog {
 }
 
 export async function readSavedCatalog(): Promise<SavedCatalog> {
-  const store = await kv();
-  if (store) {
-    const saved = await store.get("overrides");
-    return saved ? parseSaved(saved) : { rows: [], added: [] };
-  }
-  try {
-    const { readFile } = await import("node:fs/promises");
-    return parseSaved(await readFile(FILE, "utf8"));
-  } catch {
-    return { rows: [], added: [] };
-  }
+  const saved = await readStore("overrides", FILE);
+  return saved ? parseSaved(saved) : { rows: [], added: [] };
 }
 
 export async function writeSavedCatalog(saved: SavedCatalog): Promise<"kv" | "file" | null> {
-  const body = JSON.stringify(saved);
-  const store = await kv();
-  if (store) {
-    await store.put("overrides", body);
-    return "kv";
-  }
-  try {
-    const { mkdir, writeFile } = await import("node:fs/promises");
-    await mkdir(".data", { recursive: true });
-    await writeFile(FILE, body);
-    return "file";
-  } catch {
-    return null;
-  }
+  return writeStore("overrides", FILE, JSON.stringify(saved));
 }
 
 function withPrices(product: Product, prices: Map<string, PriceRow>): Product {
@@ -66,8 +36,9 @@ function withPrices(product: Product, prices: Map<string, PriceRow>): Product {
   };
 }
 
-function photographed(src: string | undefined) {
-  return typeof src === "string" && /\.(jpe?g|png|webp)$/i.test(src);
+export function photographed(src: string | undefined) {
+  if (!src || src.includes("..") || src.includes("://")) return false;
+  return /^\/images\/[a-z0-9-]+\.(jpe?g|png|webp)$/i.test(src) || /^\/api\/media\/[a-f0-9-]+\.(jpe?g|png|webp)$/i.test(src);
 }
 
 export function mergeCatalog(saved: SavedCatalog): Product[] {
@@ -130,7 +101,7 @@ function cleanVariant(variant: Variant, slug: string): Variant | null {
     price,
     sku: `NV-${slug.slice(0, 12).toUpperCase()}-${id}`.slice(0, 32),
     stock,
-    image: "",
+    image: photographed(variant.image) ? variant.image : "",
   };
 }
 
@@ -152,14 +123,22 @@ export function catalogFromEditor(incoming: Product[]): { rows: PriceRow[]; adde
       rows.push({ slug, variantId: variant.id, price: variant.price, stock: variant.stock, name, label: variant.label });
     }
     const base = products.find((product) => product.slug === slug);
+    const novel = base ? variants.filter((variant) => !base.variants.some((item) => item.id === variant.id)) : variants;
+    const missing = novel.find((variant) => !photographed(variant.image));
+    if (missing) return { error: `${name} ${missing.label} needs a photograph before it can be published.` };
     if (!base) {
-      added.push({ slug, name, code: slug.slice(0, 6).toUpperCase(), category: category as CategoryId, ...researchCopy(name), variants });
+      added.push({
+        slug,
+        name,
+        code: slug.slice(0, 6).toUpperCase(),
+        category: category as CategoryId,
+        ...researchCopy(name),
+        image: variants[0]?.image || "",
+        variants,
+      });
       continue;
     }
-    const extra = variants.filter((variant) => !base.variants.some((item) => item.id === variant.id));
-    if (extra.length) {
-      added.push({ ...base, name: base.name, variants: extra });
-    }
+    if (novel.length) added.push({ ...base, name: base.name, variants: novel });
   }
 
   if (rows.length === 0) return { error: "Add a price before saving." };

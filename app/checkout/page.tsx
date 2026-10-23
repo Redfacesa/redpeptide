@@ -64,7 +64,8 @@ export default function CheckoutPage() {
       setError("Add a compound before checkout.");
       return;
     }
-    if (!form.name || !form.email.includes("@") || !form.line1 || !form.city || !form.postcode) {
+    const email = store.profile?.email || form.email;
+    if (!form.name || !email.includes("@") || !form.line1 || !form.city || !form.postcode) {
       setError("Name, a valid email, and a full address are required.");
       return;
     }
@@ -76,38 +77,72 @@ export default function CheckoutPage() {
       setError("Confirm the research-use statement to continue.");
       return;
     }
-    const total = subtotal + delivery;
-    const order = store.placeOrder({
+    if (!store.token) {
+      setError("Sign in so this order can be tracked.");
+      return;
+    }
+    setPaying(true);
+    const saved = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${store.token}` },
+      body: JSON.stringify({
+        name: form.name,
+        line1: form.line1,
+        city: form.city,
+        postcode: form.postcode,
+        country: form.country,
+        shipping: method,
+        note: form.note,
+        research: true,
+        lines: lines.map(({ line, product, variant }) => ({
+          slug: product.slug,
+          variantId: variant.id,
+          qty: line.qty,
+        })),
+      }),
+    });
+    const savedBody = (await saved.json().catch(() => ({}))) as { message?: string; order?: { id: string; total: number; email: string; lines: { name: string; variant: string; qty: number; price: number; sku: string }[] } };
+    if (!saved.ok || !savedBody.order) {
+      setPaying(false);
+      setError(savedBody.message || "The order could not be saved.");
+      return;
+    }
+    const order = savedBody.order;
+    store.rememberOrder({
       ...form,
+      email: order.email,
       shipping: method,
-      lines: lines.map(({ line, product, variant }) => ({
-        slug: product.slug,
-        variantId: variant.id,
+      lines: order.lines.map((line) => ({
+        slug: "",
+        variantId: line.sku,
         qty: line.qty,
-        price: variant.price,
-        name: product.name,
-        variant: variant.label,
-        sku: variant.sku,
+        price: line.price,
+        name: line.name,
+        variant: line.variant,
+        sku: line.sku,
       })),
       subtotal,
       shippingCost: delivery,
-      total,
+      total: order.total,
+      id: order.id,
+      createdAt: new Date().toISOString(),
+      status: "pending",
     });
-    setPaying(true);
+    store.clearCart();
     const response = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        amount: total,
-        email: form.email,
+        amount: order.total,
+        email: order.email,
         label: `Novion ${order.id}`,
         orderId: order.id,
         returnUrl: `${window.location.origin}/order/${order.id}`,
-        lines: lines.map(({ line, product, variant }) => ({
-          product_name: `${product.name} ${variant.label}`,
-          price_zar: variant.price,
+        lines: order.lines.map((line) => ({
+          product_name: `${line.name} ${line.variant}`,
+          price_zar: line.price,
           quantity: line.qty,
-          sku: variant.sku,
+          sku: line.sku,
         })),
       }),
     });
@@ -141,9 +176,14 @@ export default function CheckoutPage() {
       </div>
       <form className="split" style={{ marginTop: 18 }} onSubmit={submit}>
         <div className="form">
+          {!store.profile && (
+            <p className="notice">
+              <Link href="/account" onClick={() => sessionStorage.setItem("nv-next", "/checkout")}>Sign in or create an account</Link> before paying. That account is how you track the order.
+            </p>
+          )}
           <div className="form-row">
             <label>Full name<input className="field" value={form.name} onChange={(event) => update("name", event.target.value)} required /></label>
-            <label>Email<input className="field" type="email" value={form.email} onChange={(event) => update("email", event.target.value)} required /></label>
+            <label>Email<input className="field" type="email" value={store.profile?.email || form.email} readOnly={Boolean(store.profile)} onChange={(event) => update("email", event.target.value)} required /></label>
           </div>
           <label>Address<input className="field" value={form.line1} onChange={(event) => update("line1", event.target.value)} required /></label>
           <div className="form-row">

@@ -17,14 +17,14 @@ const pages = {
       {
         heading: "What stays on your device",
         body: [
-          "Your cart, wishlist, age confirmation, profile, and order record are stored in this browser. Clearing the site data removes them.",
-          "A catalog editor’s sign-in token, if you use the private editor, is kept for that browser session only.",
+          "Your cart, wishlist, and age confirmation stay in this browser. Clearing the site data removes them.",
+          "An account sign-in is kept in this browser until you sign out. The catalog editor’s sign-in is kept for that browser session only.",
         ],
       },
       {
         heading: "What is sent at checkout",
         body: [
-          "When you pay, the order total, your email, and the line items are sent to the payment page so the charge can be taken. The payment company processes that information under its own notice.",
+          "When you check out, Novion keeps the order: your name, email, delivery address, the compounds, the amount, and the status. That record is how you track the order and how the desk fulfils it. The payment page receives the total, your email, and the line items so the charge can be taken. The payment company processes that information under its own notice.",
           "Novion does not sell personal information and does not use advertising cookies.",
         ],
       },
@@ -127,8 +127,8 @@ const pages = {
       {
         heading: "What is stored",
         body: [
-          "The browser keeps an age confirmation, the cart, the wishlist, a profile you choose to save, and your order record. Those entries stay on your device.",
-          "The private catalog editor keeps a sign-in token in session storage until you sign out or close the session.",
+          "The browser keeps an age confirmation, the cart, and the wishlist. An account sign-in token stays in this browser until you sign out.",
+          "Orders are stored for the account that placed them, so the buyer can track them and the desk can see the status. The private catalog editor keeps a separate sign-in token until that session ends.",
           "The payment page is a separate site and may set its own cookies under its own notice. Novion does not read those cookies.",
         ],
       },

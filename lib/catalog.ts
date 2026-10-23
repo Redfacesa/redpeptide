@@ -323,6 +323,7 @@ export function getArticle(slug: string) {
 }
 
 export const faqs = [
+  { q: "How do I track an order?", a: "Sign in on the account page with the email you used at checkout. The order shows pending payment until the desk marks it paid, then packed, then shipped." },
   { q: "Which currency do I see?", a: "The catalog shows a price in the currency for the country where you open it. The secure payment page confirms the amount before you pay." },
   { q: "Who takes payment?", a: "Checkout continues on the secure payment page. Card and supported local methods are handled there." },
   { q: "Can I return a vial?", a: "You can withdraw before you unseal the vial, and you can report a wrong or damaged shipment. Opened research material is not taken back. Read Returns for the steps." },

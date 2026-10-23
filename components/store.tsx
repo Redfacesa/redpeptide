@@ -8,37 +8,14 @@ import {
   useState,
 } from "react";
 import { getVariant, products, type Product } from "@/lib/catalog";
+import { customerTokenKey, readCustomer, requestCustomerAccount, requestCustomerSession } from "@/lib/customer-auth";
+import type { Order } from "@/lib/order";
+
+export type { Order } from "@/lib/order";
 
 export type CartLine = { slug: string; variantId: string; qty: number };
 
 export type Profile = { name: string; email: string };
-
-export type OrderLine = {
-  slug: string;
-  variantId: string;
-  qty: number;
-  price: number;
-  name: string;
-  variant: string;
-  sku: string;
-};
-
-export type Order = {
-  id: string;
-  createdAt: string;
-  email: string;
-  name: string;
-  line1: string;
-  city: string;
-  postcode: string;
-  country: string;
-  shipping: "standard" | "express";
-  note: string;
-  lines: OrderLine[];
-  subtotal: number;
-  shippingCost: number;
-  total: number;
-};
 
 type StoreValue = {
   ready: boolean;
@@ -52,11 +29,15 @@ type StoreValue = {
   wishlist: string[];
   toggleWish: (slug: string) => void;
   wished: (slug: string) => boolean;
+  token: string | null;
   profile: Profile | null;
   saveProfile: (profile: Profile) => void;
+  signInCustomer: (email: string, password: string) => Promise<string | null>;
+  signUpCustomer: (name: string, email: string, password: string) => Promise<string | null>;
   signOut: () => void;
   orders: Order[];
-  placeOrder: (order: Omit<Order, "id" | "createdAt">) => Order;
+  rememberOrder: (order: Order) => void;
+  placeOrder: (order: Omit<Order, "id" | "createdAt" | "status">) => Order;
   catalog: Product[];
   findProduct: (slug: string) => Product | undefined;
   liveProduct: (product: Product) => Product;
@@ -79,6 +60,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [ageOk, setAgeOk] = useState(true);
   const [cart, setCart] = useState<CartLine[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [token, setToken] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [toast, setToast] = useState<string | null>(null);
@@ -88,8 +70,23 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setAgeOk(localStorage.getItem(keys.age) === "1");
     setCart(read<CartLine[]>(keys.cart, []));
     setWishlist(read<string[]>(keys.wish, []));
-    setProfile(read<Profile | null>(keys.profile, null));
-    setOrders(read<Order[]>(keys.orders, []));
+    const savedToken = localStorage.getItem(customerTokenKey);
+    const savedOrders = read<Order[]>(keys.orders, []).map((order) => ({ ...order, status: order.status || "pending" }));
+    setOrders(savedOrders);
+    if (savedToken) {
+      setToken(savedToken);
+      readCustomer(savedToken).then(async (user) => {
+        if (!user) {
+          localStorage.removeItem(customerTokenKey);
+          setToken(null);
+          return;
+        }
+        setProfile({ name: user.name, email: user.email });
+        const response = await fetch("/api/orders", { headers: { Authorization: `Bearer ${savedToken}` } });
+        const data = (await response.json().catch(() => ({}))) as { orders?: Order[] };
+        if (response.ok && data.orders) setOrders(data.orders);
+      });
+    }
     setReady(true);
     fetch("/api/admin")
       .then((response) => response.json())
@@ -106,6 +103,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(keys.wish, JSON.stringify(wishlist));
     localStorage.setItem(keys.orders, JSON.stringify(orders));
     if (profile) localStorage.setItem(keys.profile, JSON.stringify(profile));
+    else localStorage.removeItem(keys.profile);
   }, [ready, cart, wishlist, orders, profile]);
 
   useEffect(() => {
@@ -180,19 +178,46 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         );
       },
       wished: (slug) => wishlist.includes(slug),
+      token,
       profile,
       saveProfile: (next) => {
         setProfile(next);
         setToast("Profile saved on this browser");
       },
+      signInCustomer: async (email, password) => {
+        const session = await requestCustomerSession(email, password);
+        if ("error" in session) return session.error;
+        localStorage.setItem(customerTokenKey, session.token);
+        setToken(session.token);
+        setProfile({ name: session.name, email: session.email });
+        const response = await fetch("/api/orders", { headers: { Authorization: `Bearer ${session.token}` } });
+        const data = (await response.json().catch(() => ({}))) as { orders?: Order[] };
+        if (response.ok && data.orders) setOrders(data.orders);
+        return null;
+      },
+      signUpCustomer: async (name, email, password) => {
+        const session = await requestCustomerAccount(name, email, password);
+        if ("error" in session) return session.error;
+        if ("confirm" in session) return "Check your email to confirm the account, then sign in.";
+        localStorage.setItem(customerTokenKey, session.token);
+        setToken(session.token);
+        setProfile({ name: session.name, email: session.email });
+        return null;
+      },
       signOut: () => {
         setProfile(null);
+        setToken(null);
+        localStorage.removeItem(customerTokenKey);
         localStorage.removeItem(keys.profile);
       },
       orders,
+      rememberOrder: (order) => {
+        setOrders((current) => [order, ...current.filter((item) => item.id !== order.id)]);
+      },
       placeOrder: (draft) => {
         const order: Order = {
           ...draft,
+          status: "pending",
           id: `NV-${Math.floor(10000 + Math.random() * 90000)}`,
           createdAt: new Date().toISOString(),
         };
@@ -203,7 +228,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       toast,
       cartCount: cart.reduce((sum, line) => sum + line.qty, 0),
     };
-  }, [ready, ageOk, cart, wishlist, profile, orders, toast, catalog]);
+  }, [ready, ageOk, cart, wishlist, profile, orders, toast, catalog, token]);
 
   return <StoreContext.Provider value={api}>{children}</StoreContext.Provider>;
 }

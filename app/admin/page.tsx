@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { categories, type CategoryId, type Product } from "@/lib/catalog";
 import { supabasePublishableKey, supabaseUrl } from "@/lib/supabase-public";
 import { zar } from "@/lib/format";
+import { orderStatuses, statusLabel, type Order, type OrderStatus } from "@/lib/order";
 
 const tokenKey = "nv-catalog-token";
 
-type Draft = { name: string; category: CategoryId; label: string; price: string; stock: string };
+type Draft = { name: string; category: CategoryId; label: string; price: string; stock: string; image: string };
 
-const emptyDraft: Draft = { name: "", category: "metabolic", label: "", price: "", stock: "24" };
+const emptyDraft: Draft = { name: "", category: "metabolic", label: "", price: "", stock: "24", image: "" };
 
 function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
@@ -22,6 +23,7 @@ export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [items, setItems] = useState<Product[]>([]);
   const [draft, setDraft] = useState<Draft>(emptyDraft);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -40,6 +42,19 @@ export default function AdminPage() {
         if (data.products) setItems(data.products);
       })
       .catch(() => setMessage("The catalog could not be loaded."));
+    fetch("/api/orders", { headers: { Authorization: `Bearer ${token}` } })
+      .then((response) => response.json())
+      .then((payload) => {
+        const data = payload as { orders?: Order[]; desk?: boolean };
+        if (data.desk === false) {
+          sessionStorage.removeItem(tokenKey);
+          setToken(null);
+          setMessage("This account cannot edit the catalog.");
+          return;
+        }
+        if (data.orders) setOrders(data.orders);
+      })
+      .catch(() => undefined);
   }, [token]);
 
   async function signIn(event: React.FormEvent) {
@@ -93,9 +108,13 @@ export default function AdminPage() {
       setMessage("Name, size, and a rand price are required.");
       return;
     }
+    if (!draft.image) {
+      setMessage("Add a photograph of the vial or carton.");
+      return;
+    }
     const slug = slugify(name);
     const id = slugify(label) || "size";
-    const variant = { id, label, mg: Number.parseFloat(label) || 0, price, sku: "", stock, image: "" };
+    const variant = { id, label, mg: Number.parseFloat(label) || 0, price, sku: "", stock, image: draft.image };
     setItems((current) => {
       const existing = current.find((product) => product.slug === slug);
       if (!existing) {
@@ -112,7 +131,7 @@ export default function AdminPage() {
             purity: "",
             appearance: "",
             storage: "",
-            image: "",
+            image: draft.image,
             variants: [variant],
           },
         ];
@@ -124,6 +143,41 @@ export default function AdminPage() {
     });
     setDraft(emptyDraft);
     setMessage(`${name} ${label} is in the list. Save the catalog to publish it.`);
+  }
+
+  async function uploadImage(file: File) {
+    if (!token) return;
+    setBusy(true);
+    setMessage("");
+    const body = new FormData();
+    body.set("file", file);
+    const response = await fetch("/api/admin/media", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body,
+    });
+    const data = (await response.json().catch(() => ({}))) as { url?: string; message?: string };
+    setBusy(false);
+    if (!response.ok || !data.url) {
+      setMessage(data.message || "The photograph could not be stored.");
+      return;
+    }
+    setDraft((current) => ({ ...current, image: data.url || "" }));
+  }
+
+  async function setStatus(id: string, status: OrderStatus) {
+    if (!token) return;
+    const response = await fetch("/api/orders", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id, status }),
+    });
+    const data = (await response.json().catch(() => ({}))) as { order?: Order; message?: string };
+    if (!response.ok || !data.order) {
+      setMessage(data.message || "The order status could not be saved.");
+      return;
+    }
+    setOrders((current) => current.map((order) => (order.id === id ? data.order || order : order)));
   }
 
   async function save() {
@@ -233,11 +287,58 @@ export default function AdminPage() {
               <input className="field" inputMode="numeric" value={draft.stock} onChange={(event) => setDraft({ ...draft, stock: event.target.value })} />
             </label>
           </div>
+          <label>
+            Photograph
+            <input className="field" type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => {
+              const file = event.target.files?.[0];
+              if (file) uploadImage(file);
+            }} />
+          </label>
+          {draft.image && <img className="photo-pick" src={draft.image} alt="Photograph for the new compound" />}
           <button className="btn secondary" type="button" onClick={addCompound}>Add to list</button>
         </div>
       </section>
       <button className="btn" style={{ marginTop: 16 }} disabled={busy} onClick={save}>{busy ? "Saving…" : "Save catalog"}</button>
       {message && <p className="muted" style={{ marginTop: 12 }}>{message}</p>}
+      <section style={{ marginTop: 36 }}>
+        <h2 style={{ fontSize: 32 }}>Orders</h2>
+        <p className="muted">A new checkout is pending until you mark it paid, packed, or shipped.</p>
+        {orders.length === 0 ? (
+          <div className="empty" style={{ marginTop: 12 }}>No orders yet.</div>
+        ) : (
+          <div className="table-wrap" style={{ marginTop: 12 }}>
+            <table className="table">
+              <thead>
+                <tr><th>Order</th><th>Buyer</th><th>Items</th><th>ZAR</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr key={order.id}>
+                    <td>
+                      {order.id}
+                      <div className="muted">{new Date(order.createdAt).toLocaleString()}</div>
+                    </td>
+                    <td>
+                      {order.name}
+                      <div className="muted">{order.email}</div>
+                      <div className="muted">{order.city}, {order.country}</div>
+                    </td>
+                    <td>{order.lines.map((line) => `${line.name} ${line.variant} × ${line.qty}`).join(", ")}</td>
+                    <td>{zar(order.total)}</td>
+                    <td>
+                      <select aria-label={`${order.id} status`} value={order.status} onChange={(event) => setStatus(order.id, event.target.value as OrderStatus)}>
+                        {orderStatuses.map((status) => (
+                          <option key={status} value={status}>{statusLabel[status]}</option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
