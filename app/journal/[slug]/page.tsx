@@ -4,7 +4,11 @@ import { notFound } from "next/navigation";
 import { articles, getArticle } from "@/lib/catalog";
 
 export function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
+  return [
+    ...articles.map((article) => ({ slug: article.slug })),
+    { slug: "what-a-certificate-reports" },
+    { slug: "why-dry-vials-travel-cold" },
+  ];
 }
 
 export async function generateMetadata({

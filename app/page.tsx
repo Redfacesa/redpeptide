@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { categories } from "@/lib/catalog";
+import { articles, categories } from "@/lib/catalog";
 import { readMergedCatalog } from "@/lib/catalog-store";
 import { ProductCard } from "@/components/product-card";
 
@@ -85,22 +85,14 @@ export default async function HomePage() {
             <Link className="link-arrow" href="/journal">All notes</Link>
           </div>
           <div className="news">
-            <Link className="story" href="/journal/what-a-coa-reports">
-              <p className="eyebrow">Quality</p>
-              <h3>What a certificate actually reports</h3>
-              <p>A purity percentage is one line. Identity and method sit beside it.</p>
-              <span className="date">12 March 2026</span>
-            </Link>
-            <Link className="story" href="/journal/cold-chain-lyophilized">
-              <p className="eyebrow">Dispatch</p>
-              <h3>Why dry vials still travel cold</h3>
-              <span className="date">2 March 2026</span>
-            </Link>
-            <Link className="story" href="/journal/reading-a-batch-number">
-              <p className="eyebrow">Laboratory</p>
-              <h3>Read the batch number first</h3>
-              <span className="date">18 February 2026</span>
-            </Link>
+            {articles.map((article) => (
+              <Link className="story" key={article.slug} href={`/journal/${article.slug}`}>
+                <p className="eyebrow">{article.kicker}</p>
+                <h3>{article.title}</h3>
+                <p>{article.excerpt}</p>
+                <span className="date">{article.date}</span>
+              </Link>
+            ))}
           </div>
         </section>
       </div>
