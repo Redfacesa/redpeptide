@@ -10,20 +10,22 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="hero-photo">
-        <img src="/images/hero.jpg" alt="Novion Biopharma retatrutide vial and carton on a stone plinth" />
-        <div className="hero-scrim">
-          <div className="wrap hero-copy">
-            <p className="eyebrow light">Novion Biopharma</p>
+      <section className="hero">
+        <div className="wrap hero-grid">
+          <div className="hero-copy">
+            <p className="eyebrow">Novion Biopharma · Geneva</p>
             <h1>Research compounds. Sealed and labeled.</h1>
             <p>
               Sealed vials for laboratory work. Prices follow the currency where you open the catalog.
             </p>
             <div className="actions">
-              <Link className="btn light" href="/shop">View catalog</Link>
-              <Link className="btn ghost" href="/quality">Quality standard</Link>
+              <Link className="btn" href="/shop">View catalog</Link>
+              <Link className="btn secondary" href="/quality">Quality standard</Link>
             </div>
           </div>
+          <figure className="hero-stage">
+            <img src="/images/hero.jpg" alt="Novion retatrutide 10 mg vial and carton" />
+          </figure>
         </div>
       </section>
 
