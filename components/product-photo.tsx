@@ -9,7 +9,7 @@ export function ProductPhoto({
   variant?: Variant;
   alt: string;
 }) {
-  const src = variant?.image || product.image;
+  const src = variant?.image || product.image || "/images/research-vial.svg";
   if (!src) {
     return (
       <div className="mark-photo">

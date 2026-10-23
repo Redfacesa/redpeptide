@@ -119,7 +119,7 @@ export const products: Product[] = [
         "price": 1595,
         "sku": "NV-SEMAGLUT-30",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -180,7 +180,7 @@ export const products: Product[] = [
         "price": 3785,
         "sku": "NV-TIRZEPAT-100",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -239,7 +239,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": true,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -248,7 +248,7 @@ export const products: Product[] = [
         "price": 795,
         "sku": "NV-BPC157-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "20",
@@ -257,7 +257,7 @@ export const products: Product[] = [
         "price": 1395,
         "sku": "NV-BPC157-20",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -273,7 +273,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -282,7 +282,7 @@ export const products: Product[] = [
         "price": 2190,
         "sku": "NV-TB500-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -298,7 +298,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -307,7 +307,7 @@ export const products: Product[] = [
         "price": 1395,
         "sku": "NV-BPC1575M-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -323,7 +323,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "20",
@@ -332,7 +332,7 @@ export const products: Product[] = [
         "price": 1890,
         "sku": "NV-BPC15710-20",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -348,7 +348,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -357,7 +357,7 @@ export const products: Product[] = [
         "price": 1595,
         "sku": "NV-SS31-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "50",
@@ -366,7 +366,7 @@ export const products: Product[] = [
         "price": 3980,
         "sku": "NV-SS31-50",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -382,7 +382,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -391,7 +391,7 @@ export const products: Product[] = [
         "price": 2390,
         "sku": "NV-CJC1295N-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -407,7 +407,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -416,7 +416,7 @@ export const products: Product[] = [
         "price": 1890,
         "sku": "NV-CJC1295N-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -432,7 +432,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "5",
@@ -441,7 +441,7 @@ export const products: Product[] = [
         "price": 1690,
         "sku": "NV-CJC1295W-5",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "10",
@@ -450,7 +450,7 @@ export const products: Product[] = [
         "price": 3980,
         "sku": "NV-CJC1295W-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -466,7 +466,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -475,7 +475,7 @@ export const products: Product[] = [
         "price": 1990,
         "sku": "NV-AOD9604-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -491,7 +491,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "1",
@@ -500,7 +500,7 @@ export const products: Product[] = [
         "price": 2885,
         "sku": "NV-IGF1LR3-1",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -516,7 +516,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": true,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -525,7 +525,7 @@ export const products: Product[] = [
         "price": 1095,
         "sku": "NV-MOTSC-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "40",
@@ -534,7 +534,7 @@ export const products: Product[] = [
         "price": 2785,
         "sku": "NV-MOTSC-40",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -550,7 +550,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -559,7 +559,7 @@ export const products: Product[] = [
         "price": 695,
         "sku": "NV-MT1-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -575,7 +575,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -584,7 +584,7 @@ export const products: Product[] = [
         "price": 795,
         "sku": "NV-MELANOTA-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -600,7 +600,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -609,7 +609,7 @@ export const products: Product[] = [
         "price": 1195,
         "sku": "NV-EPITALON-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "50",
@@ -618,7 +618,7 @@ export const products: Product[] = [
         "price": 2190,
         "sku": "NV-EPITALON-50",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -634,7 +634,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -643,7 +643,7 @@ export const products: Product[] = [
         "price": 895,
         "sku": "NV-GHRP2-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -659,7 +659,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -668,7 +668,7 @@ export const products: Product[] = [
         "price": 995,
         "sku": "NV-GHRP6-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -684,7 +684,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -693,7 +693,7 @@ export const products: Product[] = [
         "price": 1095,
         "sku": "NV-PT141-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -709,7 +709,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -718,7 +718,7 @@ export const products: Product[] = [
         "price": 1095,
         "sku": "NV-SELANK-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -734,7 +734,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -743,7 +743,7 @@ export const products: Product[] = [
         "price": 995,
         "sku": "NV-SEMAX-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -759,7 +759,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -768,7 +768,7 @@ export const products: Product[] = [
         "price": 2190,
         "sku": "NV-TESAMORE-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -784,7 +784,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -793,7 +793,7 @@ export const products: Product[] = [
         "price": 2290,
         "sku": "NV-SERMOREL-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -809,7 +809,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -818,7 +818,7 @@ export const products: Product[] = [
         "price": 2590,
         "sku": "NV-THYMOSIN-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -834,7 +834,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -843,7 +843,7 @@ export const products: Product[] = [
         "price": 1395,
         "sku": "NV-IPAMOREL-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -859,7 +859,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -868,7 +868,7 @@ export const products: Product[] = [
         "price": 2785,
         "sku": "NV-MAZDUTID-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -884,7 +884,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -893,7 +893,7 @@ export const products: Product[] = [
         "price": 1990,
         "sku": "NV-CAGRILIN-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -909,7 +909,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "500",
@@ -918,7 +918,7 @@ export const products: Product[] = [
         "price": 995,
         "sku": "NV-NAD-500",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "1000",
@@ -927,7 +927,7 @@ export const products: Product[] = [
         "price": 1395,
         "sku": "NV-NAD-1000",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -943,7 +943,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": true,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "50",
@@ -952,7 +952,7 @@ export const products: Product[] = [
         "price": 595,
         "sku": "NV-GHKCU-50",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "100",
@@ -961,7 +961,7 @@ export const products: Product[] = [
         "price": 795,
         "sku": "NV-GHKCU-100",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -977,7 +977,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "70",
@@ -986,7 +986,7 @@ export const products: Product[] = [
         "price": 2985,
         "sku": "NV-WOLVERIN-70",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1002,7 +1002,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "80",
@@ -1011,7 +1011,7 @@ export const products: Product[] = [
         "price": 3685,
         "sku": "NV-KPVRECOV-80",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1027,7 +1027,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -1036,7 +1036,7 @@ export const products: Product[] = [
         "price": 1690,
         "sku": "NV-KISSPEPT-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1052,7 +1052,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -1061,7 +1061,7 @@ export const products: Product[] = [
         "price": 1195,
         "sku": "NV-DSIP-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1077,7 +1077,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -1086,7 +1086,7 @@ export const products: Product[] = [
         "price": 1095,
         "sku": "NV-MELATONI-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1102,7 +1102,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "5",
@@ -1111,7 +1111,7 @@ export const products: Product[] = [
         "price": 695,
         "sku": "NV-5AMINO1M-5",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1127,7 +1127,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -1136,7 +1136,7 @@ export const products: Product[] = [
         "price": 895,
         "sku": "NV-10AMINO1-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1152,7 +1152,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "50",
@@ -1161,7 +1161,7 @@ export const products: Product[] = [
         "price": 595,
         "sku": "NV-AHKCU-50",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1177,7 +1177,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -1186,7 +1186,7 @@ export const products: Product[] = [
         "price": 595,
         "sku": "NV-SNAP8-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1202,7 +1202,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "20",
@@ -1211,7 +1211,7 @@ export const products: Product[] = [
         "price": 3980,
         "sku": "NV-CBL514-20",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1227,7 +1227,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -1236,7 +1236,7 @@ export const products: Product[] = [
         "price": 2390,
         "sku": "NV-CAGRILIN-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1252,7 +1252,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "50",
@@ -1261,7 +1261,7 @@ export const products: Product[] = [
         "price": 995,
         "sku": "NV-AICAR-50",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1277,7 +1277,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -1286,7 +1286,7 @@ export const products: Product[] = [
         "price": 995,
         "sku": "NV-KPV-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   },
@@ -1302,7 +1302,7 @@ export const products: Product[] = [
     "appearance": "Lyophilized solid in a sealed vial",
     "storage": "2–8 °C. Protect from light. Do not freeze.",
     "featured": false,
-    "image": "",
+    "image": "/images/research-vial.svg",
     "variants": [
       {
         "id": "10",
@@ -1311,7 +1311,7 @@ export const products: Product[] = [
         "price": 1195,
         "sku": "NV-HGH-10",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "24",
@@ -1320,7 +1320,7 @@ export const products: Product[] = [
         "price": 1495,
         "sku": "NV-HGH-24",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       },
       {
         "id": "36",
@@ -1329,7 +1329,7 @@ export const products: Product[] = [
         "price": 1690,
         "sku": "NV-HGH-36",
         "stock": 24,
-        "image": ""
+        "image": "/images/research-vial.svg"
       }
     ]
   }
@@ -1370,15 +1370,24 @@ export const labBatches: LabBatch[] = products.slice(0, 8).map((product) => ({
 }));
 
 export const countries = [
-  "South Africa",
-  "Switzerland",
-  "Germany",
+  "Australia",
   "Austria",
-  "France",
-  "Netherlands",
   "Belgium",
+  "Canada",
+  "France",
+  "Germany",
+  "Ireland",
   "Italy",
+  "Japan",
+  "Netherlands",
+  "New Zealand",
+  "Norway",
+  "Singapore",
+  "South Africa",
   "Spain",
+  "Sweden",
+  "Switzerland",
+  "United Arab Emirates",
   "United Kingdom",
   "United States",
   "Other",
@@ -1414,8 +1423,9 @@ export function getArticle(slug: string) {
 }
 
 export const faqs = [
-  { q: "What currency is charged?", a: "The price list is in South African rand. The shop shows an estimate in the currency of the country you open it from. Redface Pay charges the rand amount." },
-  { q: "Who takes payment?", a: "Checkout opens Redface Pay, the universal payment system for this store. Card and supported local methods are handled there." },
-  { q: "Can I change a price?", a: "Yes. The catalog admin at /admin can change a rand price, change stock, or add a compound. Checkout still charges the rand amount." },
+  { q: "Which currency do I see?", a: "The catalog shows a price in the currency for the country where you open it. The secure payment page confirms the amount before you pay." },
+  { q: "Who takes payment?", a: "Checkout continues on the secure payment page. Card and supported local methods are handled there." },
+  { q: "Can I return a vial?", a: "You can withdraw before you unseal the vial, and you can report a wrong or damaged shipment. Opened research material is not taken back. Read Returns for the steps." },
   { q: "Is this for human use?", a: "No. Every vial is labeled research use only. The shop does not provide preparation or dosing instructions." },
+  { q: "Are the vials certified?", a: "The site does not display ISO, GMP, FDA, Swissmedic, or other certification marks. A purity line is a specification until a laboratory report for that lot is attached." },
 ];

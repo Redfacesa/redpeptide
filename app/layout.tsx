@@ -12,12 +12,21 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://novion.ch"),
   title: {
     default: "Novion Biopharma",
     template: "%s · Novion Biopharma",
   },
   description:
-    "Novion Biopharma research catalog. Prices are set in South African rand and shown in the visitor’s currency. Laboratory use only.",
+    "Novion Biopharma, Geneva. Sealed research peptides for laboratory use by adults. Not a medicine and not for human use.",
+  openGraph: {
+    title: "Novion Biopharma",
+    description: "Sealed research peptides for laboratory use. Geneva catalog. Not for human use.",
+    url: "https://novion.ch",
+    siteName: "Novion Biopharma",
+    type: "website",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

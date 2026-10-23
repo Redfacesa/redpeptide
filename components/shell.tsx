@@ -92,7 +92,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="announce">
-        Research use only · 18+ · Prices set in South African rand · Geneva
+        Research use only · 18+ · Laboratory catalog · Geneva
       </div>
       <header className="header">
         <div className="wrap header-row">
@@ -151,7 +151,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div>
             <Link href="/" className="brand brand-lockup"><span className="brand-mark">N</span>Novion</Link>
             <p style={{ marginTop: 12 }}>
-              Research vials from Novion Biopharma, Geneva. Prices are set in rand and shown in the currency of the country you open the site from.
+              Research vials from Novion Biopharma, Geneva. Prices are shown in the currency of the country you open the catalog from.
             </p>
           </div>
           <div>
@@ -174,9 +174,12 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <Link href="/help">Help</Link>
             <Link href="/legal/privacy">Privacy</Link>
             <Link href="/legal/terms">Terms</Link>
+            <Link href="/legal/shipping">Shipping</Link>
+            <Link href="/legal/returns">Returns</Link>
+            <Link href="/legal/cookies">Cookies</Link>
             <Link href="/legal/imprint">Imprint</Link>
             <Link href="/research-use">Research notice</Link>
-            <Link href="/admin">Catalog admin</Link>
+            <Link href="/withdraw">Withdraw an order</Link>
           </div>
         </div>
         <div className="wrap legal-line">

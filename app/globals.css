@@ -244,7 +244,8 @@ p { margin: 0; }
 .card-art img, .product-art img, .line img, .thumb {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f4f7fb;
 }
 .flag {
   position: absolute;

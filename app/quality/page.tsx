@@ -15,6 +15,9 @@ export default function QualityPage() {
         <p className="lede">
           A research peptide is only as trustworthy as the join between the vial and its record. This is the standard Novion Biopharma labels are written to meet. Live laboratory certificates are still being connected.
         </p>
+        <p>
+          Novion does not display ISO, GMP, FDA, Swissmedic, or any other certification mark. Those seals are not free to copy, and using one without the certificate is a false claim. The only free assurance on this site is the encrypted connection in the browser. A purity figure remains a specification until the laboratory report for that lot is published.
+        </p>
       </div>
       <div className="steps" style={{ marginTop: 22 }}>
         <article className="step">

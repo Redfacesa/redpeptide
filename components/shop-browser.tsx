@@ -57,7 +57,7 @@ export function ShopBrowser() {
       <div className="page-title">
         <p className="eyebrow">Catalog</p>
         <h1>Research peptides</h1>
-        <p className="lede">Lyophilized compounds sold by vial size. The price list is in South African rand and shown in the currency for the country you opened the site from.</p>
+        <p className="lede">Every compound from the Novion list, sold by sealed vial size. The figure you see is in the currency for the country you opened the catalog from.</p>
       </div>
       <div className="layout">
         <aside className="filters">

@@ -18,7 +18,7 @@ export function ProductCard({ product: source }: { product: Product }) {
     <article className="card">
       <Link href={`/product/${product.slug}`} className="card-art" aria-label={product.name}>
         {product.badge && <span className="flag">{product.badge}</span>}
-        <ProductPhoto product={product} alt="" />
+        <ProductPhoto product={product} variant={variant} alt={`${product.name} research vial`} />
       </Link>
       <button
         className={`wish ${wished ? "on" : ""}`}

@@ -43,9 +43,7 @@ export default function ContactPage() {
         <aside className="summary">
           <h2>Desk</h2>
           <p>Geneva · Switzerland</p>
-          <p className="muted">Research correspondence only. Desk email is still being connected.</p>
-          <p style={{ marginTop: 12 }}>Prices originate in South African rand.</p>
-          <p className="muted">Research correspondence only. We do not advise on human use.</p>
+          <p className="muted">Research correspondence only. We do not advise on human use, preparation, or dose.</p>
         </aside>
       </div>
     </div>

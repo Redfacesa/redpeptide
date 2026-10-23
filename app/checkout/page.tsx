@@ -12,7 +12,7 @@ type Method = "standard" | "express";
 
 export default function CheckoutPage() {
   const store = useStore();
-  const { format, quote } = useMoney();
+  const { format } = useMoney();
   const router = useRouter();
   const [method, setMethod] = useState<Method>("standard");
   const [research, setResearch] = useState(false);
@@ -24,7 +24,7 @@ export default function CheckoutPage() {
     line1: "",
     city: "",
     postcode: "",
-    country: "South Africa",
+    country: "",
     note: "",
   });
 
@@ -66,6 +66,10 @@ export default function CheckoutPage() {
     }
     if (!form.name || !form.email.includes("@") || !form.line1 || !form.city || !form.postcode) {
       setError("Name, a valid email, and a full address are required.");
+      return;
+    }
+    if (!form.country) {
+      setError("Choose a country.");
       return;
     }
     if (!research) {
@@ -133,7 +137,7 @@ export default function CheckoutPage() {
       <div className="page-title">
         <p className="eyebrow">Checkout</p>
         <h1>Delivery details</h1>
-        <p className="lede">Novion Biopharma checkout. The amount charged is in South African rand through Redface Pay. You are viewing {quote.currency}.</p>
+        <p className="lede">Delivery details for a Novion laboratory order. The payment page confirms the amount before you pay.</p>
       </div>
       <form className="split" style={{ marginTop: 18 }} onSubmit={submit}>
         <div className="form">
@@ -148,7 +152,8 @@ export default function CheckoutPage() {
           </div>
           <label>
             Country
-            <select className="field" value={form.country} onChange={(event) => update("country", event.target.value)}>
+            <select className="field" value={form.country} onChange={(event) => update("country", event.target.value)} required>
+              <option value="">Select country</option>
               {countries.map((country) => (
                 <option key={country}>{country}</option>
               ))}
@@ -162,10 +167,11 @@ export default function CheckoutPage() {
           </fieldset>
           <label className="check">
             <input type="checkbox" checked={research} onChange={(event) => setResearch(event.target.checked)} />
-            I am 18 or older and I am ordering for laboratory research, not for human or veterinary use.
+            I am 18 or older and I am ordering for laboratory research, not for human or veterinary use. I have read the terms, the returns policy, and the research notice.
           </label>
           {error && <p className="error">{error}</p>}
-          <button className="btn" type="submit" disabled={paying}>{paying ? "Opening Redface Pay…" : "Pay with Redface Pay"}</button>
+          <button className="btn" type="submit" disabled={paying}>{paying ? "Opening payment…" : "Continue to payment"}</button>
+          <p className="muted">By continuing you accept the <Link href="/legal/terms">terms</Link>, <Link href="/legal/returns">returns</Link>, and <Link href="/research-use">research notice</Link>.</p>
         </div>
         <aside className="summary">
           <p className="brand brand-lockup" style={{ marginBottom: 14 }}><span className="brand-mark">N</span>Novion</p>
@@ -179,7 +185,7 @@ export default function CheckoutPage() {
           ))}
           <div className="row"><span>Delivery</span><span>{delivery === 0 ? "Free" : format(delivery)}</span></div>
           <div className="row total"><span>Total</span><strong>{format(subtotal + delivery)}</strong></div>
-          <p className="muted">Charged in ZAR via Redface Pay. The figures above follow the country this browser opened from.</p>
+          <p className="muted">The figures above follow the country this browser opened from. The payment page confirms the amount.</p>
         </aside>
       </form>
     </div>

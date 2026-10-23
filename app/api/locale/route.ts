@@ -4,7 +4,7 @@ const wanted = ["EUR", "USD", "GBP", "CHF", "CAD", "AUD", "NZD", "JPY", "CNY", "
 
 export async function GET(request: Request) {
   const header = request.headers.get("cf-ipcountry") || "";
-  const country = /^[A-Z]{2}$/.test(header) ? header : "ZA";
+  const country = /^[A-Z]{2}$/.test(header) && header !== "XX" && header !== "T1" ? header : "CH";
   const currency = currencyForCountry(country);
   const rates: Record<string, number> = { ZAR: 1 };
   try {
@@ -21,6 +21,6 @@ export async function GET(request: Request) {
     rates.GBP = 0.044;
     rates.CHF = 0.049;
   }
-  const locale = currency === "ZAR" ? "en-ZA" : currency === "EUR" ? "de-CH" : "en";
+  const locale = currency === "CHF" ? "en-CH" : currency === "EUR" ? "en-IE" : currency === "GBP" ? "en-GB" : currency === "ZAR" ? "en-ZA" : "en";
   return Response.json({ country, currency, locale, rates });
 }

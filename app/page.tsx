@@ -7,7 +7,6 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const products = await readMergedCatalog();
-  const featured = products.filter((product) => product.featured);
 
   return (
     <>
@@ -18,7 +17,7 @@ export default async function HomePage() {
             <p className="eyebrow light">Novion Biopharma</p>
             <h1>Research compounds. Sealed and labeled.</h1>
             <p>
-              Geneva packing, prices set in South African rand, and checkout through Redface Pay.
+              Sealed vials for laboratory work. Prices follow the currency where you open the catalog.
             </p>
             <div className="actions">
               <Link className="btn light" href="/shop">View catalog</Link>
@@ -33,7 +32,7 @@ export default async function HomePage() {
           <div><strong>HPLC identity</strong><span>Method stated with the result</span></div>
           <div><strong>Cold dispatch</strong><span>Dry vials, short transit</span></div>
           <div><strong>Plain carton</strong><span>Discreet outer pack</span></div>
-          <div><strong>Rand prices</strong><span>Shown in your local currency</span></div>
+          <div><strong>Your currency</strong><span>Shown for the country you open from</span></div>
           <div><strong>18+ only</strong><span>Research use, not a pharmacy</span></div>
         </div>
 
@@ -55,11 +54,12 @@ export default async function HomePage() {
 
         <section className="section">
           <div className="section-head">
-            <h2>Selected compounds</h2>
-            <Link className="link-arrow" href="/shop">View the catalog</Link>
+            <h2>Catalog</h2>
+            <Link className="link-arrow" href="/shop">Filter the catalog</Link>
           </div>
+          <p className="muted" style={{ marginTop: -8, marginBottom: 16 }}>{products.length} compounds, every size from the price list.</p>
           <div className="grid">
-            {featured.map((product) => (
+            {products.map((product) => (
               <ProductCard key={product.slug} product={product} />
             ))}
           </div>

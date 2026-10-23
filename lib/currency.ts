@@ -22,7 +22,7 @@ export function currencyForCountry(code: string) {
   const country = code.toUpperCase();
   if (currencyByCountry[country]) return currencyByCountry[country];
   if (euro.has(country)) return "EUR";
-  return "ZAR";
+  return "CHF";
 }
 
 export function formatMoney(zarAmount: number, currency: string, rate: number, locale: string) {
