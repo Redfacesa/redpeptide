@@ -5,25 +5,25 @@ const pages = {
   privacy: {
     title: "Privacy",
     paragraphs: [
-      "This is a draft privacy notice for the sample store. It is not legal advice and it should be replaced before launch.",
-      "The sample keeps your cart, wishlist, profile, age confirmation, and orders in local storage on your device. Nothing in those flows is sent to a server.",
-      "When a real account and checkout are added, this notice will name the controller, the payment and shipping processors, the retention period, and how to request access or deletion.",
+      "This privacy notice covers the Novion Biopharma catalog. It is not legal advice.",
+      "The shop keeps your cart, wishlist, profile, age confirmation, and order record in local storage on your device.",
+      "Checkout sends the order total, email, and line items to Redface Pay so the rand amount can be charged. The controller, retention period, and access requests will be named here with the company details.",
     ],
   },
   terms: {
     title: "Terms",
     paragraphs: [
-      "These draft terms describe the sample catalog. Placing a sample order does not create a contract of sale and does not reserve stock.",
       "Compounds are listed for laboratory research by adults. They are not offered as medicines, foods, or cosmetics, and the site does not provide dosing or administration guidance.",
-      "Title, risk, returns, and liability clauses will be written against the operating company before any paid order is accepted.",
+      "A completed Redface Pay payment is a purchase of the listed research material. The amount charged is the South African rand total shown at checkout.",
+      "Title, risk, and returns follow the terms published with the operating company in Geneva.",
     ],
   },
   imprint: {
     title: "Imprint",
     paragraphs: [
-      "Operator: RedPeptide sample store (details to be completed).",
-      "Address, company register, VAT identification number, and the person responsible for content will be published here before launch.",
-      "Contact for this prototype: hello@redpeptide.example.",
+      "Operator: Novion Biopharma, Geneva, Switzerland. Company register and VAT details will be published here before launch.",
+      "Catalog prices are set in South African rand. Checkout is processed by Redface Pay.",
+      "Research correspondence is handled from Geneva.",
     ],
   },
 } as const;

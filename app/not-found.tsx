@@ -5,7 +5,7 @@ export default function NotFound() {
     <div className="wrap pad prose">
       <p className="eyebrow">404</p>
       <h1>That page is not in the catalog.</h1>
-      <p>The compound or note you asked for is not part of this sample store.</p>
+      <p>That compound or note is not in the Novion catalog.</p>
       <p><Link className="btn" href="/shop">Back to the shop</Link></p>
     </div>
   );

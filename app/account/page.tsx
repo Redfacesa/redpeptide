@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { money } from "@/lib/format";
+import { useMoney } from "@/components/currency";
 import { useStore } from "@/components/store";
 
 export default function AccountPage() {
   const store = useStore();
+  const { format } = useMoney();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    document.title = "Account · RedPeptide";
+    document.title = "Account · Novion Biopharma";
     if (!store.profile) return;
     setName(store.profile.name);
     setEmail(store.profile.email);
@@ -56,7 +57,7 @@ export default function AccountPage() {
                 <strong>{order.id}</strong>
                 <div className="muted">{new Date(order.createdAt).toLocaleString()}</div>
               </div>
-              <strong>{money(order.total)}</strong>
+              <strong>{format(order.total)}</strong>
             </Link>
           ))}
         </div>

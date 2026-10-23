@@ -4,29 +4,32 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { countries, getProduct, getVariant } from "@/lib/catalog";
-import { money, shippingCost } from "@/lib/format";
+import { shippingCost } from "@/lib/format";
+import { useMoney } from "@/components/currency";
 import { useStore } from "@/components/store";
 
 type Method = "standard" | "express";
 
 export default function CheckoutPage() {
   const store = useStore();
+  const { format, quote } = useMoney();
   const router = useRouter();
   const [method, setMethod] = useState<Method>("standard");
   const [research, setResearch] = useState(false);
   const [error, setError] = useState("");
+  const [paying, setPaying] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
     line1: "",
     city: "",
     postcode: "",
-    country: "Germany",
+    country: "South Africa",
     note: "",
   });
 
   useEffect(() => {
-    document.title = "Checkout · RedPeptide";
+    document.title = "Checkout · Novion Biopharma";
     if (!store.profile) return;
     setForm((current) => ({
       ...current,
@@ -38,11 +41,12 @@ export default function CheckoutPage() {
   const lines = useMemo(
     () =>
       store.cart.flatMap((line) => {
-        const product = getProduct(line.slug);
+        const found = getProduct(line.slug);
+        const product = found && store.liveProduct(found);
         const variant = product && getVariant(product, line.variantId);
         return product && variant ? [{ line, product, variant }] : [];
       }),
-    [store.cart],
+    [store],
   );
   const subtotal = lines.reduce((sum, item) => sum + item.variant.price * item.line.qty, 0);
   const delivery = shippingCost(subtotal, method);
@@ -55,7 +59,7 @@ export default function CheckoutPage() {
     setForm((current) => ({ ...current, [key]: value }));
   }
 
-  function submit(event: React.FormEvent) {
+  async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (lines.length === 0) {
       setError("Add a compound before checkout.");
@@ -66,9 +70,10 @@ export default function CheckoutPage() {
       return;
     }
     if (!research) {
-      setError("Confirm the research-use statement to place a sample order.");
+      setError("Confirm the research-use statement to continue.");
       return;
     }
+    const total = subtotal + delivery;
     const order = store.placeOrder({
       ...form,
       shipping: method,
@@ -83,8 +88,32 @@ export default function CheckoutPage() {
       })),
       subtotal,
       shippingCost: delivery,
-      total: subtotal + delivery,
+      total,
     });
+    setPaying(true);
+    const response = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: total,
+        email: form.email,
+        label: `Novion ${order.id}`,
+        orderId: order.id,
+        returnUrl: `${window.location.origin}/order/${order.id}`,
+        lines: lines.map(({ line, product, variant }) => ({
+          product_name: `${product.name} ${variant.label}`,
+          price_zar: variant.price,
+          quantity: line.qty,
+          sku: variant.sku,
+        })),
+      }),
+    });
+    const data = (await response.json().catch(() => ({}))) as { checkoutUrl?: string };
+    if (data.checkoutUrl) {
+      window.location.href = data.checkoutUrl;
+      return;
+    }
+    setPaying(false);
     router.push(`/order/${order.id}`);
   }
 
@@ -105,7 +134,7 @@ export default function CheckoutPage() {
       <div className="page-title">
         <p className="eyebrow">Checkout</p>
         <h1>Delivery details</h1>
-        <p className="lede">Sample checkout. No payment is taken and nothing is reserved in a warehouse.</p>
+        <p className="lede">Novion Biopharma checkout. The amount charged is in South African rand through Redface Pay. You are viewing {quote.currency}.</p>
       </div>
       <form className="split" style={{ marginTop: 18 }} onSubmit={submit}>
         <div className="form">
@@ -129,27 +158,29 @@ export default function CheckoutPage() {
           <label>Note for the lab (optional)<textarea className="field" rows={3} value={form.note} onChange={(event) => update("note", event.target.value)} /></label>
           <fieldset style={{ border: 0, padding: 0, display: "grid", gap: 8 }}>
             <legend className="eyebrow">Delivery</legend>
-            <label className="check"><input type="radio" name="ship" checked={method === "standard"} onChange={() => setMethod("standard")} /> Standard, 2–4 days · {shippingCost(subtotal, "standard") === 0 ? "Free" : money(shippingCost(subtotal, "standard"))}</label>
-            <label className="check"><input type="radio" name="ship" checked={method === "express"} onChange={() => setMethod("express")} /> Express, 1–2 days · {money(shippingCost(subtotal, "express"))}</label>
+            <label className="check"><input type="radio" name="ship" checked={method === "standard"} onChange={() => setMethod("standard")} /> Standard, 2–4 days · {shippingCost(subtotal, "standard") === 0 ? "Free" : format(shippingCost(subtotal, "standard"))}</label>
+            <label className="check"><input type="radio" name="ship" checked={method === "express"} onChange={() => setMethod("express")} /> Express, 1–2 days · {format(shippingCost(subtotal, "express"))}</label>
           </fieldset>
           <label className="check">
             <input type="checkbox" checked={research} onChange={(event) => setResearch(event.target.checked)} />
             I am 18 or older and I am ordering for laboratory research, not for human or veterinary use.
           </label>
           {error && <p className="error">{error}</p>}
-          <button className="btn" type="submit">Place sample order</button>
+          <button className="btn" type="submit" disabled={paying}>{paying ? "Opening Redface Pay…" : "Pay with Redface Pay"}</button>
         </div>
         <aside className="summary">
+          <p className="brand brand-lockup" style={{ marginBottom: 14 }}><span className="brand-mark">N</span>Novion</p>
+          <p className="muted" style={{ marginTop: -8, marginBottom: 14 }}>Biopharma · Geneva · research use only</p>
           <h2>Order</h2>
           {lines.map(({ line, product, variant }) => (
             <div className="row" key={`${line.slug}-${line.variantId}`}>
               <span>{product.name} · {variant.label} × {line.qty}</span>
-              <span>{money(variant.price * line.qty)}</span>
+              <span>{format(variant.price * line.qty)}</span>
             </div>
           ))}
-          <div className="row"><span>Delivery</span><span>{delivery === 0 ? "Free" : money(delivery)}</span></div>
-          <div className="row total"><span>Total</span><strong>{money(subtotal + delivery)}</strong></div>
-          <p className="muted">Prices are sample figures in EUR. Payment will be added later.</p>
+          <div className="row"><span>Delivery</span><span>{delivery === 0 ? "Free" : format(delivery)}</span></div>
+          <div className="row total"><span>Total</span><strong>{format(subtotal + delivery)}</strong></div>
+          <p className="muted">Charged in ZAR via Redface Pay. The figures above follow the country this browser opened from.</p>
         </aside>
       </form>
     </div>

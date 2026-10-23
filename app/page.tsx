@@ -8,13 +8,13 @@ export default function HomePage() {
   return (
     <>
       <section className="hero-photo">
-        <img src="/images/hero.png" alt="Sealed glass vials of lyophilized research material" />
+        <img src="/images/hero.jpg" alt="Novion Biopharma retatrutide vial and carton on a stone plinth" />
         <div className="hero-scrim">
           <div className="wrap hero-copy">
-            <p className="eyebrow light">Research supply</p>
-            <h1>Reference peptides for the laboratory.</h1>
+            <p className="eyebrow light">Novion Biopharma</p>
+            <h1>Research compounds. Sealed and labeled.</h1>
             <p>
-              Lyophilized compounds for analytical and in-vitro work. A size, a specification, and a certificate slot on every batch.
+              Geneva packing, prices set in South African rand, and checkout through Redface Pay.
             </p>
             <div className="actions">
               <Link className="btn light" href="/shop">View catalog</Link>
@@ -29,7 +29,7 @@ export default function HomePage() {
           <div><strong>HPLC identity</strong><span>Method stated with the result</span></div>
           <div><strong>Cold dispatch</strong><span>Dry vials, short transit</span></div>
           <div><strong>Plain carton</strong><span>Discreet outer pack</span></div>
-          <div><strong>EU, CH, UK</strong><span>Listed in sample checkout</span></div>
+          <div><strong>Rand prices</strong><span>Shown in your local currency</span></div>
           <div><strong>18+ only</strong><span>Research use, not a pharmacy</span></div>
         </div>
 

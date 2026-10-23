@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { money } from "@/lib/format";
+import { useMoney } from "@/components/currency";
 import { useStore } from "@/components/store";
 
 export default function OrderPage() {
   const params = useParams<{ id: string }>();
   const store = useStore();
+  const { format } = useMoney();
   const order = store.orders.find((item) => item.id === params.id);
 
   if (!store.ready) return <div className="wrap pad">Loading order…</div>;
@@ -32,11 +33,11 @@ export default function OrderPage() {
           {order.lines.map((line) => (
             <div className="row" key={`${line.slug}-${line.variantId}`}>
               <span>{line.name} · {line.variant} × {line.qty}</span>
-              <span>{money(line.price * line.qty)}</span>
+              <span>{format(line.price * line.qty)}</span>
             </div>
           ))}
-          <div className="row"><span>Delivery</span><span>{order.shippingCost === 0 ? "Free" : money(order.shippingCost)}</span></div>
-          <div className="row total"><span>Total</span><strong>{money(order.total)}</strong></div>
+          <div className="row"><span>Delivery</span><span>{order.shippingCost === 0 ? "Free" : format(order.shippingCost)}</span></div>
+          <div className="row total"><span>Total</span><strong>{format(order.total)}</strong></div>
         </div>
         <aside className="summary">
           <h2>Ship to</h2>

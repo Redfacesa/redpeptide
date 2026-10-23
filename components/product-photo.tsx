@@ -1,11 +1,22 @@
-import { productImage } from "@/lib/images";
+import type { Product, Variant } from "@/lib/catalog";
 
 export function ProductPhoto({
-  slug,
+  product,
+  variant,
   alt,
 }: {
-  slug: string;
+  product: Product;
+  variant?: Variant;
   alt: string;
 }) {
-  return <img src={productImage(slug)} alt={alt} />;
+  const src = variant?.image || product.image;
+  if (!src) {
+    return (
+      <div className="mark-photo">
+        <span>N</span>
+        <strong>{product.name}</strong>
+      </div>
+    );
+  }
+  return <img src={src} alt={alt} />;
 }

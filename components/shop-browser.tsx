@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { categories, inStock, products, type CategoryId } from "@/lib/catalog";
 import { ProductCard } from "@/components/product-card";
+import { useStore } from "@/components/store";
 
 const sorts = [
   { id: "featured", label: "Featured" },
@@ -15,6 +16,7 @@ const sorts = [
 export function ShopBrowser() {
   const params = useSearchParams();
   const router = useRouter();
+  const store = useStore();
   const [category, setCategory] = useState(params.get("cat") ?? "all");
   const [query, setQuery] = useState(params.get("q") ?? "");
   const [sort, setSort] = useState<(typeof sorts)[number]["id"]>("featured");
@@ -35,7 +37,7 @@ export function ShopBrowser() {
 
   const items = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let list = products.filter((product) => {
+    let list = products.map((product) => store.liveProduct(product)).filter((product) => {
       const categoryOk = category === "all" || product.category === category;
       const textOk = !q || `${product.name} ${product.tagline} ${product.summary}`.toLowerCase().includes(q);
       const stockOk = !availableOnly || inStock(product);
@@ -48,14 +50,14 @@ export function ShopBrowser() {
       return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
     });
     return list;
-  }, [category, query, sort, availableOnly]);
+  }, [category, query, sort, availableOnly, store]);
 
   return (
     <div className="wrap pad">
       <div className="page-title">
         <p className="eyebrow">Catalog</p>
         <h1>Research peptides</h1>
-        <p className="lede">Lyophilized compounds with a size, a lot, and a place for the certificate. Prices in this sample are illustrative.</p>
+        <p className="lede">Lyophilized compounds sold by vial size. The price list is in South African rand and shown in the currency for the country you opened the site from.</p>
       </div>
       <div className="layout">
         <aside className="filters">

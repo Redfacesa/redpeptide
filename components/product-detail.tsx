@@ -8,13 +8,15 @@ import {
   relatedProducts,
   type Product,
 } from "@/lib/catalog";
-import { money } from "@/lib/format";
+import { useMoney } from "@/components/currency";
 import { ProductCard } from "@/components/product-card";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
 
-export function ProductDetail({ product }: { product: Product }) {
+export function ProductDetail({ product: source }: { product: Product }) {
   const store = useStore();
+  const product = store.liveProduct(source);
+  const { format } = useMoney();
   const category = categoryById(product.category);
   const initial = defaultVariant(product);
   const [variantId, setVariantId] = useState(initial.id);
@@ -28,7 +30,7 @@ export function ProductDetail({ product }: { product: Product }) {
     <div className="wrap pad">
       <div className="product">
         <div className="product-art">
-          <ProductPhoto slug={product.slug} alt={`${product.name} vial`} />
+          <ProductPhoto product={product} variant={variant} alt={`${product.name} ${variant.label}`} />
         </div>
         <div>
           <p className="crumbs">
@@ -37,7 +39,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <p className="eyebrow">{category.name}</p>
           <h1>{product.name}</h1>
           <p className="lede">{product.tagline}</p>
-          <p className="price-lg">{money(variant.price)}</p>
+          <p className="price-lg">{format(variant.price)}</p>
           <div className="specs">
             <span>{product.purity}</span>
             <span>{variant.sku}</span>
@@ -56,7 +58,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 }}
               >
                 <strong>{item.label}</strong>
-                <small>{item.stock > 0 ? money(item.price) : "Unavailable"}</small>
+                <small>{item.stock > 0 ? format(item.price) : "Unavailable"}</small>
               </button>
             ))}
           </div>
@@ -126,7 +128,7 @@ export function ProductDetail({ product }: { product: Product }) {
         )}
         {tab === "handling" && (
           <p>
-            Keep the seal intact until the lot code has been matched to its certificate. Store the dry vial at −20 °C, protected from moisture and light. Let it reach room temperature before opening so condensate does not enter the cake. This page does not describe reconstitution or dosing.
+            Keep the seal intact until the lot code has been matched to its certificate. {product.storage} Let the vial reach room temperature before opening so condensate does not enter the cake. This page does not describe reconstitution or dosing.
           </p>
         )}
       </div>

@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { categoryById, defaultVariant, hasPriceRange, inStock, minPrice, type Product } from "@/lib/catalog";
-import { money } from "@/lib/format";
+import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product: source }: { product: Product }) {
   const store = useStore();
+  const product = store.liveProduct(source);
+  const { format } = useMoney();
   const category = categoryById(product.category);
   const variant = defaultVariant(product);
   const wished = store.wished(product.slug);
@@ -16,7 +18,7 @@ export function ProductCard({ product }: { product: Product }) {
     <article className="card">
       <Link href={`/product/${product.slug}`} className="card-art" aria-label={product.name}>
         {product.badge && <span className="flag">{product.badge}</span>}
-        <ProductPhoto slug={product.slug} alt="" />
+        <ProductPhoto product={product} alt="" />
       </Link>
       <button
         className={`wish ${wished ? "on" : ""}`}
@@ -34,7 +36,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="card-row">
           <span className="price">
             {hasPriceRange(product) ? "From " : ""}
-            {money(minPrice(product))}
+            {format(minPrice(product))}
           </span>
           <button
             className="btn small"

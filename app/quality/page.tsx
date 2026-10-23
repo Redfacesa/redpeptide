@@ -13,7 +13,7 @@ export default function QualityPage() {
         <p className="eyebrow">Quality</p>
         <h1>The standard behind the label.</h1>
         <p className="lede">
-          A research peptide is only as trustworthy as the join between the vial and its record. This page is the standard RedPeptide is being built to meet. Live lab partnerships are still to be connected.
+          A research peptide is only as trustworthy as the join between the vial and its record. This is the standard Novion Biopharma labels are written to meet. Live laboratory certificates are still being connected.
         </p>
       </div>
       <div className="steps" style={{ marginTop: 22 }}>
@@ -36,8 +36,8 @@ export default function QualityPage() {
       <section className="section">
         <div className="band">
           <div>
-            <h2>What the sample store already shows</h2>
-            <p>Each compound has sizes, stock, a specification line, and a path to a certificate preview. Those previews use fictional lot numbers so the layout can be reviewed before a laboratory feed exists.</p>
+            <h2>What the catalog shows</h2>
+            <p>Each compound has sizes, stock, a specification line, and a path to a certificate preview. Those previews use placeholder lot numbers until the laboratory feed is connected.</p>
           </div>
           <div className="stats">
             <div className="stat"><strong>Dry solid</strong>No diluent in the pack.</div>

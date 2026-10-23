@@ -42,9 +42,9 @@ export default function ContactPage() {
         )}
         <aside className="summary">
           <h2>Desk</h2>
-          <p>hello@redpeptide.example</p>
-          <p className="muted">Replace this address before launch.</p>
-          <p style={{ marginTop: 12 }}>EU · Switzerland · United Kingdom</p>
+          <p>Geneva · Switzerland</p>
+          <p className="muted">Research correspondence only. Desk email is still being connected.</p>
+          <p style={{ marginTop: 12 }}>Prices originate in South African rand.</p>
           <p className="muted">Research correspondence only. We do not advise on human use.</p>
         </aside>
       </div>

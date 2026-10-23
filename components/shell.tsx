@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { getProduct, getVariant, products } from "@/lib/catalog";
-import { money } from "@/lib/format";
+import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
 
@@ -20,6 +20,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const store = useStore();
+  const { format } = useMoney();
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,17 +58,20 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   const hits = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return products.slice(0, 6);
-    return products
-      .filter((product) =>
-        `${product.name} ${product.tagline} ${product.category}`.toLowerCase().includes(q),
-      )
-      .slice(0, 8);
-  }, [query]);
+    const list = !q
+      ? products.slice(0, 6)
+      : products
+          .filter((product) =>
+            `${product.name} ${product.tagline} ${product.category}`.toLowerCase().includes(q),
+          )
+          .slice(0, 8);
+    return list.map((product) => store.liveProduct(product));
+  }, [query, store]);
 
   const lines = store.cart
     .map((line) => {
-      const product = getProduct(line.slug);
+      const found = getProduct(line.slug);
+      const product = found && store.liveProduct(found);
       const variant = product && getVariant(product, line.variantId);
       if (!product || !variant) return null;
       return { line, product, variant };
@@ -81,7 +85,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <main className="wrap pad prose">
         <p className="eyebrow">Research catalog</p>
         <h1>This site is for adults.</h1>
-        <p>RedPeptide lists laboratory materials for people 18 and older.</p>
+        <p>Novion Biopharma lists laboratory materials for people 18 and older.</p>
       </main>
     );
   }
@@ -89,15 +93,16 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="announce">
-        Laboratory research only · 18+ · Certificate preview on every listed batch · Sample storefront
+        Research use only · 18+ · Prices set in South African rand · Geneva
       </div>
       <header className="header">
         <div className="wrap header-row">
           <button className="icon-btn menu-btn" aria-label="Open menu" onClick={() => setMenuOpen((open) => !open)}>
             <MenuIcon />
           </button>
-          <Link href="/" className="brand" aria-label="RedPeptide home">
-            RedPeptide
+          <Link href="/" className="brand brand-lockup" aria-label="Novion Biopharma home">
+            <span className="brand-mark">N</span>
+            Novion
           </Link>
           <nav className="nav" aria-label="Primary">
             {links.map((link) => (
@@ -145,9 +150,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <footer className="footer">
         <div className="wrap footer-grid">
           <div>
-            <Link href="/" className="brand">RedPeptide</Link>
+            <Link href="/" className="brand brand-lockup"><span className="brand-mark">N</span>Novion</Link>
             <p style={{ marginTop: 12 }}>
-              Reference-style catalog for lyophilized research peptides. Company registration, payments, and live certificates come next.
+              Research vials from Novion Biopharma, Geneva. Prices are set in rand and shown in the currency of the country you open the site from.
             </p>
           </div>
           <div>
@@ -172,10 +177,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <Link href="/legal/terms">Terms</Link>
             <Link href="/legal/imprint">Imprint</Link>
             <Link href="/research-use">Research notice</Link>
+            <Link href="/admin">Catalog admin</Link>
           </div>
         </div>
         <div className="wrap legal-line">
-          <span>© {new Date().getFullYear()} RedPeptide sample store</span>
+          <span>© {new Date().getFullYear()} Novion Biopharma</span>
           <span>For laboratory research only. Not for human use.</span>
         </div>
       </footer>
@@ -186,7 +192,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <p className="eyebrow">Access notice</p>
             <h2 id="age-title">Confirm you are 18 or older.</h2>
             <p className="muted" style={{ margin: "10px 0 16px" }}>
-              RedPeptide lists research peptides for laboratory use. The catalog is limited to adults and does not provide medical advice or dosing guidance.
+              Novion Biopharma lists research compounds for laboratory use. The catalog is limited to adults and does not provide medical advice or dosing guidance.
             </p>
             <div className="actions">
               <button className="btn secondary" onClick={() => setBlocked(true)}>Leave</button>
@@ -208,7 +214,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             ) : (
               lines.map(({ line, product, variant }) => (
                 <div className="line" key={`${line.slug}-${line.variantId}`}>
-                  <ProductPhoto slug={product.slug} alt="" />
+                  <ProductPhoto product={product} variant={variant} alt="" />
                   <div>
                     <strong>{product.name}</strong>
                     <div className="muted">{variant.label} · {variant.sku}</div>
@@ -219,14 +225,14 @@ export function Shell({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                   <div className="line-side">
-                    <strong>{money(variant.price * line.qty)}</strong>
+                    <strong>{format(variant.price * line.qty)}</strong>
                     <button className="text-btn" onClick={() => store.remove(line.slug, line.variantId)}>Remove</button>
                   </div>
                 </div>
               ))
             )}
-            <div className="row total"><span>Subtotal</span><strong>{money(subtotal)}</strong></div>
-            <p className="muted">Shipping is calculated at checkout. Free standard delivery from €150.</p>
+            <div className="row total"><span>Subtotal</span><strong>{format(subtotal)}</strong></div>
+            <p className="muted">Shipping is calculated at checkout. Free standard delivery from {format(2500)}.</p>
             <div className="actions" style={{ marginTop: 14 }}>
               <Link className="btn secondary" href="/cart">View cart</Link>
               <button className="btn" disabled={lines.length === 0} onClick={() => router.push("/checkout")}>Checkout</button>
@@ -254,7 +260,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                     <strong>{product.name}</strong>
                     <span className="muted"> · {product.tagline}</span>
                   </span>
-                  <span>{money(Math.min(...product.variants.map((variant) => variant.price)))}</span>
+                  <span>{format(Math.min(...store.liveProduct(product).variants.map((variant) => variant.price)))}</span>
                 </Link>
               ))}
             </div>

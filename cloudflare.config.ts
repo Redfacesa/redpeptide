@@ -20,6 +20,7 @@ export default defineConfig({
     },
     env: {
       ASSETS: bindings.assets(),
+      CATALOG: bindings.kv(),
     },
   }),
 });

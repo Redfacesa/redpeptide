@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import { getProduct, getVariant } from "@/lib/catalog";
-import { FREE_SHIPPING_AT, money, shippingCost } from "@/lib/format";
+import { FREE_SHIPPING_AT, shippingCost } from "@/lib/format";
+import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
 
 export default function CartPage() {
   const store = useStore();
+  const { format } = useMoney();
   const lines = store.cart.flatMap((line) => {
-    const product = getProduct(line.slug);
+    const found = getProduct(line.slug);
+    const product = found && store.liveProduct(found);
     const variant = product && getVariant(product, line.variantId);
     return product && variant ? [{ line, product, variant }] : [];
   });
@@ -32,7 +35,7 @@ export default function CartPage() {
           <div>
             {lines.map(({ line, product, variant }) => (
               <article className="line" key={`${line.slug}-${line.variantId}`}>
-                <ProductPhoto slug={product.slug} alt="" />
+                <ProductPhoto product={product} variant={variant} alt="" />
                 <div>
                   <h2 style={{ fontSize: 28 }}><Link href={`/product/${product.slug}`}>{product.name}</Link></h2>
                   <p className="muted">{variant.label} · {variant.sku}</p>
@@ -43,7 +46,7 @@ export default function CartPage() {
                   </div>
                 </div>
                 <div className="line-side">
-                  <strong>{money(variant.price * line.qty)}</strong>
+                  <strong>{format(variant.price * line.qty)}</strong>
                   <button className="text-btn" onClick={() => store.remove(line.slug, line.variantId)}>Remove</button>
                 </div>
               </article>
@@ -51,13 +54,13 @@ export default function CartPage() {
           </div>
           <aside className="summary">
             <h2>Summary</h2>
-            <div className="row"><span>Subtotal</span><span>{money(subtotal)}</span></div>
-            <div className="row"><span>Standard delivery</span><span>{standard === 0 ? "Free" : money(standard)}</span></div>
-            <div className="row total"><span>Estimated</span><strong>{money(subtotal + standard)}</strong></div>
+            <div className="row"><span>Subtotal</span><span>{format(subtotal)}</span></div>
+            <div className="row"><span>Standard delivery</span><span>{standard === 0 ? "Free" : format(standard)}</span></div>
+            <div className="row total"><span>Estimated</span><strong>{format(subtotal + standard)}</strong></div>
             <p className="muted">
               {subtotal >= FREE_SHIPPING_AT
                 ? "Standard delivery is free on this order."
-                : `Add ${money(FREE_SHIPPING_AT - subtotal)} for free standard delivery.`}
+                : `Add ${format(FREE_SHIPPING_AT - subtotal)} for free standard delivery.`}
             </p>
             <Link className="btn full" href="/checkout" style={{ marginTop: 14 }}>Continue to checkout</Link>
           </aside>

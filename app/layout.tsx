@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { CurrencyProvider } from "@/components/currency";
 import { Shell } from "@/components/shell";
 import { StoreProvider } from "@/components/store";
 import "./globals.css";
@@ -12,20 +13,22 @@ const sans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "RedPeptide",
-    template: "%s · RedPeptide",
+    default: "Novion Biopharma",
+    template: "%s · Novion Biopharma",
   },
   description:
-    "Sample catalog of reference-grade research peptides. Laboratory use only. Checkout, payments, and live certificates are not connected yet.",
+    "Novion Biopharma research catalog. Prices are set in South African rand and shown in the visitor’s currency. Laboratory use only.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={sans.variable}>
       <body>
-        <StoreProvider>
-          <Shell>{children}</Shell>
-        </StoreProvider>
+        <CurrencyProvider>
+          <StoreProvider>
+            <Shell>{children}</Shell>
+          </StoreProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

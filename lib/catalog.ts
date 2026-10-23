@@ -1,9 +1,4 @@
-export type CategoryId =
-  | "recovery"
-  | "metabolic"
-  | "cognitive"
-  | "longevity"
-  | "signaling";
+export type CategoryId = "recovery" | "metabolic" | "cognitive" | "longevity" | "signaling";
 
 export type Variant = {
   id: string;
@@ -12,6 +7,7 @@ export type Variant = {
   price: number;
   sku: string;
   stock: number;
+  image: string;
 };
 
 export type Product = {
@@ -27,6 +23,7 @@ export type Product = {
   storage: string;
   featured?: boolean;
   badge?: string;
+  image: string;
   variants: Variant[];
 };
 
@@ -46,414 +43,1379 @@ export type LabBatch = {
   purity: string;
   method: string;
   date: string;
-  status: "Preview";
+  status: "Specification";
 };
 
-export const categories: {
-  id: CategoryId;
-  name: string;
-  blurb: string;
-  tone: string;
-}[] = [
+export const categories = [
   {
-    id: "recovery",
-    name: "Recovery",
-    blurb: "Tissue-signaling sequences",
-    tone: "#9e2432",
+    "id": "metabolic",
+    "name": "Metabolic",
+    "blurb": "Incretin and fragment research",
+    "tone": "#12315f"
   },
   {
-    id: "metabolic",
-    name: "Metabolic",
-    blurb: "Mitochondrial and fragment research",
-    tone: "#b56a2b",
+    "id": "recovery",
+    "name": "Recovery",
+    "blurb": "Tissue-signaling sequences",
+    "tone": "#12315f"
   },
   {
-    id: "cognitive",
-    name: "Cognitive",
-    blurb: "Nootropic peptide analogs",
-    tone: "#2f4d73",
+    "id": "cognitive",
+    "name": "Cognitive",
+    "blurb": "Nootropic peptide analogs",
+    "tone": "#12315f"
   },
   {
-    id: "longevity",
-    name: "Longevity",
-    blurb: "Mitochondrial and telomere models",
-    tone: "#1f6b56",
+    "id": "longevity",
+    "name": "Longevity",
+    "blurb": "Mitochondrial research solids",
+    "tone": "#12315f"
   },
   {
-    id: "signaling",
-    name: "Signaling",
-    blurb: "Secretagogue and copper peptides",
-    tone: "#6a4578",
-  },
-];
+    "id": "signaling",
+    "name": "Signaling",
+    "blurb": "Secretagogue and copper peptides",
+    "tone": "#12315f"
+  }
+] as const;
 
 export const products: Product[] = [
   {
-    slug: "bpc-157",
-    name: "BPC-157",
-    code: "BPC",
-    category: "recovery",
-    tagline: "Pentadecapeptide · lyophilized",
-    summary:
-      "Synthetic body-protection compound supplied as a dry solid for identity and signaling research.",
-    overview:
-      "BPC-157 is a 15-residue synthetic peptide used in laboratory studies of tissue signaling. RedPeptide lists it as a lyophilized research solid with a published sequence class of GEPPPGKPADDAGLV. This catalog entry is not a protocol for human or veterinary use.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White to off-white lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    featured: true,
-    badge: "Core",
-    variants: [
-      { id: "5", label: "5 mg", mg: 5, price: 42, sku: "RP-BPC-05", stock: 48 },
-      { id: "10", label: "10 mg", mg: 10, price: 68, sku: "RP-BPC-10", stock: 32 },
-    ],
+    "slug": "semaglutide",
+    "name": "Semaglutide",
+    "code": "SEMAG",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Semaglutide is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Semaglutide is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": true,
+    "image": "/images/sema-10.jpg",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 795,
+        "sku": "NV-SEMAGLUT-10",
+        "stock": 24,
+        "image": "/images/sema-10.jpg"
+      },
+      {
+        "id": "20",
+        "label": "20 mg",
+        "mg": 20,
+        "price": 1195,
+        "sku": "NV-SEMAGLUT-20",
+        "stock": 24,
+        "image": "/images/sema-20.jpg"
+      },
+      {
+        "id": "30",
+        "label": "30 mg",
+        "mg": 30,
+        "price": 1595,
+        "sku": "NV-SEMAGLUT-30",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "tb-500",
-    name: "TB-500",
-    code: "TB5",
-    category: "recovery",
-    tagline: "Thymosin β4 fragment · lyophilized",
-    summary:
-      "Research fragment supplied for actin-binding and cell-migration assays.",
-    overview:
-      "TB-500 refers to a synthetic fragment studied alongside thymosin β4 in cell-migration models. Vials contain lyophilized peptide only. Solvent is not included. For laboratory research.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White lyophilized cake",
-    storage: "−20 °C, dry, protected from light",
-    featured: true,
-    variants: [
-      { id: "5", label: "5 mg", mg: 5, price: 48, sku: "RP-TB5-05", stock: 22 },
-      { id: "10", label: "10 mg", mg: 10, price: 79, sku: "RP-TB5-10", stock: 14 },
-    ],
+    "slug": "tirzepatide",
+    "name": "Tirzepatide",
+    "code": "TIRZE",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Tirzepatide is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Tirzepatide is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": true,
+    "image": "/images/tirz-10.jpg",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 695,
+        "sku": "NV-TIRZEPAT-10",
+        "stock": 24,
+        "image": "/images/tirz-10.jpg"
+      },
+      {
+        "id": "20",
+        "label": "20 mg",
+        "mg": 20,
+        "price": 1195,
+        "sku": "NV-TIRZEPAT-20",
+        "stock": 24,
+        "image": "/images/tirz-20.jpg"
+      },
+      {
+        "id": "30",
+        "label": "30 mg",
+        "mg": 30,
+        "price": 1495,
+        "sku": "NV-TIRZEPAT-30",
+        "stock": 24,
+        "image": "/images/tirz-30.jpg"
+      },
+      {
+        "id": "50",
+        "label": "50 mg",
+        "mg": 50,
+        "price": 2390,
+        "sku": "NV-TIRZEPAT-50",
+        "stock": 24,
+        "image": "/images/tirz-50.jpg"
+      },
+      {
+        "id": "100",
+        "label": "100 mg",
+        "mg": 100,
+        "price": 3785,
+        "sku": "NV-TIRZEPAT-100",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "kpv",
-    name: "KPV",
-    code: "KPV",
-    category: "recovery",
-    tagline: "Lys-Pro-Val tripeptide · lyophilized",
-    summary:
-      "C-terminal α-MSH tripeptide for in-vitro inflammatory-signaling work.",
-    overview:
-      "KPV is the Lys-Pro-Val tripeptide corresponding to the C-terminus of α-MSH. It is offered as a research solid for receptor and cytokine assays, not as a finished preparation.",
-    purity: "≥ 98% HPLC (specification)",
-    appearance: "White crystalline lyophilizate",
-    storage: "−20 °C, dry, protected from light",
-    variants: [
-      { id: "10", label: "10 mg", mg: 10, price: 54, sku: "RP-KPV-10", stock: 18 },
-    ],
+    "slug": "retatrutide",
+    "name": "Retatrutide",
+    "code": "RETAT",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Retatrutide is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Retatrutide is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": true,
+    "image": "/images/reta-10.jpg",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1195,
+        "sku": "NV-RETATRUT-10",
+        "stock": 24,
+        "image": "/images/reta-10.jpg"
+      },
+      {
+        "id": "30",
+        "label": "30 mg",
+        "mg": 30,
+        "price": 1990,
+        "sku": "NV-RETATRUT-30",
+        "stock": 24,
+        "image": "/images/reta-30.jpg"
+      },
+      {
+        "id": "60",
+        "label": "60 mg",
+        "mg": 60,
+        "price": 3980,
+        "sku": "NV-RETATRUT-60",
+        "stock": 24,
+        "image": "/images/reta-60.jpg"
+      }
+    ]
   },
   {
-    slug: "ara-290",
-    name: "ARA-290",
-    code: "ARA",
-    category: "recovery",
-    tagline: "Innate repair receptor peptide · lyophilized",
-    summary:
-      "Pyroglutamate helix-B peptide used in innate-repair receptor research.",
-    overview:
-      "ARA-290 is an 11-residue peptide derived from the helix-B surface of erythropoietin and studied at the innate repair receptor. Supplied lyophilized for analytical and in-vitro use.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    badge: "New",
-    variants: [
-      { id: "10", label: "10 mg", mg: 10, price: 64, sku: "RP-ARA-10", stock: 11 },
-    ],
+    "slug": "bpc-157",
+    "name": "BPC-157",
+    "code": "BPC15",
+    "category": "recovery",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "BPC-157 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "BPC-157 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": true,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 795,
+        "sku": "NV-BPC157-10",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "20",
+        "label": "20 mg",
+        "mg": 20,
+        "price": 1395,
+        "sku": "NV-BPC157-20",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "ghk-cu",
-    name: "GHK-Cu",
-    code: "GHK",
-    category: "signaling",
-    tagline: "Copper tripeptide · lyophilized",
-    summary:
-      "Glycyl-L-histidyl-L-lysine copper complex for extracellular-matrix research.",
-    overview:
-      "GHK-Cu is the copper complex of the human tripeptide GHK, widely used in skin and matrix models. The vial contains the lyophilized complex only.",
-    purity: "≥ 98% HPLC (specification)",
-    appearance: "Blue to violet lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    featured: true,
-    variants: [
-      { id: "50", label: "50 mg", mg: 50, price: 36, sku: "RP-GHK-50", stock: 40 },
-      { id: "100", label: "100 mg", mg: 100, price: 58, sku: "RP-GHK-100", stock: 26 },
-    ],
+    "slug": "tb-500",
+    "name": "TB-500",
+    "code": "TB500",
+    "category": "recovery",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "TB-500 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "TB-500 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 2190,
+        "sku": "NV-TB500-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "ipamorelin",
-    name: "Ipamorelin",
-    code: "IPA",
-    category: "signaling",
-    tagline: "Pentapeptide secretagogue · lyophilized",
-    summary:
-      "Selective ghrelin-receptor peptide for secretagogue assays.",
-    overview:
-      "Ipamorelin is a pentapeptide growth-hormone secretagogue used in receptor research. It is sold as a dry research compound with no diluent and no administration guidance.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    variants: [
-      { id: "5", label: "5 mg", mg: 5, price: 39, sku: "RP-IPA-05", stock: 27 },
-      { id: "10", label: "10 mg", mg: 10, price: 64, sku: "RP-IPA-10", stock: 16 },
-    ],
+    "slug": "bpc-157-5-mg-tb-500-5-mg",
+    "name": "BPC-157 5 mg + TB-500 5 mg",
+    "code": "BPC15",
+    "category": "recovery",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "BPC-157 5 mg + TB-500 5 mg is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "BPC-157 5 mg + TB-500 5 mg is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1395,
+        "sku": "NV-BPC1575M-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "cjc-1295",
-    name: "CJC-1295",
-    code: "CJC",
-    category: "signaling",
-    tagline: "No DAC · lyophilized",
-    summary:
-      "Modified GHRH fragment (without DAC) for receptor-binding studies.",
-    overview:
-      "This listing is the modified GRF 1-29 analog without drug-affinity complex. It is provided as a lyophilized solid for laboratory characterization.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White lyophilized cake",
-    storage: "−20 °C, dry, protected from light",
-    variants: [
-      { id: "5", label: "5 mg", mg: 5, price: 45, sku: "RP-CJC-05", stock: 19 },
-    ],
+    "slug": "bpc-157-10-mg-tb-500-10-mg",
+    "name": "BPC-157 10 mg + TB-500 10 mg",
+    "code": "BPC15",
+    "category": "recovery",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "BPC-157 10 mg + TB-500 10 mg is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "BPC-157 10 mg + TB-500 10 mg is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "20",
+        "label": "20 mg",
+        "mg": 20,
+        "price": 1890,
+        "sku": "NV-BPC15710-20",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "semax",
-    name: "Semax",
-    code: "SMX",
-    category: "cognitive",
-    tagline: "ACTH(4-7) analog · lyophilized",
-    summary:
-      "Heptapeptide analog studied in cognitive and neurotrophic models.",
-    overview:
-      "Semax is a synthetic ACTH(4-7) analog with a Pro-Gly-Pro tail, used in neuroscience research. RedPeptide supplies the lyophilized peptide for laboratory work only.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    featured: true,
-    badge: "New",
-    variants: [
-      { id: "10", label: "10 mg", mg: 10, price: 46, sku: "RP-SMX-10", stock: 21 },
-    ],
+    "slug": "ss-31",
+    "name": "SS-31",
+    "code": "SS31-",
+    "category": "longevity",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "SS-31 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "SS-31 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1595,
+        "sku": "NV-SS31-10",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "50",
+        "label": "50 mg",
+        "mg": 50,
+        "price": 3980,
+        "sku": "NV-SS31-50",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "selank",
-    name: "Selank",
-    code: "SLK",
-    category: "cognitive",
-    tagline: "Tuftsin analog · lyophilized",
-    summary:
-      "Heptapeptide tuftsin analog for neuroimmune research models.",
-    overview:
-      "Selank is a synthetic tuftsin analog (Thr-Lys-Pro-Arg-Pro-Gly-Pro) studied in anxiety and immune-signaling models. Catalog material is lyophilized peptide, research use only.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    variants: [
-      { id: "10", label: "10 mg", mg: 10, price: 46, sku: "RP-SLK-10", stock: 17 },
-    ],
+    "slug": "cjc-1295-no-dac",
+    "name": "CJC-1295 no DAC",
+    "code": "CJC12",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "CJC-1295 no DAC is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "CJC-1295 no DAC is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 2390,
+        "sku": "NV-CJC1295N-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "mots-c",
-    name: "MOTS-c",
-    code: "MOT",
-    category: "metabolic",
-    tagline: "Mitochondrial ORF peptide · lyophilized",
-    summary:
-      "Mitochondrial-derived peptide for metabolic-pathway research.",
-    overview:
-      "MOTS-c is a 16-residue peptide encoded in the mitochondrial 12S rRNA and studied in metabolic regulation models. Offered here as a high-purity lyophilized solid.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    featured: true,
-    badge: "New",
-    variants: [
-      { id: "10", label: "10 mg", mg: 10, price: 72, sku: "RP-MOT-10", stock: 15 },
-      { id: "40", label: "40 mg", mg: 40, price: 198, sku: "RP-MOT-40", stock: 6 },
-    ],
+    "slug": "cjc-1295-no-dac-5-mg-ipamorelin-5-mg",
+    "name": "CJC-1295 no DAC 5 mg + Ipamorelin 5 mg",
+    "code": "CJC12",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "CJC-1295 no DAC 5 mg + Ipamorelin 5 mg is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "CJC-1295 no DAC 5 mg + Ipamorelin 5 mg is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1890,
+        "sku": "NV-CJC1295N-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "aod-9604",
-    name: "AOD-9604",
-    code: "AOD",
-    category: "metabolic",
-    tagline: "hGH fragment 176–191 · lyophilized",
-    summary:
-      "C-terminal growth-hormone fragment for lipid-metabolism assays.",
-    overview:
-      "AOD-9604 corresponds to the modified hGH 176–191 fragment used in adipocyte research. Supplied as a lyophilized research peptide.",
-    purity: "≥ 98% HPLC (specification)",
-    appearance: "White lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    variants: [
-      { id: "5", label: "5 mg", mg: 5, price: 52, sku: "RP-AOD-05", stock: 4 },
-    ],
+    "slug": "cjc-1295-with-dac",
+    "name": "CJC-1295 with DAC",
+    "code": "CJC12",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "CJC-1295 with DAC is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "CJC-1295 with DAC is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "5",
+        "label": "5 mg",
+        "mg": 5,
+        "price": 1690,
+        "sku": "NV-CJC1295W-5",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 3980,
+        "sku": "NV-CJC1295W-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "epitalon",
-    name: "Epitalon",
-    code: "EPT",
-    category: "longevity",
-    tagline: "Ala-Glu-Asp-Gly · lyophilized",
-    summary:
-      "Synthetic tetrapeptide used in telomerase and pineal research models.",
-    overview:
-      "Epitalon (epithalon) is the tetrapeptide Ala-Glu-Asp-Gly. It is listed for laboratory studies. No usage protocol is provided with the vial.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White lyophilized powder",
-    storage: "−20 °C, dry, protected from light",
-    featured: true,
-    variants: [
-      { id: "10", label: "10 mg", mg: 10, price: 44, sku: "RP-EPT-10", stock: 30 },
-      { id: "50", label: "50 mg", mg: 50, price: 128, sku: "RP-EPT-50", stock: 9 },
-    ],
+    "slug": "aod9604",
+    "name": "AOD9604",
+    "code": "AOD96",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "AOD9604 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "AOD9604 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1990,
+        "sku": "NV-AOD9604-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
   {
-    slug: "ss-31",
-    name: "SS-31",
-    code: "SS31",
-    category: "longevity",
-    tagline: "Elamipretide · lyophilized",
-    summary:
-      "Mitochondria-targeted tetrapeptide for bioenergetic research.",
-    overview:
-      "SS-31 (elamipretide) is a synthetic tetrapeptide that concentrates in the inner mitochondrial membrane in experimental models. The 20 mg size in this sample catalog is shown as unavailable.",
-    purity: "≥ 99% HPLC (specification)",
-    appearance: "White to pale yellow lyophilizate",
-    storage: "−20 °C, dry, protected from light",
-    variants: [
-      { id: "10", label: "10 mg", mg: 10, price: 96, sku: "RP-SS31-10", stock: 8 },
-      { id: "20", label: "20 mg", mg: 20, price: 164, sku: "RP-SS31-20", stock: 0 },
-    ],
+    "slug": "igf-1-lr3",
+    "name": "IGF-1 LR3",
+    "code": "IGF1L",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "IGF-1 LR3 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "IGF-1 LR3 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "1",
+        "label": "1 mg",
+        "mg": 1,
+        "price": 2885,
+        "sku": "NV-IGF1LR3-1",
+        "stock": 24,
+        "image": ""
+      }
+    ]
   },
+  {
+    "slug": "mots-c",
+    "name": "MOTS-c",
+    "code": "MOTSC",
+    "category": "longevity",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "MOTS-c is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "MOTS-c is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": true,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1095,
+        "sku": "NV-MOTSC-10",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "40",
+        "label": "40 mg",
+        "mg": 40,
+        "price": 2785,
+        "sku": "NV-MOTSC-40",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "mt-1",
+    "name": "MT-1",
+    "code": "MT1-1",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "MT-1 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "MT-1 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 695,
+        "sku": "NV-MT1-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "melanotan-ii",
+    "name": "Melanotan II",
+    "code": "MELAN",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Melanotan II is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Melanotan II is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 795,
+        "sku": "NV-MELANOTA-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "epitalon",
+    "name": "Epitalon",
+    "code": "EPITA",
+    "category": "longevity",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Epitalon is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Epitalon is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1195,
+        "sku": "NV-EPITALON-10",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "50",
+        "label": "50 mg",
+        "mg": 50,
+        "price": 2190,
+        "sku": "NV-EPITALON-50",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "ghrp-2",
+    "name": "GHRP-2",
+    "code": "GHRP2",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "GHRP-2 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "GHRP-2 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 895,
+        "sku": "NV-GHRP2-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "ghrp-6",
+    "name": "GHRP-6",
+    "code": "GHRP6",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "GHRP-6 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "GHRP-6 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 995,
+        "sku": "NV-GHRP6-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "pt-141",
+    "name": "PT-141",
+    "code": "PT141",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "PT-141 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "PT-141 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1095,
+        "sku": "NV-PT141-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "selank",
+    "name": "Selank",
+    "code": "SELAN",
+    "category": "cognitive",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Selank is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Selank is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1095,
+        "sku": "NV-SELANK-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "semax",
+    "name": "Semax",
+    "code": "SEMAX",
+    "category": "cognitive",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Semax is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Semax is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 995,
+        "sku": "NV-SEMAX-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "tesamorelin",
+    "name": "Tesamorelin",
+    "code": "TESAM",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Tesamorelin is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Tesamorelin is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 2190,
+        "sku": "NV-TESAMORE-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "sermorelin",
+    "name": "Sermorelin",
+    "code": "SERMO",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Sermorelin is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Sermorelin is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 2290,
+        "sku": "NV-SERMOREL-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "thymosin-alpha-1",
+    "name": "Thymosin Alpha-1",
+    "code": "THYMO",
+    "category": "recovery",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Thymosin Alpha-1 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Thymosin Alpha-1 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 2590,
+        "sku": "NV-THYMOSIN-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "ipamorelin",
+    "name": "Ipamorelin",
+    "code": "IPAMO",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Ipamorelin is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Ipamorelin is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1395,
+        "sku": "NV-IPAMOREL-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "mazdutide",
+    "name": "Mazdutide",
+    "code": "MAZDU",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Mazdutide is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Mazdutide is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 2785,
+        "sku": "NV-MAZDUTID-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "cagrilintide",
+    "name": "Cagrilintide",
+    "code": "CAGRI",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Cagrilintide is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Cagrilintide is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1990,
+        "sku": "NV-CAGRILIN-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "nad",
+    "name": "NAD+",
+    "code": "NAD-5",
+    "category": "longevity",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "NAD+ is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "NAD+ is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "500",
+        "label": "500 mg",
+        "mg": 500,
+        "price": 995,
+        "sku": "NV-NAD-500",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "1000",
+        "label": "1000 mg",
+        "mg": 1000,
+        "price": 1395,
+        "sku": "NV-NAD-1000",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "ghk-cu",
+    "name": "GHK-Cu",
+    "code": "GHKCU",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "GHK-Cu is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "GHK-Cu is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": true,
+    "image": "",
+    "variants": [
+      {
+        "id": "50",
+        "label": "50 mg",
+        "mg": 50,
+        "price": 595,
+        "sku": "NV-GHKCU-50",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "100",
+        "label": "100 mg",
+        "mg": 100,
+        "price": 795,
+        "sku": "NV-GHKCU-100",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "wolverine-stack",
+    "name": "Wolverine stack",
+    "code": "WOLVE",
+    "category": "recovery",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Wolverine stack is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Wolverine stack is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "70",
+        "label": "70 mg",
+        "mg": 70,
+        "price": 2985,
+        "sku": "NV-WOLVERIN-70",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "kpv-recovery-stack",
+    "name": "KPV recovery stack",
+    "code": "KPVRE",
+    "category": "recovery",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "KPV recovery stack is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "KPV recovery stack is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "80",
+        "label": "80 mg",
+        "mg": 80,
+        "price": 3685,
+        "sku": "NV-KPVRECOV-80",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "kisspeptin-10",
+    "name": "Kisspeptin-10",
+    "code": "KISSP",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Kisspeptin-10 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Kisspeptin-10 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1690,
+        "sku": "NV-KISSPEPT-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "dsip",
+    "name": "DSIP",
+    "code": "DSIP-",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "DSIP is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "DSIP is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1195,
+        "sku": "NV-DSIP-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "melatonin",
+    "name": "Melatonin",
+    "code": "MELAT",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Melatonin is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Melatonin is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 1095,
+        "sku": "NV-MELATONI-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "5-amino-1mq",
+    "name": "5-Amino-1MQ",
+    "code": "5AMIN",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "5-Amino-1MQ is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "5-Amino-1MQ is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "5",
+        "label": "5 mg",
+        "mg": 5,
+        "price": 695,
+        "sku": "NV-5AMINO1M-5",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "10-amino-1mq",
+    "name": "10-Amino-1MQ",
+    "code": "10AMI",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "10-Amino-1MQ is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "10-Amino-1MQ is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 895,
+        "sku": "NV-10AMINO1-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "ahk-cu",
+    "name": "AHK-Cu",
+    "code": "AHKCU",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "AHK-Cu is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "AHK-Cu is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "50",
+        "label": "50 mg",
+        "mg": 50,
+        "price": 595,
+        "sku": "NV-AHKCU-50",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "snap-8",
+    "name": "Snap-8",
+    "code": "SNAP8",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Snap-8 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Snap-8 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 595,
+        "sku": "NV-SNAP8-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "cbl-514",
+    "name": "CBL-514",
+    "code": "CBL51",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "CBL-514 is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "CBL-514 is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "20",
+        "label": "20 mg",
+        "mg": 20,
+        "price": 3980,
+        "sku": "NV-CBL514-20",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "cagrilintide-5-mg-semaglutide-5-mg",
+    "name": "Cagrilintide 5 mg + Semaglutide 5 mg",
+    "code": "CAGRI",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "Cagrilintide 5 mg + Semaglutide 5 mg is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "Cagrilintide 5 mg + Semaglutide 5 mg is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 2390,
+        "sku": "NV-CAGRILIN-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "aicar",
+    "name": "AICAR",
+    "code": "AICAR",
+    "category": "metabolic",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "AICAR is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "AICAR is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "50",
+        "label": "50 mg",
+        "mg": 50,
+        "price": 995,
+        "sku": "NV-AICAR-50",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "kpv",
+    "name": "KPV",
+    "code": "KPV-1",
+    "category": "recovery",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "KPV is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "KPV is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 mg",
+        "mg": 10,
+        "price": 995,
+        "sku": "NV-KPV-10",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "hgh",
+    "name": "HGH",
+    "code": "HGH-1",
+    "category": "signaling",
+    "tagline": "Lyophilized research vial · Geneva",
+    "summary": "HGH is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
+    "overview": "HGH is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
+    "purity": "> 99% HPLC (specification)",
+    "appearance": "Lyophilized solid in a sealed vial",
+    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "featured": false,
+    "image": "",
+    "variants": [
+      {
+        "id": "10",
+        "label": "10 IU",
+        "mg": 10,
+        "price": 1195,
+        "sku": "NV-HGH-10",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "24",
+        "label": "24 IU",
+        "mg": 24,
+        "price": 1495,
+        "sku": "NV-HGH-24",
+        "stock": 24,
+        "image": ""
+      },
+      {
+        "id": "36",
+        "label": "36 IU",
+        "mg": 36,
+        "price": 1690,
+        "sku": "NV-HGH-36",
+        "stock": 24,
+        "image": ""
+      }
+    ]
+  }
 ];
 
 export const articles: Article[] = [
   {
-    slug: "what-a-coa-reports",
-    title: "What a peptide certificate of analysis actually reports",
+    slug: "what-a-certificate-reports",
+    title: "What a certificate actually reports",
     date: "12 March 2026",
     kicker: "Quality",
-    excerpt:
-      "A purity percentage is one line on a chromatogram. Identity, counter-ion, and the method behind the number matter just as much.",
+    excerpt: "A purity percentage is one line. Identity and method sit beside it.",
     body: [
-      "A certificate of analysis is a batch record, not a marketing badge. For a research peptide it should tie a lot number to an identity test and a purity method — typically reverse-phase HPLC, sometimes with mass confirmation.",
-      "“99%” describes the main peak under a stated method. It does not, by itself, describe residual solvents, water content, counter-ion, or whether the sequence is the one printed on the label. Those are separate lines.",
-      "On this sample store, certificate cards are previews. When production batches go live, each vial lot will point at its own document instead of a shared illustration.",
+      "A vial label can state a target purity. A certificate is the record that ties that figure to a method, a lot, and an identity test.",
+      "Novion lists HPLC purity as a specification. Live certificates are attached per lot when the laboratory file is connected.",
     ],
   },
   {
-    slug: "cold-chain-lyophilized",
-    title: "Why lyophilized vials still travel cold",
+    slug: "why-dry-vials-travel-cold",
+    title: "Why dry vials still travel cold",
     date: "2 March 2026",
     kicker: "Dispatch",
-    excerpt:
-      "A dry cake is more stable than a solution, and it still prefers a short, cold trip from bench to bench.",
+    excerpt: "Lyophilized solids are still packed for a short, cold transit.",
     body: [
-      "Lyophilization removes water so the peptide can be stored as a solid. That solid is more stable than a reconstituted solution, which is why research suppliers ship dry vials rather than ready liquids.",
-      "Stability is not the same as indifference. Heat and humidity still accelerate degradation, so a serious dispatch uses insulated packaging and a short transit window, then asks the lab to return the vial to −20 °C.",
-      "RedPeptide’s sample checkout shows that promise as a shipping choice. Live labels, couriers, and cut-off times will be connected later.",
-    ],
-  },
-  {
-    slug: "reading-a-batch-number",
-    title: "How to read a batch number before you open the vial",
-    date: "18 February 2026",
-    kicker: "Laboratory",
-    excerpt:
-      "The lot code is the join between the label in your hand and the chromatogram in the archive.",
-    body: [
-      "Match the lot code on the vial to the lot code on the certificate before the seal is broken. If they differ, the document is not evidence for that container.",
-      "A useful code is unique, dated, and stored with the chromatogram, the fill weight, and the appearance check. Pretty labels without that join are not a quality system.",
-      "The lab-report page in this prototype uses fictional lot numbers so the layout can be reviewed. They are not live analytical results.",
+      "The carton says store at 2–8 °C and do not freeze. Dispatch follows that range even though the solid is dry.",
     ],
   },
 ];
 
-export const labBatches: LabBatch[] = [
-  { id: "RP26-0142", product: "BPC-157 10 mg", slug: "bpc-157", purity: "99.3%", method: "RP-HPLC", date: "04 Mar 2026", status: "Preview" },
-  { id: "RP26-0155", product: "TB-500 5 mg", slug: "tb-500", purity: "99.1%", method: "RP-HPLC", date: "06 Mar 2026", status: "Preview" },
-  { id: "RP26-0160", product: "GHK-Cu 50 mg", slug: "ghk-cu", purity: "98.7%", method: "RP-HPLC", date: "08 Mar 2026", status: "Preview" },
-  { id: "RP26-0174", product: "Semax 10 mg", slug: "semax", purity: "99.4%", method: "RP-HPLC + MS", date: "11 Mar 2026", status: "Preview" },
-  { id: "RP26-0188", product: "MOTS-c 10 mg", slug: "mots-c", purity: "99.0%", method: "RP-HPLC", date: "14 Mar 2026", status: "Preview" },
-  { id: "RP26-0192", product: "Epitalon 10 mg", slug: "epitalon", purity: "99.2%", method: "RP-HPLC", date: "16 Mar 2026", status: "Preview" },
-];
-
-export const faqs = [
-  {
-    q: "Who can order?",
-    a: "This catalog is for adults (18+) purchasing materials for laboratory research. It is not a pharmacy and it does not supply medicines, dosing guidance, or products for human or veterinary administration.",
-  },
-  {
-    q: "Is checkout live?",
-    a: "Not yet. The sample checkout checks the form, applies shipping, and stores the order in this browser. Payment, stock reservation, and email confirmation will be connected later.",
-  },
-  {
-    q: "Where do you ship?",
-    a: "The sample store lists the European Union, Switzerland, and the United Kingdom. Transit times on the checkout page are placeholders until a courier account is attached.",
-  },
-  {
-    q: "What is included in a vial?",
-    a: "Lyophilized peptide only. Diluent, syringes, and reconstitution instructions are not part of the product. The calculator on this site is a mass-over-volume worksheet for the bench, not a use protocol.",
-  },
-  {
-    q: "Are the certificates real?",
-    a: "The report cards are layout previews with fictional lot numbers. Live, batch-specific certificates will replace them before any real sale.",
-  },
-  {
-    q: "How do returns work?",
-    a: "Sealed research vials with an intact lot match can be reviewed for replacement if the shipment arrives damaged or the lot does not match its certificate. Opened vials are not restocked. This policy is a draft for the sample store.",
-  },
-];
-
-export function categoryById(id: CategoryId) {
-  return categories.find((category) => category.id === id)!;
-}
-
-export function getProduct(slug: string) {
-  return products.find((product) => product.slug === slug);
-}
-
-export function getVariant(product: Product, variantId: string) {
-  return product.variants.find((variant) => variant.id === variantId);
-}
-
-export function minPrice(product: Product) {
-  return Math.min(...product.variants.map((variant) => variant.price));
-}
-
-export function hasPriceRange(product: Product) {
-  const prices = product.variants.map((variant) => variant.price);
-  return Math.min(...prices) !== Math.max(...prices);
-}
-
-export function inStock(product: Product) {
-  return product.variants.some((variant) => variant.stock > 0);
-}
-
-export function defaultVariant(product: Product) {
-  return product.variants.find((variant) => variant.stock > 0) ?? product.variants[0];
-}
-
-export function relatedProducts(product: Product) {
-  return products
-    .filter((item) => item.category === product.category && item.slug !== product.slug)
-    .slice(0, 3);
-}
-
-export function getArticle(slug: string) {
-  return articles.find((article) => article.slug === slug);
-}
+export const labBatches: LabBatch[] = products.slice(0, 8).map((product) => ({
+  id: product.variants[0].sku,
+  product: product.name,
+  slug: product.slug,
+  purity: "> 99%",
+  method: "HPLC",
+  date: "Specification",
+  status: "Specification" as const,
+}));
 
 export const countries = [
+  "South Africa",
+  "Switzerland",
   "Germany",
   "Austria",
-  "Switzerland",
   "France",
   "Netherlands",
   "Belgium",
   "Italy",
   "Spain",
   "United Kingdom",
-  "Other EU",
+  "United States",
+  "Other",
+];
+
+export function categoryById(id: string) {
+  return categories.find((category) => category.id === id) ?? categories[0];
+}
+export function getProduct(slug: string) {
+  return products.find((product) => product.slug === slug);
+}
+export function getVariant(product: Product, id: string) {
+  return product.variants.find((variant) => variant.id === id) ?? product.variants[0];
+}
+export function defaultVariant(product: Product) {
+  return product.variants.find((variant) => variant.stock > 0) ?? product.variants[0];
+}
+export function minPrice(product: Product) {
+  return Math.min(...product.variants.map((variant) => variant.price));
+}
+export function hasPriceRange(product: Product) {
+  const prices = product.variants.map((variant) => variant.price);
+  return Math.min(...prices) !== Math.max(...prices);
+}
+export function inStock(product: Product) {
+  return product.variants.some((variant) => variant.stock > 0);
+}
+export function relatedProducts(product: Product) {
+  return products.filter((item) => item.category === product.category && item.slug !== product.slug).slice(0, 3);
+}
+export function getArticle(slug: string) {
+  return articles.find((article) => article.slug === slug);
+}
+
+export const faqs = [
+  { q: "What currency is charged?", a: "The price list is in South African rand. The shop shows an estimate in the currency of the country you open it from. Redface Pay charges the rand amount." },
+  { q: "Who takes payment?", a: "Checkout opens Redface Pay, the universal payment system for this store. Card and supported local methods are handled there." },
+  { q: "Can I change a price?", a: "Yes. The catalog admin at /admin updates sizes, rand prices, and stock. A merchant key also writes those products into the Redface Pay database." },
+  { q: "Is this for human use?", a: "No. Every vial is labeled research use only. The shop does not provide preparation or dosing instructions." },
 ];
