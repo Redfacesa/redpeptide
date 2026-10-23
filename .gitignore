@@ -4,3 +4,6 @@ out
 .DS_Store
 *.log
 .deploy
+/dist/
+.vinext/
+.cloudflare/
