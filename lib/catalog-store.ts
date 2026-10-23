@@ -66,6 +66,10 @@ function withPrices(product: Product, prices: Map<string, PriceRow>): Product {
   };
 }
 
+function photographed(src: string | undefined) {
+  return typeof src === "string" && /\.(jpe?g|png|webp)$/i.test(src);
+}
+
 export function mergeCatalog(saved: SavedCatalog): Product[] {
   const prices = new Map(saved.rows.filter((row) => row.price > 0).map((row) => [`${row.slug}:${row.variantId}`, row]));
   const extras = new Map(saved.added.map((product) => [product.slug, product]));
@@ -75,13 +79,15 @@ export function mergeCatalog(saved: SavedCatalog): Product[] {
     const variants = [...product.variants];
     if (extra) {
       for (const variant of extra.variants) {
+        if (!photographed(variant.image)) continue;
         if (!variants.some((item) => item.id === variant.id)) variants.push(variant);
       }
     }
     return withPrices({ ...product, variants }, prices);
   });
   for (const extra of saved.added) {
-    if (!known.has(extra.slug)) merged.push(withPrices(extra, prices));
+    const variants = extra.variants.filter((variant) => photographed(variant.image));
+    if (!known.has(extra.slug) && variants.length) merged.push(withPrices({ ...extra, variants }, prices));
   }
   return merged;
 }

@@ -157,9 +157,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div>
             <h3>Catalog</h3>
             <Link href="/shop">All compounds</Link>
-            <Link href="/shop?cat=recovery">Recovery</Link>
-            <Link href="/shop?cat=cognitive">Cognitive</Link>
-            <Link href="/wishlist">Wishlist</Link>
+            <Link href="/product/semaglutide">Semaglutide</Link>
+            <Link href="/product/tirzepatide">Tirzepatide</Link>
+            <Link href="/product/retatrutide">Retatrutide</Link>
           </div>
           <div>
             <h3>Laboratory</h3>

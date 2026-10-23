@@ -57,13 +57,13 @@ export function ShopBrowser() {
       <div className="page-title">
         <p className="eyebrow">Catalog</p>
         <h1>Research peptides</h1>
-        <p className="lede">Every compound from the Novion list, sold by sealed vial size. The figure you see is in the currency for the country you opened the catalog from.</p>
+        <p className="lede">Semaglutide, tirzepatide, and retatrutide. Only the vial sizes with a Novion photograph are listed.</p>
       </div>
       <div className="layout">
         <aside className="filters">
           <h2>Category</h2>
           <button className={`chip ${category === "all" ? "on" : ""}`} onClick={() => chooseCategory("all")}>All</button>
-          {categories.map((item) => (
+          {categories.filter((item) => store.catalog.some((product) => product.category === item.id)).map((item) => (
             <button
               key={item.id}
               className={`chip ${category === item.id ? "on" : ""}`}

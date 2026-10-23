@@ -38,11 +38,11 @@ export default async function HomePage() {
 
         <section className="section">
           <div className="section-head">
-            <h2>Ranges</h2>
+            <h2>In the catalog</h2>
             <Link className="link-arrow" href="/shop">All compounds</Link>
           </div>
           <div className="cats">
-            {categories.map((category) => (
+            {categories.filter((category) => products.some((product) => product.category === category.id)).map((category) => (
               <Link className="cat" key={category.id} href={`/shop?cat=${category.id}`}>
                 <h3>{category.name}</h3>
                 <p>{category.blurb}</p>
@@ -57,7 +57,7 @@ export default async function HomePage() {
             <h2>Catalog</h2>
             <Link className="link-arrow" href="/shop">Filter the catalog</Link>
           </div>
-          <p className="muted" style={{ marginTop: -8, marginBottom: 16 }}>{products.length} compounds, every size from the price list.</p>
+          <p className="muted" style={{ marginTop: -8, marginBottom: 16 }}>{products.length} compounds, only the sizes we pack and photograph.</p>
           <div className="grid">
             {products.map((product) => (
               <ProductCard key={product.slug} product={product} />
