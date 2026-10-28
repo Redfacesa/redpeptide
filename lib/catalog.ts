@@ -208,8 +208,70 @@ export const products: Product[] = [
         "image": "/images/reta-60.jpg"
       }
     ]
-  }
+  },
+  compound("bpc-157", "BPC-157", "BPC15", "recovery", "/images/bpc-10.jpg", [
+    size("10", "10 mg", 10, 795, "NV-BPC157-10", "/images/bpc-10.jpg"),
+    size("20", "20 mg", 20, 1395, "NV-BPC157-20", "/images/bpc-20.jpg"),
+  ]),
+  compound("tb-500", "TB-500", "TB500", "recovery", "/images/tb-10.jpg", [
+    size("10", "10 mg", 10, 2190, "NV-TB500-10", "/images/tb-10.jpg"),
+  ]),
+  compound("bpc-157-tb-500", "BPC-157 + TB-500", "BPCTB", "recovery", "/images/bpc-tb-10.jpg", [
+    size("5-5", "5 mg + 5 mg", 10, 1395, "NV-BPCTB-10", "/images/bpc-tb-10.jpg"),
+    size("10-10", "10 mg + 10 mg", 20, 1890, "NV-BPCTB-20", "/images/bpc-tb-20.jpg"),
+  ]),
+  compound("ss-31", "SS-31", "SS31", "longevity", "/images/ss31-10.jpg", [
+    size("10", "10 mg", 10, 1595, "NV-SS31-10", "/images/ss31-10.jpg"),
+  ]),
+  compound("mots-c", "MOTS-c", "MOTSC", "longevity", "/images/mots-10.jpg", [
+    size("10", "10 mg", 10, 1095, "NV-MOTSC-10", "/images/mots-10.jpg"),
+    size("40", "40 mg", 40, 2785, "NV-MOTSC-40", "/images/mots-40.jpg"),
+  ]),
+  compound("aod9604", "AOD9604", "AOD96", "metabolic", "/images/aod-10.jpg", [
+    size("10", "10 mg", 10, 1990, "NV-AOD9604-10", "/images/aod-10.jpg"),
+  ]),
+  compound("igf-1-lr3", "IGF-1 LR3", "IGF1", "signaling", "/images/igf-1.jpg", [
+    size("1", "1 mg", 1, 2885, "NV-IGF1LR3-1", "/images/igf-1.jpg"),
+  ]),
+  compound("cjc-1295-no-dac", "CJC-1295 no DAC", "CJCND", "signaling", "/images/cjc-nodac-10.jpg", [
+    size("10", "10 mg", 10, 2390, "NV-CJCND-10", "/images/cjc-nodac-10.jpg"),
+  ]),
+  compound("cjc-1295-with-dac", "CJC-1295 with DAC", "CJCD", "signaling", "/images/cjc-dac-5.jpg", [
+    size("5", "5 mg", 5, 1690, "NV-CJCDAC-5", "/images/cjc-dac-5.jpg"),
+    size("10", "10 mg", 10, 3980, "NV-CJCDAC-10", "/images/cjc-dac-10.jpg"),
+  ]),
+  compound("cjc-1295-ipa", "CJC-1295 no DAC + Ipamorelin", "CJIPA", "signaling", "/images/cjc-ipa-10.jpg", [
+    size("5-5", "5 mg + 5 mg", 10, 1890, "NV-CJCIPA-10", "/images/cjc-ipa-10.jpg"),
+  ]),
+  compound("mt-1", "MT-1", "MT1", "signaling", "/images/mt1-10.jpg", [
+    size("10", "10 mg", 10, 695, "NV-MT1-10", "/images/mt1-10.jpg"),
+  ]),
+  compound("mt-2", "MT-2", "MT2", "signaling", "/images/mt2-10.jpg", [
+    size("10", "10 mg", 10, 795, "NV-MT2-10", "/images/mt2-10.jpg"),
+  ]),
 ];
+
+function size(id: string, label: string, mg: number, price: number, sku: string, image: string): Variant {
+  return { id, label, mg, price, sku, stock: 24, image };
+}
+
+function compound(slug: string, name: string, code: string, category: CategoryId, image: string, variants: Variant[]): Product {
+  return {
+    slug,
+    name,
+    code,
+    category,
+    tagline: "Lyophilized research vial · Geneva",
+    summary: `${name} is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.`,
+    overview: `${name} is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only. This page does not give preparation, dose, or human-use instructions.`,
+    purity: "> 99% HPLC (specification)",
+    appearance: "Lyophilized solid in a sealed vial",
+    storage: "2–8 °C. Protect from light. Do not freeze.",
+    featured: true,
+    image,
+    variants,
+  };
+}
 
 export const articles: Article[] = [
   {

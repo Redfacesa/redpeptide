@@ -57,7 +57,7 @@ export function ShopBrowser() {
       <div className="page-title">
         <p className="eyebrow">Catalog</p>
         <h1>Research peptides</h1>
-        <p className="lede">Semaglutide, tirzepatide, and retatrutide. Only the vial sizes with a Novion photograph are listed.</p>
+        <p className="lede">Only the vial sizes with a Novion photograph are listed.</p>
       </div>
       <div className="layout">
         <aside className="filters">

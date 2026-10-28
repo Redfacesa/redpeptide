@@ -157,9 +157,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div>
             <h3>Catalog</h3>
             <Link href="/shop">All compounds</Link>
-            <Link href="/product/semaglutide">Semaglutide</Link>
-            <Link href="/product/tirzepatide">Tirzepatide</Link>
-            <Link href="/product/retatrutide">Retatrutide</Link>
+            {store.catalog.map((product) => (
+              <Link key={product.slug} href={`/product/${product.slug}`}>{product.name}</Link>
+            ))}
           </div>
           <div>
             <h3>Laboratory</h3>
