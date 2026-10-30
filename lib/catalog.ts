@@ -98,7 +98,7 @@ export const products: Product[] = [
         "id": "10",
         "label": "10 mg",
         "mg": 10,
-        "price": 795,
+        "price": 39,
         "sku": "NV-SEMAGLUT-10",
         "stock": 24,
         "image": "/images/sema-10.jpg"
@@ -107,7 +107,7 @@ export const products: Product[] = [
         "id": "20",
         "label": "20 mg",
         "mg": 20,
-        "price": 1195,
+        "price": 59,
         "sku": "NV-SEMAGLUT-20",
         "stock": 24,
         "image": "/images/sema-20.jpg"
@@ -132,7 +132,7 @@ export const products: Product[] = [
         "id": "10",
         "label": "10 mg",
         "mg": 10,
-        "price": 695,
+        "price": 34,
         "sku": "NV-TIRZEPAT-10",
         "stock": 24,
         "image": "/images/tirz-10.jpg"
@@ -141,7 +141,7 @@ export const products: Product[] = [
         "id": "20",
         "label": "20 mg",
         "mg": 20,
-        "price": 1195,
+        "price": 59,
         "sku": "NV-TIRZEPAT-20",
         "stock": 24,
         "image": "/images/tirz-20.jpg"
@@ -150,7 +150,7 @@ export const products: Product[] = [
         "id": "30",
         "label": "30 mg",
         "mg": 30,
-        "price": 1495,
+        "price": 73,
         "sku": "NV-TIRZEPAT-30",
         "stock": 24,
         "image": "/images/tirz-30.jpg"
@@ -159,7 +159,7 @@ export const products: Product[] = [
         "id": "50",
         "label": "50 mg",
         "mg": 50,
-        "price": 2390,
+        "price": 117,
         "sku": "NV-TIRZEPAT-50",
         "stock": 24,
         "image": "/images/tirz-50.jpg"
@@ -184,7 +184,7 @@ export const products: Product[] = [
         "id": "10",
         "label": "10 mg",
         "mg": 10,
-        "price": 1195,
+        "price": 59,
         "sku": "NV-RETATRUT-10",
         "stock": 24,
         "image": "/images/reta-10.jpg"
@@ -193,7 +193,7 @@ export const products: Product[] = [
         "id": "30",
         "label": "30 mg",
         "mg": 30,
-        "price": 1990,
+        "price": 250,
         "sku": "NV-RETATRUT-30",
         "stock": 24,
         "image": "/images/reta-30.jpg"
@@ -202,7 +202,7 @@ export const products: Product[] = [
         "id": "60",
         "label": "60 mg",
         "mg": 60,
-        "price": 3980,
+        "price": 195,
         "sku": "NV-RETATRUT-60",
         "stock": 24,
         "image": "/images/reta-60.jpg"
@@ -210,44 +210,57 @@ export const products: Product[] = [
     ]
   },
   compound("bpc-157", "BPC-157", "BPC15", "recovery", "/images/bpc-10.jpg", [
-    size("10", "10 mg", 10, 795, "NV-BPC157-10", "/images/bpc-10.jpg"),
-    size("20", "20 mg", 20, 1395, "NV-BPC157-20", "/images/bpc-20.jpg"),
+    size("10", "10 mg", 10, 60, "NV-BPC157-10", "/images/bpc-10.jpg"),
+    size("20", "20 mg", 20, 68, "NV-BPC157-20", "/images/bpc-20.jpg"),
   ]),
   compound("tb-500", "TB-500", "TB500", "recovery", "/images/tb-10.jpg", [
-    size("10", "10 mg", 10, 2190, "NV-TB500-10", "/images/tb-10.jpg"),
+    size("10", "10 mg", 10, 60, "NV-TB500-10", "/images/tb-10.jpg"),
   ]),
   compound("bpc-157-tb-500", "BPC-157 + TB-500", "BPCTB", "recovery", "/images/bpc-tb-10.jpg", [
-    size("5-5", "5 mg + 5 mg", 10, 1395, "NV-BPCTB-10", "/images/bpc-tb-10.jpg"),
-    size("10-10", "10 mg + 10 mg", 20, 1890, "NV-BPCTB-20", "/images/bpc-tb-20.jpg"),
+    size("5-5", "5 mg + 5 mg", 10, 68, "NV-BPCTB-10", "/images/bpc-tb-10.jpg"),
+    size("10-10", "10 mg + 10 mg", 20, 93, "NV-BPCTB-20", "/images/bpc-tb-20.jpg"),
   ]),
   compound("ss-31", "SS-31", "SS31", "longevity", "/images/ss31-10.jpg", [
-    size("10", "10 mg", 10, 1595, "NV-SS31-10", "/images/ss31-10.jpg"),
+    size("10", "10 mg", 10, 78, "NV-SS31-10", "/images/ss31-10.jpg"),
   ]),
   compound("mots-c", "MOTS-c", "MOTSC", "longevity", "/images/mots-10.jpg", [
-    size("10", "10 mg", 10, 1095, "NV-MOTSC-10", "/images/mots-10.jpg"),
-    size("40", "40 mg", 40, 2785, "NV-MOTSC-40", "/images/mots-40.jpg"),
+    size("10", "10 mg", 10, 54, "NV-MOTSC-10", "/images/mots-10.jpg"),
+    size("40", "40 mg", 40, 95, "NV-MOTSC-40", "/images/mots-40.jpg"),
   ]),
   compound("aod9604", "AOD9604", "AOD96", "metabolic", "/images/aod-10.jpg", [
-    size("10", "10 mg", 10, 1990, "NV-AOD9604-10", "/images/aod-10.jpg"),
+    size("10", "10 mg", 10, 98, "NV-AOD9604-10", "/images/aod-10.jpg"),
   ]),
   compound("igf-1-lr3", "IGF-1 LR3", "IGF1", "signaling", "/images/igf-1.jpg", [
-    size("1", "1 mg", 1, 2885, "NV-IGF1LR3-1", "/images/igf-1.jpg"),
+    size("1", "1 mg", 1, 141, "NV-IGF1LR3-1", "/images/igf-1.jpg"),
   ]),
   compound("cjc-1295-no-dac", "CJC-1295 no DAC", "CJCND", "signaling", "/images/cjc-nodac-10.jpg", [
-    size("10", "10 mg", 10, 2390, "NV-CJCND-10", "/images/cjc-nodac-10.jpg"),
+    size("10", "10 mg", 10, 117, "NV-CJCND-10", "/images/cjc-nodac-10.jpg"),
   ]),
   compound("cjc-1295-with-dac", "CJC-1295 with DAC", "CJCD", "signaling", "/images/cjc-dac-5.jpg", [
-    size("5", "5 mg", 5, 1690, "NV-CJCDAC-5", "/images/cjc-dac-5.jpg"),
-    size("10", "10 mg", 10, 3980, "NV-CJCDAC-10", "/images/cjc-dac-10.jpg"),
+    size("5", "5 mg", 5, 83, "NV-CJCDAC-5", "/images/cjc-dac-5.jpg"),
+    size("10", "10 mg", 10, 195, "NV-CJCDAC-10", "/images/cjc-dac-10.jpg"),
   ]),
   compound("cjc-1295-ipa", "CJC-1295 no DAC + Ipamorelin", "CJIPA", "signaling", "/images/cjc-ipa-10.jpg", [
-    size("5-5", "5 mg + 5 mg", 10, 1890, "NV-CJCIPA-10", "/images/cjc-ipa-10.jpg"),
+    size("5-5", "5 mg + 5 mg", 10, 93, "NV-CJCIPA-10", "/images/cjc-ipa-10.jpg"),
   ]),
   compound("mt-1", "MT-1", "MT1", "signaling", "/images/mt1-10.jpg", [
-    size("10", "10 mg", 10, 695, "NV-MT1-10", "/images/mt1-10.jpg"),
+    size("10", "10 mg", 10, 34, "NV-MT1-10", "/images/mt1-10.jpg"),
   ]),
   compound("mt-2", "MT-2", "MT2", "signaling", "/images/mt2-10.jpg", [
-    size("10", "10 mg", 10, 795, "NV-MT2-10", "/images/mt2-10.jpg"),
+    size("10", "10 mg", 10, 40, "NV-MT2-10", "/images/mt2-10.jpg"),
+  ]),
+  compound("epithalon", "Epithalon", "EPITH", "longevity", "/images/epithalon-10.jpg", [
+    size("10", "10 mg", 10, 60, "NV-EPITH-10", "/images/epithalon-10.jpg"),
+    size("50", "50 mg", 50, 107, "NV-EPITH-50", "/images/epithalon-50.jpg"),
+  ]),
+  compound("ghrp-2", "GHRP-2", "GHRP2", "signaling", "/images/ghrp2-10.jpg", [
+    size("10", "10 mg", 10, 44, "NV-GHRP2-10", "/images/ghrp2-10.jpg"),
+  ]),
+  compound("ghrp-6", "GHRP-6", "GHRP6", "signaling", "/images/ghrp6-10.jpg", [
+    size("10", "10 mg", 10, 49, "NV-GHRP6-10", "/images/ghrp6-10.jpg"),
+  ]),
+  compound("pt-141", "PT-141", "PT141", "signaling", "/images/pt141-10.jpg", [
+    size("10", "10 mg", 10, 54, "NV-PT141-10", "/images/pt141-10.jpg"),
   ]),
 ];
 

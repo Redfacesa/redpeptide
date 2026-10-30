@@ -45,7 +45,7 @@ export async function POST(request: Request) {
           merchant_id: merchantId,
           name: `${row.name ?? row.slug} ${row.label ?? row.variantId}`,
           price: row.price,
-          currency: "ZAR",
+          currency: "CHF",
           stock_quantity: row.stock,
           track_inventory: true,
         }),

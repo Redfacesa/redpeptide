@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { categories, type CategoryId, type Product } from "@/lib/catalog";
 import { supabasePublishableKey, supabaseUrl } from "@/lib/supabase-public";
-import { zar } from "@/lib/format";
+import { chf } from "@/lib/format";
 import { orderStatuses, statusLabel, type Order, type OrderStatus } from "@/lib/order";
 
 const tokenKey = "nv-catalog-token";
@@ -105,7 +105,7 @@ export default function AdminPage() {
     const price = Number(draft.price);
     const stock = Math.max(0, Math.floor(Number(draft.stock) || 0));
     if (!name || !label || !(price > 0)) {
-      setMessage("Name, size, and a rand price are required.");
+      setMessage("Name, size, and a franc price are required.");
       return;
     }
     if (!draft.image) {
@@ -208,7 +208,7 @@ export default function AdminPage() {
         <div className="page-title">
           <p className="eyebrow">Novion admin</p>
           <h1>Catalog sign in</h1>
-          <p className="lede">Prices stay in South African rand. The shop shows them in the visitor’s currency.</p>
+          <p className="lede">Prices on this catalog are in Swiss francs. Visitors outside Switzerland see a conversion.</p>
         </div>
         <form className="form panel" style={{ maxWidth: 420, marginTop: 18 }} onSubmit={signIn}>
           <label>
@@ -231,13 +231,13 @@ export default function AdminPage() {
       <div className="page-title">
         <p className="eyebrow">Novion admin</p>
         <h1>Catalog</h1>
-        <p className="lede">Change a rand price, change stock, or add a compound. Saving publishes it on the shop.</p>
+        <p className="lede">Change a franc price, change stock, or add a compound. Saving publishes it on the shop.</p>
       </div>
       <button className="text-btn" style={{ marginTop: 12 }} onClick={signOut}>Sign out</button>
       <div className="table-wrap" style={{ marginTop: 18 }}>
         <table className="table">
           <thead>
-            <tr><th>Compound</th><th>Size</th><th>ZAR</th><th>Stock</th></tr>
+            <tr><th>Compound</th><th>Size</th><th>CHF</th><th>Stock</th></tr>
           </thead>
           <tbody>
             {items.flatMap((product) =>
@@ -247,7 +247,7 @@ export default function AdminPage() {
                   <td>{variant.label}</td>
                   <td>
                     <input aria-label={`${product.name} ${variant.label} price`} inputMode="decimal" value={variant.price} onChange={(event) => updatePrice(product.slug, variant.id, "price", event.target.value)} />
-                    <small className="muted"> {zar(Number(variant.price) || 0)}</small>
+                    <small className="muted"> {chf(Number(variant.price) || 0)}</small>
                   </td>
                   <td>
                     <input aria-label={`${product.name} ${variant.label} stock`} inputMode="numeric" value={variant.stock} onChange={(event) => updatePrice(product.slug, variant.id, "stock", event.target.value)} />
@@ -279,7 +279,7 @@ export default function AdminPage() {
               <input className="field" placeholder="10 mg" value={draft.label} onChange={(event) => setDraft({ ...draft, label: event.target.value })} />
             </label>
             <label>
-              Price in rand
+              Price in francs
               <input className="field" inputMode="decimal" value={draft.price} onChange={(event) => setDraft({ ...draft, price: event.target.value })} />
             </label>
             <label>
@@ -309,7 +309,7 @@ export default function AdminPage() {
           <div className="table-wrap" style={{ marginTop: 12 }}>
             <table className="table">
               <thead>
-                <tr><th>Order</th><th>Buyer</th><th>Items</th><th>ZAR</th><th>Status</th></tr>
+                <tr><th>Order</th><th>Buyer</th><th>Items</th><th>CHF</th><th>Status</th></tr>
               </thead>
               <tbody>
                 {orders.map((order) => (
@@ -324,7 +324,7 @@ export default function AdminPage() {
                       <div className="muted">{order.city}, {order.country}</div>
                     </td>
                     <td>{order.lines.map((line) => `${line.name} ${line.variant} × ${line.qty}`).join(", ")}</td>
-                    <td>{zar(order.total)}</td>
+                    <td>{chf(order.total)}</td>
                     <td>
                       <select aria-label={`${order.id} status`} value={order.status} onChange={(event) => setStatus(order.id, event.target.value as OrderStatus)}>
                         {orderStatuses.map((status) => (

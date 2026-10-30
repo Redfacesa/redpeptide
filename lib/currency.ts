@@ -25,8 +25,8 @@ export function currencyForCountry(code: string) {
   return "CHF";
 }
 
-export function formatMoney(zarAmount: number, currency: string, rate: number, locale: string) {
-  const value = currency === "ZAR" ? zarAmount : zarAmount * rate;
+export function formatMoney(amount: number, currency: string, rate: number, locale: string) {
+  const value = currency === "CHF" ? amount : amount * rate;
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency,

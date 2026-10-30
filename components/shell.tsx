@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { getVariant } from "@/lib/catalog";
+import { FREE_SHIPPING_AT } from "@/lib/format";
 import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
@@ -234,7 +235,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
               ))
             )}
             <div className="row total"><span>Subtotal</span><strong>{format(subtotal)}</strong></div>
-            <p className="muted">Shipping is calculated at checkout. Free standard delivery from {format(2500)}.</p>
+            <p className="muted">Shipping is calculated at checkout. Free standard delivery from {format(FREE_SHIPPING_AT)}.</p>
             <div className="actions" style={{ marginTop: 14 }}>
               <Link className="btn secondary" href="/cart">View cart</Link>
               <button className="btn" disabled={lines.length === 0} onClick={() => router.push("/checkout")}>Checkout</button>

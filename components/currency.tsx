@@ -10,14 +10,14 @@ type Quote = {
   rates: Record<string, number>;
 };
 
-const fallback: Quote = { country: "CH", currency: "CHF", locale: "en-CH", rates: { ZAR: 1, CHF: 0.049 } };
+const fallback: Quote = { country: "CH", currency: "CHF", locale: "en-CH", rates: { CHF: 1 } };
 
 const CurrencyContext = createContext<{
   quote: Quote;
   format: (zarAmount: number) => string;
 }>({
   quote: fallback,
-  format: (value) => formatMoney(value, "CHF", 0.049, "en-CH"),
+  format: (value) => formatMoney(value, "CHF", 1, "en-CH"),
 });
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {

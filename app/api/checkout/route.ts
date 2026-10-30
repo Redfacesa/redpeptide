@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         merchant_id: merchantId,
         amount,
-        currency: "ZAR",
+        currency: "CHF",
         label,
         cart_items: body.lines ?? [],
         metadata: { ecosystem_from: "novion", email, brand: "novion" },
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     utm_source: "novion",
     utm_medium: "checkout",
     amount: String(Math.round(amount)),
-    currency: "ZAR",
+    currency: "CHF",
     label,
     return_url: returnUrl,
   });

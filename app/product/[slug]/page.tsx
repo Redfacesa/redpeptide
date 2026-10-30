@@ -51,8 +51,8 @@ export default async function ProductPage({
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "CHF",
-      lowPrice: (Math.min(...product.variants.map((variant) => variant.price)) * 0.049).toFixed(2),
-      highPrice: (Math.max(...product.variants.map((variant) => variant.price)) * 0.049).toFixed(2),
+      lowPrice: Math.min(...product.variants.map((variant) => variant.price)).toFixed(2),
+      highPrice: Math.max(...product.variants.map((variant) => variant.price)).toFixed(2),
       offerCount: product.variants.length,
       availability: product.variants.some((variant) => variant.stock > 0)
         ? "https://schema.org/InStock"
