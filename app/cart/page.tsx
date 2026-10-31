@@ -21,13 +21,13 @@ export default function CartPage() {
   return (
     <div className="wrap pad">
       <div className="page-title">
-        <p className="eyebrow">Cart</p>
-        <h1>Your selection</h1>
+        <p className="eyebrow">Warenkorb</p>
+        <h1>Ihre Auswahl</h1>
       </div>
       {lines.length === 0 ? (
         <div className="empty" style={{ marginTop: 18 }}>
-          <p>The cart is empty.</p>
-          <p style={{ marginTop: 12 }}><Link className="btn" href="/shop">Browse compounds</Link></p>
+          <p>Der Warenkorb ist leer.</p>
+          <p style={{ marginTop: 12 }}><Link className="btn" href="/shop">Zum Shop</Link></p>
         </div>
       ) : (
         <div className="cart-layout" style={{ marginTop: 18 }}>
@@ -39,29 +39,29 @@ export default function CartPage() {
                   <h2 style={{ fontSize: 28 }}><Link href={`/product/${product.slug}`}>{product.name}</Link></h2>
                   <p className="muted">{variant.label} · {variant.sku}</p>
                   <div className="qty" style={{ marginTop: 8 }}>
-                    <button aria-label="Decrease" onClick={() => store.setQty(line.slug, line.variantId, line.qty - 1)}>−</button>
-                    <input readOnly value={line.qty} aria-label="Quantity" />
-                    <button aria-label="Increase" onClick={() => store.setQty(line.slug, line.variantId, line.qty + 1)}>+</button>
+                    <button aria-label="Menge verringern" onClick={() => store.setQty(line.slug, line.variantId, line.qty - 1)}>−</button>
+                    <input readOnly value={line.qty} aria-label="Menge" />
+                    <button aria-label="Menge erhöhen" onClick={() => store.setQty(line.slug, line.variantId, line.qty + 1)}>+</button>
                   </div>
                 </div>
                 <div className="line-side">
                   <strong>{format(variant.price * line.qty)}</strong>
-                  <button className="text-btn" onClick={() => store.remove(line.slug, line.variantId)}>Remove</button>
+                  <button className="text-btn" onClick={() => store.remove(line.slug, line.variantId)}>Entfernen</button>
                 </div>
               </article>
             ))}
           </div>
           <aside className="summary">
-            <h2>Summary</h2>
-            <div className="row"><span>Subtotal</span><span>{format(subtotal)}</span></div>
-            <div className="row"><span>Standard delivery</span><span>{standard === 0 ? "Free" : format(standard)}</span></div>
-            <div className="row total"><span>Estimated</span><strong>{format(subtotal + standard)}</strong></div>
+            <h2>Übersicht</h2>
+            <div className="row"><span>Zwischensumme</span><span>{format(subtotal)}</span></div>
+            <div className="row"><span>Standardversand</span><span>{standard === 0 ? "Kostenlos" : format(standard)}</span></div>
+            <div className="row total"><span>Geschätzt</span><strong>{format(subtotal + standard)}</strong></div>
             <p className="muted">
               {subtotal >= FREE_SHIPPING_AT
-                ? "Standard delivery is free on this order."
-                : `Add ${format(FREE_SHIPPING_AT - subtotal)} for free standard delivery.`}
+                ? "Der Standardversand ist bei dieser Bestellung kostenlos."
+                : `Noch ${format(FREE_SHIPPING_AT - subtotal)} bis zum kostenlosen Standardversand.`}
             </p>
-            <Link className="btn full" href="/checkout" style={{ marginTop: 14 }}>Continue to checkout</Link>
+            <Link className="btn full" href="/checkout" style={{ marginTop: 14 }}>Zur Kasse</Link>
           </aside>
         </div>
       )}

@@ -4,7 +4,7 @@ import { createOrder, ordersFor, readOrders, setOrderStatus } from "@/lib/orders
 
 export async function GET(request: Request) {
   const user = await fetchUser(request);
-  if (!user) return Response.json({ message: "Sign in to see orders." }, { status: 401 });
+  if (!user) return Response.json({ message: "Melden Sie sich an, um Bestellungen zu sehen." }, { status: 401 });
   const desk = isCatalogEditor(user.email);
   const orders = desk ? await readOrders() : await ordersFor(user.email);
   return Response.json({ orders, desk });
@@ -12,7 +12,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const user = await fetchUser(request);
-  if (!user) return Response.json({ message: "Sign in before checkout." }, { status: 401 });
+  if (!user) return Response.json({ message: "Melden Sie sich vor der Kasse an." }, { status: 401 });
   const body = (await request.json().catch(() => null)) as {
     name?: string;
     line1?: string;
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     research?: boolean;
     lines?: { slug?: string; variantId?: string; qty?: number }[];
   } | null;
-  if (!body?.research) return Response.json({ message: "Confirm the research-use statement to continue." }, { status: 400 });
+  if (!body?.research) return Response.json({ message: "Bestätigen Sie den Forschungshinweis, um fortzufahren." }, { status: 400 });
   const order = await createOrder({
     email: user.email,
     name: body.name || user.name,

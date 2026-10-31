@@ -18,7 +18,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const catalog = await readMergedCatalog();
   const product = catalog.find((item) => item.slug === slug);
-  if (!product) return { title: "Compound" };
+  if (!product) return { title: "Verbindung" };
   return {
     title: product.name,
     description: product.summary,

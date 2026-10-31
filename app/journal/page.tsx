@@ -9,7 +9,7 @@ export default function JournalPage() {
     <div className="wrap pad">
       <div className="page-title">
         <p className="eyebrow">Journal</p>
-        <h1>Notes on quality and dispatch</h1>
+        <h1>Notizen zu Qualität und Versand</h1>
       </div>
       <div className="news" style={{ marginTop: 20 }}>
         {articles.map((article) => (

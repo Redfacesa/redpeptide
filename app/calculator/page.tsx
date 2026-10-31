@@ -17,35 +17,35 @@ export default function CalculatorPage() {
   return (
     <div className="wrap pad">
       <div className="page-title">
-        <p className="eyebrow">Bench math</p>
-        <h1>Concentration calculator</h1>
+        <p className="eyebrow">Laborrechnung</p>
+        <h1>Konzentrationsrechner</h1>
         <p className="lede">
-          Mass divided by solvent volume. This is a laboratory worksheet for a prepared solution. It is not a dosing guide and it does not recommend a volume.
+          Masse geteilt durch Lösungsmittelvolumen. Das ist ein Laborblatt für eine angesetzte Lösung. Es ist keine Dosierungsanleitung und empfiehlt kein Volumen.
         </p>
       </div>
       <div className="calc" style={{ marginTop: 20 }}>
         <form className="form panel" onSubmit={(event) => event.preventDefault()}>
           <label>
-            Peptide mass (mg)
+            Peptidmasse (mg)
             <input className="field" inputMode="decimal" value={mg} onChange={(event) => setMg(event.target.value)} />
           </label>
           <label>
-            Solution volume (mL)
+            Lösungsvolumen (mL)
             <input className="field" inputMode="decimal" value={ml} onChange={(event) => setMl(event.target.value)} />
           </label>
-          <p className="notice">Enter the mass you weighed and the volume you prepared. The result is concentration only.</p>
+          <p className="notice">Tragen Sie die gewogene Masse und das angesetzte Volumen ein. Das Ergebnis ist nur die Konzentration.</p>
         </form>
         <div className="result">
-          <p className="stage-kicker">Concentration</p>
+          <p className="stage-kicker">Konzentration</p>
           {result ? (
             <>
-              <strong>{result.mgPerMl.toLocaleString("en-GB", { maximumFractionDigits: 3 })} mg/mL</strong>
-              <p>{result.ugPerMl.toLocaleString("en-GB", { maximumFractionDigits: 1 })} µg/mL</p>
+              <strong>{result.mgPerMl.toLocaleString("de-CH", { maximumFractionDigits: 3 })} mg/mL</strong>
+              <p>{result.ugPerMl.toLocaleString("de-CH", { maximumFractionDigits: 1 })} µg/mL</p>
             </>
           ) : (
             <strong>—</strong>
           )}
-          <p style={{ marginTop: 16 }}>For research calculations. Not for human or veterinary administration.</p>
+          <p style={{ marginTop: 16 }}>Für Forschungsrechnungen. Nicht zur Anwendung an Mensch oder Tier.</p>
         </div>
       </div>
     </div>

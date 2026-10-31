@@ -4,151 +4,151 @@ import { notFound } from "next/navigation";
 
 const pages = {
   privacy: {
-    title: "Privacy",
-    intro: "This notice explains what the Novion catalog keeps and why. It is the operator’s description of the shop, not a lawyer’s opinion.",
+    title: "Datenschutz",
+    intro: "Dieser Hinweis erklärt, was der Novion-Katalog behält und warum. Es ist die Beschreibung des Betreibers, kein Rechtsgutachten.",
     sections: [
       {
-        heading: "Who this covers",
+        heading: "Wen das betrifft",
         body: [
-          "Novion Biopharma operates this catalog. Questions about your information go through the contact form.",
-          "The shop is aimed at adult laboratory buyers. It is not a medical service.",
+          "Novion Biopharma betreibt diesen Katalog. Fragen zu Ihren Angaben laufen über das Kontaktformular.",
+          "Der Shop richtet sich an erwachsene Laborkäufer. Er ist kein medizinischer Dienst.",
         ],
       },
       {
-        heading: "What stays on your device",
+        heading: "Was auf Ihrem Gerät bleibt",
         body: [
-          "Your cart, wishlist, and age confirmation stay in this browser. Clearing the site data removes them.",
-          "An account sign-in is kept in this browser until you sign out. The catalog editor’s sign-in is kept for that browser session only.",
+          "Warenkorb, Merkliste und Altersbestätigung bleiben in diesem Browser. Wenn Sie die Seitendaten löschen, sind sie weg.",
+          "Eine Kontoanmeldung bleibt in diesem Browser, bis Sie sich abmelden. Die Anmeldung der Katalogredaktion gilt nur für diese Browser-Sitzung.",
         ],
       },
       {
-        heading: "What is sent at checkout",
+        heading: "Was an der Kasse gesendet wird",
         body: [
-          "When you check out, Novion keeps the order: your name, email, delivery address, the compounds, the amount, and the status. That record is how you track the order and how the desk fulfils it. The payment page receives the total, your email, and the line items so the charge can be taken. The payment company processes that information under its own notice.",
-          "Novion does not sell personal information and does not use advertising cookies.",
+          "Bei der Bestellung behält Novion den Auftrag: Name, E-Mail, Lieferadresse, Verbindungen, Betrag und Status. Diese Akte ist der Weg, wie Sie die Bestellung verfolgen und der Desk sie erfüllt. Die Zahlungsseite erhält die Summe, Ihre E-Mail und die Positionen, damit die Zahlung ausgeführt werden kann. Das Zahlungsunternehmen verarbeitet diese Angaben nach seinem eigenen Hinweis.",
+          "Novion verkauft keine Personendaten und setzt keine Werbe-Cookies.",
         ],
       },
       {
-        heading: "Your requests",
+        heading: "Ihre Anfragen",
         body: [
-          "You can ask for a copy of the order details you submitted, a correction, or deletion, using the contact form. Some records may have to be kept where a payment dispute or a legal duty requires it.",
-          "If you are in the United Kingdom, Switzerland, or the European Economic Area, you may also complain to the data authority where you live. That right does not depend on where the catalog is read from.",
+          "Sie können über das Kontaktformular eine Kopie der übermittelten Bestellangaben, eine Berichtigung oder eine Löschung verlangen. Einzelne Akten können bleiben, wenn ein Zahlungsstreit oder eine gesetzliche Pflicht das verlangt.",
+          "Wenn Sie im Vereinigten Königreich, in der Schweiz oder im Europäischen Wirtschaftsraum leben, können Sie sich auch an die Datenschutzbehörde an Ihrem Wohnort wenden. Dieses Recht hängt nicht davon ab, von wo der Katalog gelesen wird.",
         ],
       },
     ],
   },
   terms: {
-    title: "Terms of sale",
-    intro: "These terms cover orders placed on the Novion Biopharma catalog. Mandatory protections in your country still apply where the law does not allow them to be waived.",
+    title: "Verkaufsbedingungen",
+    intro: "Diese Bedingungen gelten für Bestellungen im Katalog von Novion Biopharma. Zwingende Schutzrechte in Ihrem Land bleiben bestehen, wo das Gesetz keinen Verzicht erlaubt.",
     sections: [
       {
-        heading: "What is being sold",
+        heading: "Was verkauft wird",
         body: [
-          "Each item is a sealed research solid for laboratory use by adults aged 18 or older. It is not a medicine, food, cosmetic, or veterinary product, and it is not sold for human or animal administration.",
-          "The catalog does not give preparation, reconstitution, dosing, or treatment instructions. Nothing on the site is medical advice.",
+          "Jeder Artikel ist ein versiegelter Forschungsfeststoff für die Laborarbeit durch Personen ab 18 Jahren. Er ist kein Arzneimittel, Lebensmittel, Kosmetikum oder Tierarzneimittel und wird nicht zur Anwendung an Mensch oder Tier verkauft.",
+          "Der Katalog gibt keine Anleitung zu Zubereitung, Rekonstitution, Dosierung oder Behandlung. Nichts auf der Seite ist medizinische Beratung.",
         ],
       },
       {
-        heading: "Your confirmation",
+        heading: "Ihre Bestätigung",
         body: [
-          "By ordering, you confirm that you are 18 or older, that you will use the material only for lawful laboratory research, and that you have read the research notice and the returns policy.",
-          "You are responsible for knowing whether the material may be imported, held, or used where it will be delivered. Novion may refuse or cancel an order it cannot ship lawfully.",
+          "Mit der Bestellung bestätigen Sie, dass Sie 18 oder älter sind, den Stoff nur für rechtmässige Laborforschung verwenden und den Forschungshinweis sowie die Rückgabe gelesen haben.",
+          "Sie sind dafür verantwortlich zu wissen, ob der Stoff am Lieferort eingeführt, gehalten oder verwendet werden darf. Novion kann eine Bestellung ablehnen oder stornieren, die es nicht rechtmässig versenden kann.",
         ],
       },
       {
-        heading: "Price and payment",
+        heading: "Preis und Zahlung",
         body: [
-          "Catalog prices are in Swiss francs. The payment page shows the amount again before you pay. A contract is formed when payment is accepted.",
-          "Novion may correct an obvious pricing error before dispatch and offer you a refund instead of shipping.",
+          "Die Katalogpreise sind in Schweizer Franken. Die Zahlungsseite zeigt den Betrag erneut, bevor Sie zahlen. Ein Vertrag entsteht, wenn die Zahlung angenommen wird.",
+          "Novion kann einen offensichtlichen Preisfehler vor dem Versand korrigieren und statt der Lieferung eine Rückerstattung anbieten.",
         ],
       },
       {
-        heading: "Risk and liability",
+        heading: "Gefahr und Haftung",
         body: [
-          "Risk in a sealed vial passes when it is handed to the carrier. Until then, Novion remains responsible for loss of the unshipped order.",
-          "The material is supplied as a research solid with the specification printed for that compound. It is not warranted fit for a particular experiment, diagnosis, or outcome.",
-          "Nothing in these terms limits liability that the law does not allow to be limited, including liability for fraud or for death or personal injury caused by negligence. Otherwise, liability for a vial is limited to the amount you paid for that vial.",
+          "Die Gefahr an einem versiegelten Vial geht über, wenn es dem Transporteur übergeben wird. Bis dahin bleibt Novion für den Verlust der noch nicht versendeten Bestellung verantwortlich.",
+          "Der Stoff wird als Forschungsfeststoff mit der für diese Verbindung gedruckten Spezifikation geliefert. Es wird nicht zugesichert, dass er für ein bestimmtes Experiment, eine Diagnose oder ein Ergebnis geeignet ist.",
+          "Diese Bedingungen beschränken keine Haftung, die das Gesetz nicht zu beschränken erlaubt, einschliesslich Haftung für Betrug oder für Tod oder Körperverletzung durch Fahrlässigkeit. Im Übrigen ist die Haftung für ein Vial auf den Betrag begrenzt, den Sie für dieses Vial gezahlt haben.",
         ],
       },
       {
-        heading: "Law",
+        heading: "Recht",
         body: [
-          "These terms are governed by the laws of Switzerland. If you are a consumer, you keep the mandatory protections of the country where you live.",
+          "Diese Bedingungen unterstehen dem Recht der Schweiz. Wenn Sie Konsument sind, behalten Sie die zwingenden Schutzrechte des Landes, in dem Sie leben.",
         ],
       },
     ],
   },
   shipping: {
-    title: "Shipping",
-    intro: "Orders leave as sealed research vials in a plain outer carton.",
+    title: "Versand",
+    intro: "Bestellungen verlassen das Haus als versiegelte Forschungsvials in einem schlichten Aussenkarton.",
     sections: [
       {
-        heading: "Dispatch",
+        heading: "Abgang",
         body: [
-          "Standard delivery is estimated at 2–4 days and express at 1–2 days after payment. Those are estimates, not guaranteed delivery dates. Free standard delivery applies once the order reaches the threshold shown in the cart.",
-          "Store the vial at 2–8 °C after it arrives, protected from light, and do not freeze it. Transit is arranged to be short. The catalog does not promise a temperature log unless one is included with that shipment.",
+          "Standardversand wird auf 2–4 Tage und Express auf 1–2 Tage nach Zahlung geschätzt. Das sind Schätzungen, keine garantierten Liefertermine. Kostenloser Standardversand gilt, sobald die Bestellung die im Warenkorb gezeigte Schwelle erreicht.",
+          "Lagern Sie das Vial nach Ankunft bei 2–8 °C, vor Licht geschützt, und frieren Sie es nicht ein. Der Transport wird kurz gehalten. Der Katalog verspricht kein Temperaturprotokoll, ausser eines liegt dieser Sendung bei.",
         ],
       },
       {
-        heading: "Import",
+        heading: "Einfuhr",
         body: [
-          "Customs, import permits, and local laboratory rules are the buyer’s responsibility. Duties charged by a customs authority are not part of the catalog price.",
-          "If a destination cannot accept the shipment, Novion will tell you and refund an unshipped order.",
+          "Zoll, Einfuhrbewilligungen und lokale Laborregeln sind Sache des Käufers. Abgaben einer Zollbehörde gehören nicht zum Katalogpreis.",
+          "Kann ein Ziel die Sendung nicht annehmen, teilt Novion das mit und erstattet eine noch nicht versendete Bestellung.",
         ],
       },
     ],
   },
   returns: {
-    title: "Returns and withdrawal",
-    intro: "You can change your mind about an unopened order. Opened research vials are not taken back.",
+    title: "Rückgabe und Widerruf",
+    intro: "Sie können eine ungeöffnete Bestellung rückgängig machen. Geöffnete Forschungsvials werden nicht zurückgenommen.",
     sections: [
       {
-        heading: "Before and after delivery",
+        heading: "Vor und nach der Lieferung",
         body: [
-          "You may withdraw from the purchase within 14 days after the day you receive the vial, without giving a reason, as long as the seal has not been broken. Use the withdrawal page and keep the confirmation.",
-          "If the catalog failed to tell you about this right, the withdrawal period can run longer, as the law where you live requires.",
-          "Once the seal is broken, the vial is not suitable for return for health and hygiene reasons, and it will not be accepted back.",
+          "Sie können innerhalb von 14 Tagen nach dem Tag, an dem Sie das Vial erhalten, ohne Angabe von Gründen vom Kauf zurücktreten, solange das Siegel nicht gebrochen ist. Nutzen Sie die Widerrufsseite und bewahren Sie die Bestätigung auf.",
+          "Hat der Katalog Sie nicht auf dieses Recht hingewiesen, kann die Widerrufsfrist länger laufen, wie es das Recht an Ihrem Wohnort verlangt.",
+          "Ist das Siegel gebrochen, eignet sich das Vial aus Gesundheits- und Hygienegründen nicht zur Rückgabe und wird nicht zurückgenommen.",
         ],
       },
       {
-        heading: "Refunds",
+        heading: "Rückerstattung",
         body: [
-          "A valid withdrawal is refunded, including the least expensive standard delivery offered, within 14 days of Novion receiving the vial back or proof that you sent it. Use the same payment method where that is possible.",
-          "You pay the cost of sending an unopened vial back, unless Novion shipped the wrong item or a damaged item. Report a wrong or damaged shipment within 7 days of delivery, with the order number and photographs, and Novion will replace it or refund it.",
-          "This page does not remove any mandatory right you have in the country where you live.",
+          "Ein gültiger Widerruf wird erstattet, einschliesslich des günstigsten angebotenen Standardversands, innerhalb von 14 Tagen nachdem Novion das Vial zurückerhalten hat oder den Nachweis, dass Sie es abgesendet haben. Wo das möglich ist, erfolgt die Erstattung über denselben Zahlungsweg.",
+          "Sie tragen die Kosten der Rücksendung eines ungeöffneten Vials, ausser Novion hat den falschen oder einen beschädigten Artikel versendet. Melden Sie eine falsche oder beschädigte Sendung innerhalb von 7 Tagen nach Lieferung mit Bestellnummer und Fotos. Novion ersetzt sie oder erstattet sie.",
+          "Diese Seite nimmt Ihnen kein zwingendes Recht, das Sie im Land haben, in dem Sie leben.",
         ],
       },
     ],
   },
   cookies: {
-    title: "Cookies and storage",
-    intro: "The catalog uses the storage it needs to run. It does not use advertising or analytics cookies.",
+    title: "Cookies und Speicher",
+    intro: "Der Katalog nutzt den Speicher, den er zum Betrieb braucht. Er setzt keine Werbe- oder Analyse-Cookies.",
     sections: [
       {
-        heading: "What is stored",
+        heading: "Was gespeichert wird",
         body: [
-          "The browser keeps an age confirmation, the cart, and the wishlist. An account sign-in token stays in this browser until you sign out.",
-          "Orders are stored for the account that placed them, so the buyer can track them and the desk can see the status. The private catalog editor keeps a separate sign-in token until that session ends.",
-          "The payment page is a separate site and may set its own cookies under its own notice. Novion does not read those cookies.",
+          "Der Browser behält eine Altersbestätigung, den Warenkorb und die Merkliste. Ein Anmeldetoken des Kontos bleibt in diesem Browser, bis Sie sich abmelden.",
+          "Bestellungen werden für das Konto gespeichert, das sie aufgegeben hat, damit der Käufer sie verfolgen und der Desk den Status sehen kann. Die private Katalogredaktion behält ein separates Anmeldetoken, bis diese Sitzung endet.",
+          "Die Zahlungsseite ist eine eigene Website und kann eigene Cookies nach ihrem eigenen Hinweis setzen. Novion liest diese Cookies nicht.",
         ],
       },
     ],
   },
   imprint: {
-    title: "Imprint",
-    intro: "This page names the catalog. It does not invent a registration number or a certification.",
+    title: "Impressum",
+    intro: "Diese Seite benennt den Katalog. Sie erfindet keine Registernummer und keine Zertifizierung.",
     sections: [
       {
-        heading: "Operator",
+        heading: "Betreiber",
         body: [
-          "Novion Biopharma, Geneva. Research correspondence is in English through the contact form.",
-          "No trade-register number, VAT number, or third-party seal is printed here. Those particulars are added only after they have actually been issued. A mark the operator does not hold is not displayed.",
+          "Novion Biopharma, Genf. Anfragen laufen über das Kontaktformular.",
+          "Hier steht keine Handelsregisternummer, keine Mehrwertsteuernummer und kein Siegel eines Dritten. Solche Angaben werden erst gedruckt, wenn sie tatsächlich ausgestellt sind. Ein Zeichen, das der Betreiber nicht hält, wird nicht gezeigt.",
         ],
       },
       {
-        heading: "Catalog",
+        heading: "Katalog",
         body: [
-          "Products are research materials for adult laboratory buyers. The research notice, terms, shipping, and returns pages form part of the information given before you pay.",
+          "Die Produkte sind Forschungsstoffe für erwachsene Laborkäufer. Forschungshinweis, Bedingungen, Versand und Rückgabe gehören zu den Angaben, die Sie vor der Zahlung erhalten.",
         ],
       },
     ],
@@ -167,7 +167,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const page = pages[slug as keyof typeof pages];
   return {
-    title: page?.title ?? "Legal",
+    title: page?.title ?? "Rechtliches",
     description: page?.intro,
   };
 }
@@ -195,11 +195,11 @@ export default async function LegalPage({
         </section>
       ))}
       <p>
-        <Link href="/research-use">Research notice</Link>
+        <Link href="/research-use">Forschungshinweis</Link>
         {" · "}
-        <Link href="/withdraw">Withdraw an order</Link>
+        <Link href="/withdraw">Widerruf</Link>
         {" · "}
-        <Link href="/contact">Contact</Link>
+        <Link href="/contact">Kontakt</Link>
       </p>
     </article>
   );

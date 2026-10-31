@@ -18,10 +18,10 @@ export const metadata: Metadata = {
     template: "%s · Novion Biopharma",
   },
   description:
-    "Novion Biopharma, Geneva. Sealed research peptides for laboratory use by adults. Not a medicine and not for human use.",
+    "Novion Biopharma, Genf. Versiegelte Forschungspeptide für das Labor. Kein Arzneimittel und nicht zur Anwendung am Menschen.",
   openGraph: {
     title: "Novion Biopharma",
-    description: "Sealed research peptides for laboratory use. Geneva catalog. Not for human use.",
+    description: "Versiegelte Forschungspeptide für das Labor. Katalog aus Genf. Nicht zur Anwendung am Menschen.",
     url: "https://novion.ch",
     siteName: "Novion Biopharma",
     type: "website",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={sans.variable}>
+    <html lang="de-CH" className={sans.variable}>
       <body>
         <CurrencyProvider>
           <StoreProvider>

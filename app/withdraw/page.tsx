@@ -20,32 +20,32 @@ export default function WithdrawPage() {
 
   return (
     <article className="wrap pad prose">
-      <p className="eyebrow">Orders</p>
-      <h1>Withdraw from a contract</h1>
+      <p className="eyebrow">Bestellungen</p>
+      <h1>Von einem Vertrag zurücktreten</h1>
       <p className="lede">
-        Use this page within 14 days of receiving an unopened vial. You do not have to give a reason. Opening the seal ends this right, because the material cannot be returned for health and hygiene reasons.
+        Nutzen Sie diese Seite innerhalb von 14 Tagen nach Erhalt eines ungeöffneten Vials. Sie müssen keinen Grund nennen. Das Öffnen des Siegels beendet dieses Recht, weil das Material aus Gesundheits- und Hygienegründen nicht zurückgenommen werden kann.
       </p>
       {reference ? (
         <div className="panel">
-          <h2>Withdrawal recorded</h2>
-          <p>Reference {reference}. Keep this reference with your order number. The request takes effect when you submit it here.</p>
-          <p>Send the unopened vial back only after the desk confirms the return address. A refund of the goods and the least expensive standard delivery follows the returns policy.</p>
+          <h2>Widerruf erfasst</h2>
+          <p>Referenz {reference}. Bewahren Sie diese Referenz mit Ihrer Bestellnummer auf. Der Antrag wirkt, sobald Sie ihn hier absenden.</p>
+          <p>Senden Sie das ungeöffnete Vial erst zurück, wenn der Desk die Rücksendeadresse bestätigt. Eine Rückerstattung der Ware und des günstigsten Standardversands folgt der Rückgaberegel.</p>
         </div>
       ) : (
         <form className="form panel" onSubmit={submit}>
           <label>
-            Order number
+            Bestellnummer
             <input className="field" name="order" required placeholder="NV-10001" />
           </label>
           <label>
-            Email used at checkout
+            E-Mail von der Kasse
             <input className="field" type="email" name="email" required />
           </label>
           <label>
-            Note
-            <textarea className="field" name="note" rows={4} placeholder="Optional. You do not need to explain why." />
+            Notiz
+            <textarea className="field" name="note" rows={4} placeholder="Optional. Sie müssen nicht erklären, warum." />
           </label>
-          <button className="btn" type="submit">Confirm withdrawal</button>
+          <button className="btn" type="submit">Widerruf bestätigen</button>
         </form>
       )}
     </article>

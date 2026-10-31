@@ -49,32 +49,32 @@ export type LabBatch = {
 export const categories = [
   {
     "id": "metabolic",
-    "name": "Metabolic",
-    "blurb": "Incretin and fragment research",
+    "name": "Stoffwechsel",
+    "blurb": "Inkretin-Forschung",
     "tone": "#12315f"
   },
   {
     "id": "recovery",
-    "name": "Recovery",
-    "blurb": "Tissue-signaling sequences",
+    "name": "Regeneration",
+    "blurb": "Gewebe-Signalwege",
     "tone": "#12315f"
   },
   {
     "id": "cognitive",
-    "name": "Cognitive",
-    "blurb": "Nootropic peptide analogs",
+    "name": "Kognition",
+    "blurb": "Nootrope Analoga",
     "tone": "#12315f"
   },
   {
     "id": "longevity",
-    "name": "Longevity",
-    "blurb": "Mitochondrial research solids",
+    "name": "Langlebigkeit",
+    "blurb": "Mitochondriale Feststoffe",
     "tone": "#12315f"
   },
   {
     "id": "signaling",
-    "name": "Signaling",
-    "blurb": "Secretagogue and copper peptides",
+    "name": "Signalwege",
+    "blurb": "Sekretagoga",
     "tone": "#12315f"
   }
 ] as const;
@@ -85,12 +85,12 @@ export const products: Product[] = [
     "name": "Semaglutide",
     "code": "SEMAG",
     "category": "metabolic",
-    "tagline": "Lyophilized research vial · Geneva",
-    "summary": "Semaglutide is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
-    "overview": "Semaglutide is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
-    "purity": "> 99% HPLC (specification)",
-    "appearance": "Lyophilized solid in a sealed vial",
-    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "tagline": "Lyophilisiertes Forschungsvial · Genf",
+    "summary": "Semaglutide ist als versiegeltes Forschungsvial gelistet. Nur für das Labor. Kein Arzneimittel und keine Dosierungsanleitung.",
+    "overview": "Semaglutide wird von Novion Biopharma als lyophilisierter Forschungsfeststoff geliefert. Das Etikett weist auf die reine Forschungsnutzung hin. Diese Seite gibt keine Anleitung zu Zubereitung, Dosis oder Anwendung am Menschen.",
+    "purity": "> 99 % HPLC (Spezifikation)",
+    "appearance": "Lyophilisierter Feststoff im versiegelten Vial",
+    "storage": "2–8 °C. Vor Licht schützen. Nicht einfrieren.",
     "featured": true,
     "image": "/images/sema-10.jpg",
     "variants": [
@@ -119,12 +119,12 @@ export const products: Product[] = [
     "name": "Tirzepatide",
     "code": "TIRZE",
     "category": "metabolic",
-    "tagline": "Lyophilized research vial · Geneva",
-    "summary": "Tirzepatide is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
-    "overview": "Tirzepatide is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
-    "purity": "> 99% HPLC (specification)",
-    "appearance": "Lyophilized solid in a sealed vial",
-    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "tagline": "Lyophilisiertes Forschungsvial · Genf",
+    "summary": "Tirzepatide ist als versiegeltes Forschungsvial gelistet. Nur für das Labor. Kein Arzneimittel und keine Dosierungsanleitung.",
+    "overview": "Tirzepatide wird von Novion Biopharma als lyophilisierter Forschungsfeststoff geliefert. Das Etikett weist auf die reine Forschungsnutzung hin. Diese Seite gibt keine Anleitung zu Zubereitung, Dosis oder Anwendung am Menschen.",
+    "purity": "> 99 % HPLC (Spezifikation)",
+    "appearance": "Lyophilisierter Feststoff im versiegelten Vial",
+    "storage": "2–8 °C. Vor Licht schützen. Nicht einfrieren.",
     "featured": true,
     "image": "/images/tirz-10.jpg",
     "variants": [
@@ -171,12 +171,12 @@ export const products: Product[] = [
     "name": "Retatrutide",
     "code": "RETAT",
     "category": "metabolic",
-    "tagline": "Lyophilized research vial · Geneva",
-    "summary": "Retatrutide is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.",
-    "overview": "Retatrutide is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only, HPLC purity above 99% as a specification, and Swiss packing. This page does not give preparation, dose, or human-use instructions.",
-    "purity": "> 99% HPLC (specification)",
-    "appearance": "Lyophilized solid in a sealed vial",
-    "storage": "2–8 °C. Protect from light. Do not freeze.",
+    "tagline": "Lyophilisiertes Forschungsvial · Genf",
+    "summary": "Retatrutide ist als versiegeltes Forschungsvial gelistet. Nur für das Labor. Kein Arzneimittel und keine Dosierungsanleitung.",
+    "overview": "Retatrutide wird von Novion Biopharma als lyophilisierter Forschungsfeststoff geliefert. Das Etikett weist auf die reine Forschungsnutzung hin. Diese Seite gibt keine Anleitung zu Zubereitung, Dosis oder Anwendung am Menschen.",
+    "purity": "> 99 % HPLC (Spezifikation)",
+    "appearance": "Lyophilisierter Feststoff im versiegelten Vial",
+    "storage": "2–8 °C. Vor Licht schützen. Nicht einfrieren.",
     "featured": true,
     "image": "/images/reta-10.jpg",
     "variants": [
@@ -233,14 +233,14 @@ export const products: Product[] = [
   compound("igf-1-lr3", "IGF-1 LR3", "IGF1", "signaling", "/images/igf-1.jpg", [
     size("1", "1 mg", 1, 141, "NV-IGF1LR3-1", "/images/igf-1.jpg"),
   ]),
-  compound("cjc-1295-no-dac", "CJC-1295 no DAC", "CJCND", "signaling", "/images/cjc-nodac-10.jpg", [
+  compound("cjc-1295-no-dac", "CJC-1295 ohne DAC", "CJCND", "signaling", "/images/cjc-nodac-10.jpg", [
     size("10", "10 mg", 10, 117, "NV-CJCND-10", "/images/cjc-nodac-10.jpg"),
   ]),
-  compound("cjc-1295-with-dac", "CJC-1295 with DAC", "CJCD", "signaling", "/images/cjc-dac-5.jpg", [
+  compound("cjc-1295-with-dac", "CJC-1295 mit DAC", "CJCD", "signaling", "/images/cjc-dac-5.jpg", [
     size("5", "5 mg", 5, 83, "NV-CJCDAC-5", "/images/cjc-dac-5.jpg"),
     size("10", "10 mg", 10, 195, "NV-CJCDAC-10", "/images/cjc-dac-10.jpg"),
   ]),
-  compound("cjc-1295-ipa", "CJC-1295 no DAC + Ipamorelin", "CJIPA", "signaling", "/images/cjc-ipa-10.jpg", [
+  compound("cjc-1295-ipa", "CJC-1295 ohne DAC + Ipamorelin", "CJIPA", "signaling", "/images/cjc-ipa-10.jpg", [
     size("5-5", "5 mg + 5 mg", 10, 93, "NV-CJCIPA-10", "/images/cjc-ipa-10.jpg"),
   ]),
   compound("mt-1", "MT-1", "MT1", "signaling", "/images/mt1-10.jpg", [
@@ -274,12 +274,12 @@ function compound(slug: string, name: string, code: string, category: CategoryId
     name,
     code,
     category,
-    tagline: "Lyophilized research vial · Geneva",
-    summary: `${name} is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.`,
-    overview: `${name} is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only. This page does not give preparation, dose, or human-use instructions.`,
-    purity: "> 99% HPLC (specification)",
-    appearance: "Lyophilized solid in a sealed vial",
-    storage: "2–8 °C. Protect from light. Do not freeze.",
+    tagline: "Lyophilisiertes Forschungsvial · Genf",
+    summary: `${name} ist als versiegeltes Forschungsvial gelistet. Nur für das Labor. Kein Arzneimittel und keine Dosierungsanleitung.`,
+    overview: `${name} wird von Novion Biopharma als lyophilisierter Forschungsfeststoff geliefert. Das Etikett weist auf die reine Forschungsnutzung hin. Diese Seite gibt keine Anleitung zu Zubereitung, Dosis oder Anwendung am Menschen.`,
+    purity: "> 99 % HPLC (Spezifikation)",
+    appearance: "Lyophilisierter Feststoff im versiegelten Vial",
+    storage: "2–8 °C. Vor Licht schützen. Nicht einfrieren.",
     featured: true,
     image,
     variants,
@@ -289,41 +289,41 @@ function compound(slug: string, name: string, code: string, category: CategoryId
 export const articles: Article[] = [
   {
     slug: "what-a-coa-reports",
-    title: "What a certificate actually reports",
-    date: "12 March 2026",
-    kicker: "Quality",
-    excerpt: "A purity percentage is one line. Identity and method sit beside it.",
+    title: "Was ein Zertifikat tatsächlich ausweist",
+    date: "12. März 2026",
+    kicker: "Qualität",
+    excerpt: "Eine Reinheitszahl ist eine Zeile. Identität und Methode stehen daneben.",
     body: [
-      "A vial label can state a target purity. A certificate is the record that ties that figure to one method, one lot, and one identity test. A percentage on its own does not say which peak was measured, or whether the document belongs to the vial in your hand.",
-      "Read the certificate in this order: the compound name, the lot code, the method, the main-peak result, and the date. If any of those lines is missing, the page is a layout, not a finished report.",
-      "Novion lists chromatographic purity as a specification. The cards on the lab page are previews with placeholder lot numbers. A live certificate is attached to a lot only when that laboratory file is connected. Until then, the catalog does not treat a preview as an issued analysis.",
-      "The shop does not display ISO, GMP, FDA, Swissmedic, or other certification marks. A certificate of analysis is a lot record. It is not a license to use the material in people or animals.",
+      "Ein Vial-Etikett kann eine Zielreinheit nennen. Ein Zertifikat verbindet diese Zahl mit einer Methode, einer Charge und einem Identitätstest. Eine Prozentzahl allein sagt nicht, welcher Peak gemessen wurde und ob das Dokument zu dem Vial in der Hand gehört.",
+      "Lesen Sie das Zertifikat in dieser Reihenfolge: Verbindungsname, Chargencode, Methode, Hauptpeak und Datum. Fehlt eine dieser Zeilen, ist die Seite ein Layout und kein fertiger Bericht.",
+      "Novion führt die chromatographische Reinheit als Spezifikation. Die Karten auf der Laborseite sind Vorschauen mit Platzhalter-Chargen. Ein echtes Zertifikat hängt an einer Charge, sobald die Laborakte angebunden ist. Bis dahin gilt eine Vorschau nicht als ausgestellte Analyse.",
+      "Der Shop zeigt keine ISO-, GMP-, FDA-, Swissmedic- oder anderen Zertifizierungszeichen. Ein Analysenzertifikat ist eine Chargenakte. Es ist keine Erlaubnis, den Stoff an Menschen oder Tieren anzuwenden.",
     ],
   },
   {
     slug: "cold-chain-lyophilized",
-    title: "Why dry vials still travel cold",
-    date: "2 March 2026",
-    kicker: "Dispatch",
-    excerpt: "Lyophilized solids are still packed for a short, cold transit.",
+    title: "Warum trockene Vials trotzdem gekühlt reisen",
+    date: "2. März 2026",
+    kicker: "Versand",
+    excerpt: "Lyophilisierte Feststoffe werden für einen kurzen, kühlen Transport gepackt.",
     body: [
-      "The solid in the vial is lyophilized. It is dry, and it is still packed for a short transit in the range printed on the carton: store at 2–8 °C, and do not freeze.",
-      "Cold packing is about the labeled storage condition, not about turning the vial into a liquid. The outer carton is plain. The inner pack is what holds the temperature for the transit window.",
-      "On arrival, check the seal before you log the vial. A cracked cap, a wet label, or a carton that arrived open is a shipping problem. Write to the desk with the order number and photographs before you break the seal.",
-      "These notes describe how a research solid is packed and stored. They are not preparation instructions, and they are not a protocol for use.",
+      "Der Feststoff im Vial ist lyophilisiert. Er ist trocken und wird trotzdem für einen kurzen Transport im Bereich gepackt, der auf dem Karton steht: lagern bei 2–8 °C, nicht einfrieren.",
+      "Die Kühlpackung folgt der angegebenen Lagerbedingung. Sie macht das Vial nicht flüssig. Der Aussenkarton ist schlicht. Die Innenpackung hält die Temperatur für das Transportfenster.",
+      "Prüfen Sie bei Ankunft das Siegel, bevor Sie das Vial einbuchen. Eine gebrochene Kappe, ein nasses Etikett oder ein offen angekommener Karton ist ein Versandproblem. Schreiben Sie dem Desk mit Bestellnummer und Fotos, bevor Sie das Siegel öffnen.",
+      "Diese Notizen beschreiben Packung und Lagerung eines Forschungsfeststoffs. Sie sind keine Zubereitungsanleitung und kein Anwendungsprotokoll.",
     ],
   },
   {
     slug: "reading-a-batch-number",
-    title: "Read the batch number first",
-    date: "18 February 2026",
-    kicker: "Laboratory",
-    excerpt: "The lot code is the join between the vial, the carton, and any record that claims to describe them.",
+    title: "Zuerst die Chargennummer lesen",
+    date: "18. Februar 2026",
+    kicker: "Labor",
+    excerpt: "Der Chargencode verbindet Vial, Karton und jedes Dokument, das beides beschreiben will.",
     body: [
-      "Start with the batch number. It is printed on the vial and repeated on the carton. Those two codes have to match before any other line on a document is useful.",
-      "A certificate, a packing note, and a catalog specification can all name the same compound and still describe different fills. The batch number is what makes them the same object. If the codes differ, the document does not belong to that vial.",
-      "Keep the lot code with your laboratory record. Quote it if you write about a shipment, a seal, or a document. The desk cannot match a question to a fill from a compound name alone.",
-      "The previews in this catalog use placeholder lot numbers. They show where a batch record will sit. They are not results from an issued analysis.",
+      "Beginnen Sie mit der Chargennummer. Sie steht auf dem Vial und noch einmal auf dem Karton. Diese beiden Codes müssen übereinstimmen, bevor eine andere Zeile auf einem Dokument nützlich ist.",
+      "Ein Zertifikat, ein Lieferschein und eine Katalogspezifikation können dieselbe Verbindung nennen und trotzdem verschiedene Abfüllungen beschreiben. Die Chargennummer macht sie zum selben Gegenstand. Weichen die Codes ab, gehört das Dokument nicht zu diesem Vial.",
+      "Bewahren Sie den Chargencode in der Laborakte auf. Nennen Sie ihn, wenn Sie zu einer Sendung, einem Siegel oder einem Dokument schreiben. Der Desk kann eine Frage nicht allein über den Verbindungsnamen einer Abfüllung zuordnen.",
+      "Die Vorschauen in diesem Katalog verwenden Platzhalter-Chargen. Sie zeigen, wo eine Chargenakte stehen wird. Sie sind keine Ergebnisse einer ausgestellten Analyse.",
     ],
   },
 ];
@@ -398,10 +398,10 @@ export function getArticle(slug: string) {
 }
 
 export const faqs = [
-  { q: "How do I track an order?", a: "Sign in on the account page with the email you used at checkout. The order shows pending payment until the desk marks it paid, then packed, then shipped." },
-  { q: "Which currency do I see?", a: "Catalog prices are in Swiss francs. The secure payment page confirms the amount before you pay." },
-  { q: "Who takes payment?", a: "Checkout continues on the secure payment page. Card and supported local methods are handled there." },
-  { q: "Can I return a vial?", a: "You can withdraw before you unseal the vial, and you can report a wrong or damaged shipment. Opened research material is not taken back. Read Returns for the steps." },
-  { q: "Is this for human use?", a: "No. Every vial is labeled research use only. The shop does not provide preparation or dosing instructions." },
-  { q: "Are the vials certified?", a: "The site does not display ISO, GMP, FDA, Swissmedic, or other certification marks. A purity line is a specification until a laboratory report for that lot is attached." },
+  { q: "Wie verfolge ich eine Bestellung?", a: "Melden Sie sich auf der Kontoseite mit der E-Mail an, die Sie an der Kasse verwendet haben. Die Bestellung bleibt auf Zahlung ausstehend, bis der Desk sie als bezahlt, dann gepackt und dann versendet markiert." },
+  { q: "In welcher Währung stehen die Preise?", a: "Die Katalogpreise sind in Schweizer Franken. Die Zahlungsseite bestätigt den Betrag, bevor Sie zahlen." },
+  { q: "Wer nimmt die Zahlung entgegen?", a: "Die Kasse führt auf die gesicherte Zahlungsseite. Karte und die dort angebotenen Wege werden dort abgewickelt." },
+  { q: "Kann ich ein Vial zurückgeben?", a: "Sie können widerrufen, solange das Siegel ungeöffnet ist, und eine falsche oder beschädigte Sendung melden. Geöffnetes Forschungsmaterial wird nicht zurückgenommen. Die Schritte stehen unter Rückgabe." },
+  { q: "Ist das für die Anwendung am Menschen?", a: "Nein. Jedes Vial ist nur für die Forschung gekennzeichnet. Der Shop gibt keine Zubereitungs- oder Dosierungsanleitung." },
+  { q: "Sind die Vials zertifiziert?", a: "Die Seite zeigt keine ISO-, GMP-, FDA-, Swissmedic- oder anderen Zertifizierungszeichen. Eine Reinheitszeile ist eine Spezifikation, bis ein Laborbericht für diese Charge angebunden ist." },
 ];

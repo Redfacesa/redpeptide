@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Shop" };
 
 export default function ShopPage() {
   return (
-    <Suspense fallback={<div className="wrap pad">Loading catalog…</div>}>
+    <Suspense fallback={<div className="wrap pad">Katalog wird geladen…</div>}>
       <ShopBrowser />
     </Suspense>
   );

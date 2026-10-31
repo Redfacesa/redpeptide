@@ -14,13 +14,13 @@ export default function WishlistPage() {
   return (
     <div className="wrap pad">
       <div className="page-title">
-        <p className="eyebrow">Wishlist</p>
-        <h1>Saved compounds</h1>
+        <p className="eyebrow">Merkliste</p>
+        <h1>Gespeicherte Verbindungen</h1>
       </div>
       {items.length === 0 ? (
         <div className="empty" style={{ marginTop: 18 }}>
-          <p>Nothing saved yet. Use the heart on a compound card.</p>
-          <p style={{ marginTop: 12 }}><Link className="btn" href="/shop">Browse the catalog</Link></p>
+          <p>Noch nichts gemerkt. Nutzen Sie das Herz auf einer Karte.</p>
+          <p style={{ marginTop: 12 }}><Link className="btn" href="/shop">Zum Shop</Link></p>
         </div>
       ) : (
         <div className="grid" style={{ marginTop: 18 }}>

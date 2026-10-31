@@ -7,10 +7,10 @@ import { ProductCard } from "@/components/product-card";
 import { useStore } from "@/components/store";
 
 const sorts = [
-  { id: "featured", label: "Featured" },
+  { id: "featured", label: "Empfohlen" },
   { id: "name", label: "Name" },
-  { id: "price-asc", label: "Price, low" },
-  { id: "price-desc", label: "Price, high" },
+  { id: "price-asc", label: "Preis aufsteigend" },
+  { id: "price-desc", label: "Preis absteigend" },
 ] as const;
 
 export function ShopBrowser() {
@@ -44,7 +44,7 @@ export function ShopBrowser() {
       return categoryOk && textOk && stockOk;
     });
     list = [...list].sort((a, b) => {
-      if (sort === "name") return a.name.localeCompare(b.name);
+      if (sort === "name") return a.name.localeCompare(b.name, "de");
       if (sort === "price-asc") return Math.min(...a.variants.map((v) => v.price)) - Math.min(...b.variants.map((v) => v.price));
       if (sort === "price-desc") return Math.min(...b.variants.map((v) => v.price)) - Math.min(...a.variants.map((v) => v.price));
       return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
@@ -52,53 +52,47 @@ export function ShopBrowser() {
     return list;
   }, [category, query, sort, availableOnly, store]);
 
+  const visible = categories.filter((item) => store.catalog.some((product) => product.category === item.id));
+
   return (
-    <div className="wrap pad">
-      <div className="page-title">
-        <p className="eyebrow">Catalog</p>
-        <h1>Research peptides</h1>
-        <p className="lede">Only the vial sizes with a Novion photograph are listed.</p>
+    <div className="wrap storefront">
+      <div className="store-head">
+        <h1>Shop</h1>
+        <span className="muted">{items.length} Verbindungen</span>
       </div>
-      <div className="layout">
-        <aside className="filters">
-          <h2>Category</h2>
-          <button className={`chip ${category === "all" ? "on" : ""}`} onClick={() => chooseCategory("all")}>All</button>
-          {categories.filter((item) => store.catalog.some((product) => product.category === item.id)).map((item) => (
-            <button
-              key={item.id}
-              className={`chip ${category === item.id ? "on" : ""}`}
-              onClick={() => chooseCategory(item.id as CategoryId)}
-            >
-              {item.name}
-            </button>
+      <div className="chip-rail" aria-label="Kategorien">
+        <button className={`chip ${category === "all" ? "on" : ""}`} onClick={() => chooseCategory("all")}>Alle</button>
+        {visible.map((item) => (
+          <button
+            key={item.id}
+            className={`chip ${category === item.id ? "on" : ""}`}
+            onClick={() => chooseCategory(item.id as CategoryId)}
+          >
+            {item.name}
+          </button>
+        ))}
+      </div>
+      <div className="toolbar">
+        <input className="search" placeholder="Suchen" value={query} onChange={(event) => setQuery(event.target.value)} aria-label="Katalog durchsuchen" />
+        <select className="field" style={{ width: "auto" }} value={sort} onChange={(event) => setSort(event.target.value as typeof sort)} aria-label="Sortierung">
+          {sorts.map((item) => (
+            <option key={item.id} value={item.id}>{item.label}</option>
           ))}
-          <h2>Availability</h2>
-          <label className="check">
-            <input type="checkbox" checked={availableOnly} onChange={(event) => setAvailableOnly(event.target.checked)} />
-            In stock only
-          </label>
-        </aside>
-        <div>
-          <div className="toolbar">
-            <input className="search" placeholder="Search the catalog" value={query} onChange={(event) => setQuery(event.target.value)} />
-            <select className="field" style={{ width: "auto" }} value={sort} onChange={(event) => setSort(event.target.value as typeof sort)} aria-label="Sort">
-              {sorts.map((item) => (
-                <option key={item.id} value={item.id}>{item.label}</option>
-              ))}
-            </select>
-            <span className="muted">{items.length} compounds</span>
-          </div>
-          {items.length === 0 ? (
-            <div className="empty">Nothing matches those filters.</div>
-          ) : (
-            <div className="grid">
-              {items.map((product) => (
-                <ProductCard key={product.slug} product={product} />
-              ))}
-            </div>
-          )}
-        </div>
+        </select>
+        <label className="check">
+          <input type="checkbox" checked={availableOnly} onChange={(event) => setAvailableOnly(event.target.checked)} />
+          Auf Lager
+        </label>
       </div>
+      {items.length === 0 ? (
+        <div className="empty">Nichts passt zu dieser Auswahl.</div>
+      ) : (
+        <div className="grid">
+          {items.map((product) => (
+            <ProductCard key={product.slug} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -10,6 +10,30 @@ import { useStore } from "@/components/store";
 
 type Method = "standard" | "express";
 
+const countryNames: Record<string, string> = {
+  Australia: "Australien",
+  Austria: "Österreich",
+  Belgium: "Belgien",
+  Canada: "Kanada",
+  France: "Frankreich",
+  Germany: "Deutschland",
+  Ireland: "Irland",
+  Italy: "Italien",
+  Japan: "Japan",
+  Netherlands: "Niederlande",
+  "New Zealand": "Neuseeland",
+  Norway: "Norwegen",
+  Singapore: "Singapur",
+  "South Africa": "Südafrika",
+  Spain: "Spanien",
+  Sweden: "Schweden",
+  Switzerland: "Schweiz",
+  "United Arab Emirates": "Vereinigte Arabische Emirate",
+  "United Kingdom": "Vereinigtes Königreich",
+  "United States": "Vereinigte Staaten",
+  Other: "Anderes Land",
+};
+
 export default function CheckoutPage() {
   const store = useStore();
   const { format } = useMoney();
@@ -29,7 +53,7 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    document.title = "Checkout · Novion Biopharma";
+    document.title = "Kasse · Novion Biopharma";
     if (!store.profile) return;
     setForm((current) => ({
       ...current,
@@ -51,7 +75,7 @@ export default function CheckoutPage() {
   const delivery = shippingCost(subtotal, method);
 
   if (!store.ready) {
-    return <div className="wrap pad">Loading checkout…</div>;
+    return <div className="wrap pad">Kasse wird geladen…</div>;
   }
 
   function update(key: keyof typeof form, value: string) {
@@ -61,24 +85,24 @@ export default function CheckoutPage() {
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (lines.length === 0) {
-      setError("Add a compound before checkout.");
+      setError("Legen Sie eine Verbindung in den Warenkorb.");
       return;
     }
     const email = store.profile?.email || form.email;
     if (!form.name || !email.includes("@") || !form.line1 || !form.city || !form.postcode) {
-      setError("Name, a valid email, and a full address are required.");
+      setError("Name, eine gültige E-Mail und eine vollständige Adresse sind erforderlich.");
       return;
     }
     if (!form.country) {
-      setError("Choose a country.");
+      setError("Wählen Sie ein Land.");
       return;
     }
     if (!research) {
-      setError("Confirm the research-use statement to continue.");
+      setError("Bestätigen Sie den Forschungshinweis, um fortzufahren.");
       return;
     }
     if (!store.token) {
-      setError("Sign in so this order can be tracked.");
+      setError("Melden Sie sich an, damit die Bestellung verfolgt werden kann.");
       return;
     }
     setPaying(true);
@@ -104,7 +128,7 @@ export default function CheckoutPage() {
     const savedBody = (await saved.json().catch(() => ({}))) as { message?: string; order?: { id: string; total: number; email: string; lines: { name: string; variant: string; qty: number; price: number; sku: string }[] } };
     if (!saved.ok || !savedBody.order) {
       setPaying(false);
-      setError(savedBody.message || "The order could not be saved.");
+      setError(savedBody.message || "Die Bestellung konnte nicht gespeichert werden.");
       return;
     }
     const order = savedBody.order;
@@ -158,10 +182,10 @@ export default function CheckoutPage() {
   if (lines.length === 0) {
     return (
       <div className="wrap pad">
-        <h1>Checkout</h1>
+        <h1>Kasse</h1>
         <div className="empty" style={{ marginTop: 16 }}>
-          <p>Your cart is empty.</p>
-          <p style={{ marginTop: 12 }}><Link className="btn" href="/shop">Return to the shop</Link></p>
+          <p>Ihr Warenkorb ist leer.</p>
+          <p style={{ marginTop: 12 }}><Link className="btn" href="/shop">Zurück zum Shop</Link></p>
         </div>
       </div>
     );
@@ -170,62 +194,62 @@ export default function CheckoutPage() {
   return (
     <div className="wrap pad">
       <div className="page-title">
-        <p className="eyebrow">Checkout</p>
-        <h1>Delivery details</h1>
-        <p className="lede">Delivery details for a Novion laboratory order. The payment page confirms the amount before you pay.</p>
+        <p className="eyebrow">Kasse</p>
+        <h1>Lieferung</h1>
+        <p className="lede">Lieferangaben für eine Laborbestellung. Die Zahlungsseite bestätigt den Betrag, bevor Sie zahlen.</p>
       </div>
       <form className="split" style={{ marginTop: 18 }} onSubmit={submit}>
         <div className="form">
           {!store.profile && (
             <p className="notice">
-              <Link href="/account" onClick={() => sessionStorage.setItem("nv-next", "/checkout")}>Sign in or create an account</Link> before paying. That account is how you track the order.
+              <Link href="/account" onClick={() => sessionStorage.setItem("nv-next", "/checkout")}>Melden Sie sich an oder erstellen Sie ein Konto</Link>, bevor Sie zahlen. Über dieses Konto verfolgen Sie die Bestellung.
             </p>
           )}
           <div className="form-row">
-            <label>Full name<input className="field" value={form.name} onChange={(event) => update("name", event.target.value)} required /></label>
-            <label>Email<input className="field" type="email" value={store.profile?.email || form.email} readOnly={Boolean(store.profile)} onChange={(event) => update("email", event.target.value)} required /></label>
+            <label>Name<input className="field" value={form.name} onChange={(event) => update("name", event.target.value)} required /></label>
+            <label>E-Mail<input className="field" type="email" value={store.profile?.email || form.email} readOnly={Boolean(store.profile)} onChange={(event) => update("email", event.target.value)} required /></label>
           </div>
-          <label>Address<input className="field" value={form.line1} onChange={(event) => update("line1", event.target.value)} required /></label>
+          <label>Adresse<input className="field" value={form.line1} onChange={(event) => update("line1", event.target.value)} required /></label>
           <div className="form-row">
-            <label>City<input className="field" value={form.city} onChange={(event) => update("city", event.target.value)} required /></label>
-            <label>Postcode<input className="field" value={form.postcode} onChange={(event) => update("postcode", event.target.value)} required /></label>
+            <label>Ort<input className="field" value={form.city} onChange={(event) => update("city", event.target.value)} required /></label>
+            <label>PLZ<input className="field" value={form.postcode} onChange={(event) => update("postcode", event.target.value)} required /></label>
           </div>
           <label>
-            Country
+            Land
             <select className="field" value={form.country} onChange={(event) => update("country", event.target.value)} required>
-              <option value="">Select country</option>
+              <option value="">Land wählen</option>
               {countries.map((country) => (
-                <option key={country}>{country}</option>
+                <option key={country} value={country}>{countryNames[country] ?? country}</option>
               ))}
             </select>
           </label>
-          <label>Note for the lab (optional)<textarea className="field" rows={3} value={form.note} onChange={(event) => update("note", event.target.value)} /></label>
+          <label>Hinweis für das Labor (optional)<textarea className="field" rows={3} value={form.note} onChange={(event) => update("note", event.target.value)} /></label>
           <fieldset style={{ border: 0, padding: 0, display: "grid", gap: 8 }}>
-            <legend className="eyebrow">Delivery</legend>
-            <label className="check"><input type="radio" name="ship" checked={method === "standard"} onChange={() => setMethod("standard")} /> Standard, 2–4 days · {shippingCost(subtotal, "standard") === 0 ? "Free" : format(shippingCost(subtotal, "standard"))}</label>
-            <label className="check"><input type="radio" name="ship" checked={method === "express"} onChange={() => setMethod("express")} /> Express, 1–2 days · {format(shippingCost(subtotal, "express"))}</label>
+            <legend className="eyebrow">Versand</legend>
+            <label className="check"><input type="radio" name="ship" checked={method === "standard"} onChange={() => setMethod("standard")} /> Standard, 2–4 Tage · {shippingCost(subtotal, "standard") === 0 ? "Kostenlos" : format(shippingCost(subtotal, "standard"))}</label>
+            <label className="check"><input type="radio" name="ship" checked={method === "express"} onChange={() => setMethod("express")} /> Express, 1–2 Tage · {format(shippingCost(subtotal, "express"))}</label>
           </fieldset>
           <label className="check">
             <input type="checkbox" checked={research} onChange={(event) => setResearch(event.target.checked)} />
-            I am 18 or older and I am ordering for laboratory research, not for human or veterinary use. I have read the terms, the returns policy, and the research notice.
+            Ich bin 18 oder älter und bestelle für die Laborforschung, nicht zur Anwendung an Mensch oder Tier. Ich habe die AGB, die Rückgabe und den Forschungshinweis gelesen.
           </label>
           {error && <p className="error">{error}</p>}
-          <button className="btn" type="submit" disabled={paying}>{paying ? "Opening payment…" : "Continue to payment"}</button>
-          <p className="muted">By continuing you accept the <Link href="/legal/terms">terms</Link>, <Link href="/legal/returns">returns</Link>, and <Link href="/research-use">research notice</Link>.</p>
+          <button className="btn" type="submit" disabled={paying}>{paying ? "Zahlung wird geöffnet…" : "Weiter zur Zahlung"}</button>
+          <p className="muted">Mit dem Weitergehen akzeptieren Sie die <Link href="/legal/terms">AGB</Link>, die <Link href="/legal/returns">Rückgabe</Link> und den <Link href="/research-use">Forschungshinweis</Link>.</p>
         </div>
         <aside className="summary">
           <p className="brand brand-lockup" style={{ marginBottom: 14 }}><span className="brand-mark">N</span>Novion</p>
-          <p className="muted" style={{ marginTop: -8, marginBottom: 14 }}>Biopharma · Geneva · research use only</p>
-          <h2>Order</h2>
+          <p className="muted" style={{ marginTop: -8, marginBottom: 14 }}>Biopharma · Genf · nur für die Forschung</p>
+          <h2>Bestellung</h2>
           {lines.map(({ line, product, variant }) => (
             <div className="row" key={`${line.slug}-${line.variantId}`}>
               <span>{product.name} · {variant.label} × {line.qty}</span>
               <span>{format(variant.price * line.qty)}</span>
             </div>
           ))}
-          <div className="row"><span>Delivery</span><span>{delivery === 0 ? "Free" : format(delivery)}</span></div>
+          <div className="row"><span>Versand</span><span>{delivery === 0 ? "Kostenlos" : format(delivery)}</span></div>
           <div className="row total"><span>Total</span><strong>{format(subtotal + delivery)}</strong></div>
-          <p className="muted">The figures above follow the country this browser opened from. The payment page confirms the amount.</p>
+          <p className="muted">Die Beträge sind in Schweizer Franken. Die Zahlungsseite bestätigt die Summe.</p>
         </aside>
       </form>
     </div>

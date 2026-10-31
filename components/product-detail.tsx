@@ -34,7 +34,7 @@ export function ProductDetail({ product: source }: { product: Product }) {
         </div>
         <div>
           <p className="crumbs">
-            <Link href="/shop">Shop</Link> / <Link href={`/shop?cat=${category.id}`}>{category.name}</Link> / {product.name}
+            <Link href="/shop">Shop</Link> / <Link href={`/shop?cat=${category.id}`}>{category.name}</Link>
           </p>
           <p className="eyebrow">{category.name}</p>
           <h1>{product.name}</h1>
@@ -43,9 +43,9 @@ export function ProductDetail({ product: source }: { product: Product }) {
           <div className="specs">
             <span>{product.purity}</span>
             <span>{variant.sku}</span>
-            <span>{variant.stock > 0 ? `${variant.stock} in stock` : "Out of stock"}</span>
+            <span>{variant.stock > 0 ? `${variant.stock} auf Lager` : "Nicht auf Lager"}</span>
           </div>
-          <p className="eyebrow">Size</p>
+          <p className="eyebrow">Grösse</p>
           <div className="option-row">
             {product.variants.map((item) => (
               <button
@@ -58,15 +58,15 @@ export function ProductDetail({ product: source }: { product: Product }) {
                 }}
               >
                 <strong>{item.label}</strong>
-                <small>{item.stock > 0 ? format(item.price) : "Unavailable"}</small>
+                <small>{item.stock > 0 ? format(item.price) : "Nicht verfügbar"}</small>
               </button>
             ))}
           </div>
           <div className="buy">
             <div className="qty">
-              <button aria-label="Decrease quantity" onClick={() => setQty((value) => Math.max(1, value - 1))}>−</button>
+              <button aria-label="Menge verringern" onClick={() => setQty((value) => Math.max(1, value - 1))}>−</button>
               <input
-                aria-label="Quantity"
+                aria-label="Menge"
                 value={qty}
                 onChange={(event) => {
                   const next = Number(event.target.value);
@@ -74,7 +74,7 @@ export function ProductDetail({ product: source }: { product: Product }) {
                 }}
               />
               <button
-                aria-label="Increase quantity"
+                aria-label="Menge erhöhen"
                 onClick={() => setQty((value) => Math.min(variant.stock || 1, value + 1))}
               >
                 +
@@ -85,14 +85,14 @@ export function ProductDetail({ product: source }: { product: Product }) {
               disabled={variant.stock <= 0}
               onClick={() => store.add(product.slug, variant.id, qty)}
             >
-              {variant.stock > 0 ? "Add to cart" : "Out of stock"}
+              {variant.stock > 0 ? "In den Warenkorb" : "Nicht auf Lager"}
             </button>
             <button className="btn secondary" onClick={() => store.toggleWish(product.slug)}>
-              {wished ? "Saved" : "Save"}
+              {wished ? "Gemerkt" : "Merken"}
             </button>
           </div>
           <div className="notice">
-            For laboratory research only. Not for human or veterinary use. No diluent or administration guidance is included.
+            Nur für die Laborforschung. Nicht zur Anwendung an Mensch oder Tier. Keine Anleitung zu Lösungsmittel oder Anwendung.
           </div>
         </div>
       </div>
@@ -100,9 +100,9 @@ export function ProductDetail({ product: source }: { product: Product }) {
       <div className="tabs" role="tablist">
         {(
           [
-            ["overview", "Overview"],
-            ["spec", "Specification"],
-            ["handling", "Handling"],
+            ["overview", "Überblick"],
+            ["spec", "Spezifikation"],
+            ["handling", "Handhabung"],
           ] as const
         ).map(([id, label]) => (
           <button key={id} className={`chip ${tab === id ? "on" : ""}`} onClick={() => setTab(id)} role="tab" aria-selected={tab === id}>
@@ -115,20 +115,20 @@ export function ProductDetail({ product: source }: { product: Product }) {
         {tab === "spec" && (
           <table className="table">
             <tbody>
-              <tr><th>Catalog name</th><td>{product.name}</td></tr>
-              <tr><th>Size</th><td>{variant.label}</td></tr>
+              <tr><th>Katalogname</th><td>{product.name}</td></tr>
+              <tr><th>Grösse</th><td>{variant.label}</td></tr>
               <tr><th>SKU</th><td>{variant.sku}</td></tr>
-              <tr><th>Purity specification</th><td>{product.purity}</td></tr>
-              <tr><th>Appearance</th><td>{product.appearance}</td></tr>
-              <tr><th>Form</th><td>Lyophilized solid</td></tr>
-              <tr><th>Storage</th><td>{product.storage}</td></tr>
-              <tr><th>Intended use</th><td>Laboratory research</td></tr>
+              <tr><th>Reinheit</th><td>{product.purity}</td></tr>
+              <tr><th>Aussehen</th><td>{product.appearance}</td></tr>
+              <tr><th>Form</th><td>Lyophilisierter Feststoff</td></tr>
+              <tr><th>Lagerung</th><td>{product.storage}</td></tr>
+              <tr><th>Zweck</th><td>Laborforschung</td></tr>
             </tbody>
           </table>
         )}
         {tab === "handling" && (
           <p>
-            Keep the seal intact until the lot code has been matched to its certificate. {product.storage} Let the vial reach room temperature before opening so condensate does not enter the cake. This page does not describe reconstitution or dosing.
+            Lassen Sie das Siegel geschlossen, bis der Chargencode zum Zertifikat passt. {product.storage} Lassen Sie das Vial vor dem Öffnen Raumtemperatur annehmen, damit kein Kondensat in den Kuchen gelangt. Diese Seite beschreibt weder Rekonstitution noch Dosierung.
           </p>
         )}
       </div>
@@ -136,7 +136,7 @@ export function ProductDetail({ product: source }: { product: Product }) {
       {related.length > 0 && (
         <section className="section">
           <div className="section-head">
-            <h2>Related</h2>
+            <h2>Dazu passend</h2>
           </div>
           <div className="grid">
             {related.map((item) => (

@@ -131,7 +131,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         const variant = product && getVariant(product, variantId);
         if (!product || !variant) return;
         if (variant.stock <= 0) {
-          setToast(`${product.name} ${variant.label} is out of stock`);
+          setToast(`${product.name} ${variant.label} ist nicht auf Lager`);
           return;
         }
         setCart((current) => {
@@ -145,7 +145,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           else next.push({ slug, variantId, qty: desired });
           return next;
         });
-        setToast(`${product.name} ${variant.label} added to cart`);
+        setToast(`${product.name} ${variant.label} liegt im Warenkorb`);
       },
       setQty: (slug, variantId, qty) => {
         const product = findProduct(slug);
@@ -182,7 +182,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       profile,
       saveProfile: (next) => {
         setProfile(next);
-        setToast("Profile saved on this browser");
+        setToast("Profil in diesem Browser gespeichert");
       },
       signInCustomer: async (email, password) => {
         const session = await requestCustomerSession(email, password);
@@ -198,7 +198,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       signUpCustomer: async (name, email, password) => {
         const session = await requestCustomerAccount(name, email, password);
         if ("error" in session) return session.error;
-        if ("confirm" in session) return "Check your email to confirm the account, then sign in.";
+        if ("confirm" in session) return "Prüfen Sie Ihre E-Mail, bestätigen Sie das Konto und melden Sie sich dann an.";
         localStorage.setItem(customerTokenKey, session.token);
         setToken(session.token);
         setProfile({ name: session.name, email: session.email });

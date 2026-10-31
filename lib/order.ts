@@ -3,11 +3,11 @@ export const orderStatuses = ["pending", "paid", "packed", "shipped", "cancelled
 export type OrderStatus = (typeof orderStatuses)[number];
 
 export const statusLabel: Record<OrderStatus, string> = {
-  pending: "Pending payment",
-  paid: "Paid",
-  packed: "Packed",
-  shipped: "Shipped",
-  cancelled: "Cancelled",
+  pending: "Zahlung ausstehend",
+  paid: "Bezahlt",
+  packed: "Gepackt",
+  shipped: "Versendet",
+  cancelled: "Storniert",
 };
 
 export type OrderLine = {

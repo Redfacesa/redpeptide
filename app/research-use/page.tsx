@@ -2,26 +2,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Research notice",
-  description: "Novion Biopharma compounds are for laboratory research by adults. Not for human or veterinary use.",
+  title: "Forschungshinweis",
+  description: "Verbindungen von Novion Biopharma sind für die Laborforschung durch Erwachsene. Nicht zur Anwendung an Mensch oder Tier.",
 };
 
 export default function ResearchPage() {
   return (
     <article className="wrap pad prose">
-      <p className="eyebrow">Notice</p>
-      <h1>Laboratory research only</h1>
+      <p className="eyebrow">Hinweis</p>
+      <h1>Nur Laborforschung</h1>
       <p>
-        Novion Biopharma lists lyophilized research solids for analytical and in-vitro laboratory work by adults aged 18 or older.
+        Novion Biopharma listet lyophilisierte Forschungsfeststoffe für analytische und In-vitro-Arbeit durch Personen ab 18 Jahren.
       </p>
       <p>
-        They are not medicines, foods, cosmetics, or veterinary products. They are not offered for human or animal administration. This site does not publish preparation, injection, or dosing instructions, and nothing here is medical advice.
+        Es sind keine Arzneimittel, Lebensmittel, Kosmetika oder Tierarzneimittel. Sie werden nicht zur Anwendung an Mensch oder Tier angeboten. Diese Seite veröffentlicht keine Anleitung zu Zubereitung, Injektion oder Dosierung, und nichts davon ist medizinische Beratung.
       </p>
       <p>
-        You are responsible for the rules that apply to your laboratory and to the country where the vial will be delivered. A purity line on a product page is a specification, not a certificate, until a report for that lot is attached.
+        Sie sind verantwortlich für die Regeln Ihres Labors und des Landes, in das das Vial geliefert wird. Eine Reinheitszeile auf einer Produktseite ist eine Spezifikation, kein Zertifikat, bis ein Bericht für diese Charge angebunden ist.
       </p>
       <p>
-        Read the <Link href="/legal/terms">terms</Link>, <Link href="/legal/shipping">shipping</Link>, and <Link href="/legal/returns">returns</Link> pages before you pay.
+        Lesen Sie vor der Zahlung die <Link href="/legal/terms">AGB</Link>, den <Link href="/legal/shipping">Versand</Link> und die <Link href="/legal/returns">Rückgabe</Link>.
       </p>
     </article>
   );

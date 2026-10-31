@@ -8,15 +8,15 @@ export default function ContactPage() {
   return (
     <div className="wrap pad">
       <div className="page-title">
-        <p className="eyebrow">Contact</p>
-        <h1>Write to the desk</h1>
-        <p className="lede">Questions about a lot, a shipment, or a document. This form stores nothing on a server yet — it confirms on screen only.</p>
+        <p className="eyebrow">Kontakt</p>
+        <h1>Schreiben Sie dem Desk</h1>
+        <p className="lede">Fragen zu einer Charge, einer Sendung oder einem Dokument. Dieses Formular speichert noch nichts auf einem Server. Es bestätigt nur auf dem Bildschirm.</p>
       </div>
       <div className="split" style={{ marginTop: 20 }}>
         {sent ? (
           <div className="panel">
-            <h2 style={{ fontSize: 36 }}>Message noted.</h2>
-            <p className="muted">In the live store this will reach the desk by email. For now it stays in the browser session.</p>
+            <h2 style={{ fontSize: 36 }}>Nachricht notiert.</h2>
+            <p className="muted">Im laufenden Shop erreicht sie den Desk per E-Mail. Vorerst bleibt sie in dieser Browser-Sitzung.</p>
           </div>
         ) : (
           <form
@@ -27,23 +27,23 @@ export default function ContactPage() {
             }}
           >
             <label>Name<input className="field" name="name" required /></label>
-            <label>Email<input className="field" type="email" name="email" required /></label>
-            <label>Topic
-              <select className="field" name="topic" defaultValue="Order">
-                <option>Order</option>
-                <option>Certificate</option>
-                <option>Wholesale</option>
-                <option>Something else</option>
+            <label>E-Mail<input className="field" type="email" name="email" required /></label>
+            <label>Thema
+              <select className="field" name="topic" defaultValue="Bestellung">
+                <option>Bestellung</option>
+                <option>Zertifikat</option>
+                <option>Grossmenge</option>
+                <option>Etwas anderes</option>
               </select>
             </label>
-            <label>Message<textarea className="field" name="message" rows={5} required /></label>
-            <button className="btn" type="submit">Send message</button>
+            <label>Nachricht<textarea className="field" name="message" rows={5} required /></label>
+            <button className="btn" type="submit">Nachricht senden</button>
           </form>
         )}
         <aside className="summary">
           <h2>Desk</h2>
-          <p>Geneva · Switzerland</p>
-          <p className="muted">Research correspondence only. We do not advise on human use, preparation, or dose.</p>
+          <p>Genf · Schweiz</p>
+          <p className="muted">Nur Forschungskorrespondenz. Wir beraten nicht zu Anwendung am Menschen, Zubereitung oder Dosis.</p>
         </aside>
       </div>
     </div>

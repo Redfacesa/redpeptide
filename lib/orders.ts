@@ -64,10 +64,10 @@ export async function createOrder(input: {
   const country = clean(input.country || "", 80);
   const note = clean(input.note || "", 400);
   const shipping = input.shipping === "express" ? "express" : input.shipping === "standard" ? "standard" : "";
-  if (!name || !line1 || !city || !postcode || !shipping) return { error: "A name and a full address are required." };
-  if (!countries.includes(country)) return { error: "Choose a country." };
+  if (!name || !line1 || !city || !postcode || !shipping) return { error: "Name und vollständige Adresse sind erforderlich." };
+  if (!countries.includes(country)) return { error: "Wählen Sie ein Land." };
   if (!Array.isArray(input.lines) || input.lines.length === 0 || input.lines.length > 20) {
-    return { error: "Add a compound before checkout." };
+    return { error: "Legen Sie eine Verbindung in den Warenkorb." };
   }
 
   const catalog = await readMergedCatalog();
@@ -78,9 +78,9 @@ export async function createOrder(input: {
     const qty = Math.floor(Number(raw.qty) || 0);
     const product = catalog.find((item) => item.slug === slug);
     const variant = product?.variants.find((item) => item.id === variantId);
-    if (!product || !variant) return { error: "A compound in the cart is no longer listed." };
-    if (qty < 1 || qty > 20) return { error: "Check the quantity before checkout." };
-    if (qty > variant.stock) return { error: `${product.name} ${variant.label} does not have enough stock.` };
+    if (!product || !variant) return { error: "Eine Verbindung im Warenkorb ist nicht mehr gelistet." };
+    if (qty < 1 || qty > 20) return { error: "Prüfen Sie die Menge vor der Kasse." };
+    if (qty > variant.stock) return { error: `${product.name} ${variant.label} ist nicht in dieser Menge auf Lager.` };
     lines.push({
       slug,
       variantId,
@@ -121,7 +121,7 @@ export async function createOrder(input: {
     total: subtotal + shippingCostValue,
   };
   const saved = await writeOrders([order, ...orders]);
-  if (!saved) return { error: "The order store is not connected." };
+  if (!saved) return { error: "Die Bestellung konnte nicht gespeichert werden." };
   return order;
 }
 

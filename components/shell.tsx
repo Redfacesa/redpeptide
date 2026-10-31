@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { getVariant } from "@/lib/catalog";
+import { categories, getVariant } from "@/lib/catalog";
 import { FREE_SHIPPING_AT } from "@/lib/format";
 import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
@@ -11,10 +11,7 @@ import { useStore } from "@/components/store";
 
 const links = [
   { href: "/shop", label: "Shop" },
-  { href: "/quality", label: "Quality" },
-  { href: "/lab-reports", label: "Lab reports" },
-  { href: "/calculator", label: "Calculator" },
-  { href: "/journal", label: "Journal" },
+  { href: "/quality", label: "Qualität" },
 ];
 
 export function Shell({ children }: { children: React.ReactNode }) {
@@ -83,9 +80,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
   if (blocked) {
     return (
       <main className="wrap pad prose">
-        <p className="eyebrow">Research catalog</p>
-        <h1>This site is for adults.</h1>
-        <p>Novion Biopharma lists laboratory materials for people 18 and older.</p>
+        <p className="eyebrow">Forschungskatalog</p>
+        <h1>Diese Seite ist für Erwachsene.</h1>
+        <p>Novion Biopharma listet Laborstoffe für Personen ab 18 Jahren.</p>
       </main>
     );
   }
@@ -93,11 +90,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="announce">
-        Research use only · 18+ · Laboratory catalog · Geneva
+        Nur für die Forschung · Ab 18 Jahren
       </div>
       <header className="header">
         <div className="wrap header-row">
-          <button className="icon-btn menu-btn" aria-label="Open menu" onClick={() => setMenuOpen((open) => !open)}>
+          <button className="icon-btn menu-btn" aria-label="Menü öffnen" onClick={() => setMenuOpen((open) => !open)}>
             <MenuIcon />
           </button>
           <Link href="/" className="brand brand-lockup" aria-label="Novion Biopharma home">
@@ -118,19 +115,19 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div className="tools">
             <button className="search-launch" onClick={() => setSearchOpen(true)}>
               <SearchIcon />
-              <span>Search</span>
+              <span>Suchen</span>
             </button>
-            <button className="icon-btn search-icon" aria-label="Search catalog" onClick={() => setSearchOpen(true)}>
+            <button className="icon-btn search-icon" aria-label="Katalog durchsuchen" onClick={() => setSearchOpen(true)}>
               <SearchIcon />
             </button>
-            <Link className="icon-btn" href="/account" aria-label="Account">
+            <Link className="icon-btn" href="/account" aria-label="Konto">
               <UserIcon />
             </Link>
-            <Link className="icon-btn" href="/wishlist" aria-label="Wishlist">
+            <Link className="icon-btn" href="/wishlist" aria-label="Merkliste">
               <HeartIcon />
               {store.wishlist.length > 0 && <span className="badge">{store.wishlist.length}</span>}
             </Link>
-            <button className="icon-btn" aria-label="Open cart" onClick={() => setCartOpen(true)}>
+            <button className="icon-btn" aria-label="Warenkorb öffnen" onClick={() => setCartOpen(true)}>
               <BagIcon />
               {store.cartCount > 0 && <span className="badge">{store.cartCount}</span>}
             </button>
@@ -142,8 +139,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
               {link.label}
             </Link>
           ))}
-          <Link href="/contact">Contact</Link>
-          <Link href="/help">Help</Link>
+          <Link href="/contact">Kontakt</Link>
+          <Link href="/help">Hilfe</Link>
         </div>
       </header>
       <main>{children}</main>
@@ -152,54 +149,54 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div>
             <Link href="/" className="brand brand-lockup"><span className="brand-mark">N</span>Novion</Link>
             <p style={{ marginTop: 12 }}>
-              Research vials from Novion Biopharma, Geneva. Catalog prices are in Swiss francs.
+              Forschungsvials von Novion Biopharma, Genf. Preise in Schweizer Franken.
             </p>
           </div>
           <div>
-            <h3>Catalog</h3>
-            <Link href="/shop">All compounds</Link>
-            {store.catalog.map((product) => (
-              <Link key={product.slug} href={`/product/${product.slug}`}>{product.name}</Link>
+            <h3>Katalog</h3>
+            <Link href="/shop">Alle Verbindungen</Link>
+            {categories.filter((category) => store.catalog.some((product) => product.category === category.id)).map((category) => (
+              <Link key={category.id} href={`/shop?cat=${category.id}`}>{category.name}</Link>
             ))}
           </div>
           <div>
-            <h3>Laboratory</h3>
-            <Link href="/quality">Quality standard</Link>
-            <Link href="/lab-reports">Lab reports</Link>
-            <Link href="/calculator">Concentration calculator</Link>
+            <h3>Labor</h3>
+            <Link href="/quality">Qualitätsstandard</Link>
+            <Link href="/lab-reports">Laborberichte</Link>
+            <Link href="/calculator">Konzentrationsrechner</Link>
             <Link href="/journal">Journal</Link>
           </div>
           <div>
-            <h3>Company</h3>
-            <Link href="/contact">Contact</Link>
-            <Link href="/help">Help</Link>
-            <Link href="/legal/privacy">Privacy</Link>
-            <Link href="/legal/terms">Terms</Link>
-            <Link href="/legal/shipping">Shipping</Link>
-            <Link href="/legal/returns">Returns</Link>
+            <h3>Unternehmen</h3>
+            <Link href="/contact">Kontakt</Link>
+            <Link href="/help">Hilfe</Link>
+            <Link href="/legal/privacy">Datenschutz</Link>
+            <Link href="/legal/terms">AGB</Link>
+            <Link href="/legal/shipping">Versand</Link>
+            <Link href="/legal/returns">Rückgabe</Link>
             <Link href="/legal/cookies">Cookies</Link>
-            <Link href="/legal/imprint">Imprint</Link>
-            <Link href="/research-use">Research notice</Link>
-            <Link href="/withdraw">Withdraw an order</Link>
+            <Link href="/legal/imprint">Impressum</Link>
+            <Link href="/research-use">Forschungshinweis</Link>
+            <Link href="/withdraw">Widerruf</Link>
           </div>
         </div>
         <div className="wrap legal-line">
           <span>© {new Date().getFullYear()} Novion Biopharma</span>
-          <span>For laboratory research only. Not for human use.</span>
+          <span>Nur für die Laborforschung. Nicht zur Anwendung am Menschen.</span>
         </div>
       </footer>
 
       {store.ready && !store.ageOk && (
         <div className="overlay" role="presentation">
           <div className="modal" role="dialog" aria-modal="true" aria-labelledby="age-title">
-            <p className="eyebrow">Access notice</p>
-            <h2 id="age-title">Confirm you are 18 or older.</h2>
+            <p className="eyebrow">Zugang</p>
+            <h2 id="age-title">Bitte bestätigen Sie, dass Sie 18 oder älter sind.</h2>
             <p className="muted" style={{ margin: "10px 0 16px" }}>
-              Novion Biopharma lists research compounds for laboratory use. The catalog is limited to adults and does not provide medical advice or dosing guidance.
+              Novion Biopharma listet Forschungsstoffe für das Labor. Der Katalog ist Erwachsenen vorbehalten und enthält keine medizinische Beratung und keine Dosierung.
             </p>
             <div className="actions">
-              <button className="btn secondary" onClick={() => setBlocked(true)}>Leave</button>
-              <button className="btn" onClick={store.confirmAge}>Enter the catalog</button>
+              <button className="btn secondary" onClick={() => setBlocked(true)}>Verlassen</button>
+              <button className="btn" onClick={store.confirmAge}>Katalog öffnen</button>
             </div>
           </div>
         </div>
@@ -207,13 +204,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       {cartOpen && (
         <div className="overlay" onClick={() => setCartOpen(false)}>
-          <aside className="drawer" role="dialog" aria-modal="true" aria-label="Cart" onClick={(event) => event.stopPropagation()}>
+          <aside className="drawer" role="dialog" aria-modal="true" aria-label="Warenkorb" onClick={(event) => event.stopPropagation()}>
             <div className="row">
-              <h2>Cart</h2>
-              <button className="icon-btn" aria-label="Close cart" onClick={() => setCartOpen(false)}>✕</button>
+              <h2>Warenkorb</h2>
+              <button className="icon-btn" aria-label="Warenkorb schliessen" onClick={() => setCartOpen(false)}>✕</button>
             </div>
             {lines.length === 0 ? (
-              <div className="empty">Your cart is empty.</div>
+              <div className="empty">Ihr Warenkorb ist leer.</div>
             ) : (
               lines.map(({ line, product, variant }) => (
                 <div className="line" key={`${line.slug}-${line.variantId}`}>
@@ -222,23 +219,23 @@ export function Shell({ children }: { children: React.ReactNode }) {
                     <strong>{product.name}</strong>
                     <div className="muted">{variant.label} · {variant.sku}</div>
                     <div className="qty" style={{ marginTop: 8 }}>
-                      <button aria-label="Decrease quantity" onClick={() => store.setQty(line.slug, line.variantId, line.qty - 1)}>−</button>
-                      <input readOnly value={line.qty} aria-label="Quantity" />
-                      <button aria-label="Increase quantity" onClick={() => store.setQty(line.slug, line.variantId, line.qty + 1)}>+</button>
+                      <button aria-label="Menge verringern" onClick={() => store.setQty(line.slug, line.variantId, line.qty - 1)}>−</button>
+                      <input readOnly value={line.qty} aria-label="Menge" />
+                      <button aria-label="Menge erhöhen" onClick={() => store.setQty(line.slug, line.variantId, line.qty + 1)}>+</button>
                     </div>
                   </div>
                   <div className="line-side">
                     <strong>{format(variant.price * line.qty)}</strong>
-                    <button className="text-btn" onClick={() => store.remove(line.slug, line.variantId)}>Remove</button>
+                    <button className="text-btn" onClick={() => store.remove(line.slug, line.variantId)}>Entfernen</button>
                   </div>
                 </div>
               ))
             )}
-            <div className="row total"><span>Subtotal</span><strong>{format(subtotal)}</strong></div>
-            <p className="muted">Shipping is calculated at checkout. Free standard delivery from {format(FREE_SHIPPING_AT)}.</p>
+            <div className="row total"><span>Zwischensumme</span><strong>{format(subtotal)}</strong></div>
+            <p className="muted">Der Versand wird an der Kasse berechnet. Standardversand kostenlos ab {format(FREE_SHIPPING_AT)}.</p>
             <div className="actions" style={{ marginTop: 14 }}>
-              <Link className="btn secondary" href="/cart">View cart</Link>
-              <button className="btn" disabled={lines.length === 0} onClick={() => router.push("/checkout")}>Checkout</button>
+              <Link className="btn secondary" href="/cart">Warenkorb</Link>
+              <button className="btn" disabled={lines.length === 0} onClick={() => router.push("/checkout")}>Zur Kasse</button>
             </div>
           </aside>
         </div>
@@ -246,17 +243,17 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       {searchOpen && (
         <div className="overlay" onClick={() => setSearchOpen(false)}>
-          <div className="modal search-modal" role="dialog" aria-modal="true" aria-label="Search" onClick={(event) => event.stopPropagation()}>
+          <div className="modal search-modal" role="dialog" aria-modal="true" aria-label="Suche" onClick={(event) => event.stopPropagation()}>
             <input
               className="search"
               style={{ maxWidth: "none" }}
               autoFocus
-              placeholder="Search compounds"
+              placeholder="Verbindungen suchen"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
             <div style={{ marginTop: 8 }}>
-              {hits.length === 0 && <p className="muted">No matches.</p>}
+              {hits.length === 0 && <p className="muted">Keine Treffer.</p>}
               {hits.map((product) => (
                 <Link className="search-hit" key={product.slug} href={`/product/${product.slug}`}>
                   <span>
