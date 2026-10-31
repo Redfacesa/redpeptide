@@ -58,7 +58,7 @@ const pages = {
       {
         heading: "Price and payment",
         body: [
-          "The price shown in the catalog follows the currency for the country where you open the site. The payment page shows the amount again before you pay. A contract is formed when payment is accepted.",
+          "Catalog prices are in Swiss francs. The payment page shows the amount again before you pay. A contract is formed when payment is accepted.",
           "Novion may correct an obvious pricing error before dispatch and offer you a refund instead of shipping.",
         ],
       },

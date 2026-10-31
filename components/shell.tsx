@@ -152,7 +152,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div>
             <Link href="/" className="brand brand-lockup"><span className="brand-mark">N</span>Novion</Link>
             <p style={{ marginTop: 12 }}>
-              Research vials from Novion Biopharma, Geneva. Prices are shown in the currency of the country you open the catalog from.
+              Research vials from Novion Biopharma, Geneva. Catalog prices are in Swiss francs.
             </p>
           </div>
           <div>

@@ -208,7 +208,7 @@ export default function AdminPage() {
         <div className="page-title">
           <p className="eyebrow">Novion admin</p>
           <h1>Catalog sign in</h1>
-          <p className="lede">Prices on this catalog are in Swiss francs. Visitors outside Switzerland see a conversion.</p>
+          <p className="lede">Prices on this catalog are in Swiss francs.</p>
         </div>
         <form className="form panel" style={{ maxWidth: 420, marginTop: 18 }} onSubmit={signIn}>
           <label>

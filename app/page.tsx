@@ -16,7 +16,7 @@ export default async function HomePage() {
             <p className="eyebrow">Novion Biopharma · Geneva</p>
             <h1>Research compounds. Sealed and labeled.</h1>
             <p>
-              Sealed vials for laboratory work. Prices follow the currency where you open the catalog.
+              Sealed vials for laboratory work. Prices are in Swiss francs.
             </p>
             <div className="actions">
               <Link className="btn" href="/shop">View catalog</Link>
@@ -34,7 +34,7 @@ export default async function HomePage() {
           <div><strong>HPLC identity</strong><span>Method stated with the result</span></div>
           <div><strong>Cold dispatch</strong><span>Dry vials, short transit</span></div>
           <div><strong>Plain carton</strong><span>Discreet outer pack</span></div>
-          <div><strong>Your currency</strong><span>Shown for the country you open from</span></div>
+          <div><strong>Swiss francs</strong><span>Catalog prices are in CHF</span></div>
           <div><strong>18+ only</strong><span>Research use, not a pharmacy</span></div>
         </div>
 
