@@ -11,6 +11,9 @@ export default async function HomePage() {
 
   return (
     <div className="wrap storefront">
+      <figure className="home-hero">
+        <img src="/images/hero.jpg" alt="Novion Retatrutide 10 mg, Vial und Karton" />
+      </figure>
       <div className="store-head">
         <div>
           <p className="eyebrow">Novion · Genf</p>
