@@ -3,14 +3,33 @@
 import { useEffect, useState } from "react";
 import { categories, type CategoryId, type Product } from "@/lib/catalog";
 import { supabasePublishableKey, supabaseUrl } from "@/lib/supabase-public";
-import { chf } from "@/lib/format";
-import { orderStatuses, statusLabel, type Order, type OrderStatus } from "@/lib/order";
+import { chf, zar } from "@/lib/format";
+import { orderStatuses, type Order, type OrderStatus } from "@/lib/order";
+import { isZa } from "@/lib/region";
 
 const tokenKey = "nv-catalog-token";
 
 type Draft = { name: string; category: CategoryId; label: string; price: string; stock: string; image: string };
 
 const emptyDraft: Draft = { name: "", category: "metabolic", label: "", price: "", stock: "24", image: "" };
+const money = isZa ? zar : chf;
+const moneyName = isZa ? "rand" : "francs";
+
+type DeskFilter = "all" | "open" | "done" | "cancelled";
+
+const deskStatus: Record<OrderStatus, string> = {
+  pending: "Not completed",
+  paid: "Paid",
+  packed: "Packed",
+  shipped: "Shipped",
+  cancelled: "Cancelled",
+};
+
+function orderGroup(status: OrderStatus): Exclude<DeskFilter, "all"> {
+  if (status === "cancelled") return "cancelled";
+  if (status === "pending") return "open";
+  return "done";
+}
 
 function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
@@ -24,6 +43,7 @@ export default function AdminPage() {
   const [items, setItems] = useState<Product[]>([]);
   const [draft, setDraft] = useState<Draft>(emptyDraft);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [deskFilter, setDeskFilter] = useState<DeskFilter>("all");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -208,7 +228,7 @@ export default function AdminPage() {
         <div className="page-title">
           <p className="eyebrow">Novion admin</p>
           <h1>Catalog sign in</h1>
-          <p className="lede">Prices on this catalog are in Swiss francs.</p>
+          <p className="lede">Sign in to see every order, the delivery address, and the catalog.</p>
         </div>
         <form className="form panel" style={{ maxWidth: 420, marginTop: 18 }} onSubmit={signIn}>
           <label>
@@ -230,14 +250,19 @@ export default function AdminPage() {
     <div className="wrap pad">
       <div className="page-title">
         <p className="eyebrow">Novion admin</p>
-        <h1>Catalog</h1>
-        <p className="lede">Change a franc price, change stock, or add a compound. Saving publishes it on the shop.</p>
+        <h1>Sales desk</h1>
+        <p className="lede">Every checkout is listed here with the buyer, the phone number, and the full delivery address. Payment is not confirmed until you mark the order paid.</p>
       </div>
       <button className="text-btn" style={{ marginTop: 12 }} onClick={signOut}>Sign out</button>
+      <SalesDesk orders={orders} filter={deskFilter} onFilter={setDeskFilter} onStatus={setStatus} />
+      <section style={{ marginTop: 42 }}>
+        <h2 style={{ fontSize: 32 }}>Catalog</h2>
+        <p className="muted">Change a price in {moneyName}, change stock, or add a compound. Saving publishes it on the shop.</p>
+      </section>
       <div className="table-wrap" style={{ marginTop: 18 }}>
         <table className="table">
           <thead>
-            <tr><th>Compound</th><th>Size</th><th>CHF</th><th>Stock</th></tr>
+            <tr><th>Compound</th><th>Size</th><th>Price</th><th>Stock</th></tr>
           </thead>
           <tbody>
             {items.flatMap((product) =>
@@ -247,7 +272,7 @@ export default function AdminPage() {
                   <td>{variant.label}</td>
                   <td>
                     <input aria-label={`${product.name} ${variant.label} price`} inputMode="decimal" value={variant.price} onChange={(event) => updatePrice(product.slug, variant.id, "price", event.target.value)} />
-                    <small className="muted"> {chf(Number(variant.price) || 0)}</small>
+                    <small className="muted"> {money(Number(variant.price) || 0)}</small>
                   </td>
                   <td>
                     <input aria-label={`${product.name} ${variant.label} stock`} inputMode="numeric" value={variant.stock} onChange={(event) => updatePrice(product.slug, variant.id, "stock", event.target.value)} />
@@ -279,7 +304,7 @@ export default function AdminPage() {
               <input className="field" placeholder="10 mg" value={draft.label} onChange={(event) => setDraft({ ...draft, label: event.target.value })} />
             </label>
             <label>
-              Price in francs
+              Price in {moneyName}
               <input className="field" inputMode="decimal" value={draft.price} onChange={(event) => setDraft({ ...draft, price: event.target.value })} />
             </label>
             <label>
@@ -300,45 +325,111 @@ export default function AdminPage() {
       </section>
       <button className="btn" style={{ marginTop: 16 }} disabled={busy} onClick={save}>{busy ? "Saving…" : "Save catalog"}</button>
       {message && <p className="muted" style={{ marginTop: 12 }}>{message}</p>}
-      <section style={{ marginTop: 36 }}>
-        <h2 style={{ fontSize: 32 }}>Orders</h2>
-        <p className="muted">A new checkout is pending until you mark it paid, packed, or shipped.</p>
-        {orders.length === 0 ? (
-          <div className="empty" style={{ marginTop: 12 }}>No orders yet.</div>
-        ) : (
-          <div className="table-wrap" style={{ marginTop: 12 }}>
-            <table className="table">
-              <thead>
-                <tr><th>Order</th><th>Buyer</th><th>Items</th><th>CHF</th><th>Status</th></tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr key={order.id}>
-                    <td>
-                      {order.id}
-                      <div className="muted">{new Date(order.createdAt).toLocaleString()}</div>
-                    </td>
-                    <td>
-                      {order.name}
-                      <div className="muted">{order.email}</div>
-                      <div className="muted">{order.city}, {order.country}</div>
-                    </td>
-                    <td>{order.lines.map((line) => `${line.name} ${line.variant} × ${line.qty}`).join(", ")}</td>
-                    <td>{chf(order.total)}</td>
-                    <td>
-                      <select aria-label={`${order.id} status`} value={order.status} onChange={(event) => setStatus(order.id, event.target.value as OrderStatus)}>
-                        {orderStatuses.map((status) => (
-                          <option key={status} value={status}>{statusLabel[status]}</option>
-                        ))}
-                      </select>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
     </div>
+  );
+}
+
+function SalesDesk({
+  orders,
+  filter,
+  onFilter,
+  onStatus,
+}: {
+  orders: Order[];
+  filter: DeskFilter;
+  onFilter: (filter: DeskFilter) => void;
+  onStatus: (id: string, status: OrderStatus) => void;
+}) {
+  const open = orders.filter((order) => orderGroup(order.status) === "open");
+  const done = orders.filter((order) => orderGroup(order.status) === "done");
+  const cancelled = orders.filter((order) => orderGroup(order.status) === "cancelled");
+  const visible = orders.filter((order) => filter === "all" || orderGroup(order.status) === filter);
+  const sum = (list: Order[]) => list.reduce((total, order) => total + order.total, 0);
+
+  return (
+    <section style={{ marginTop: 22 }}>
+      <div className="desk-stats">
+        <article className="desk-stat">
+          <p>Not completed</p>
+          <strong>{open.length}</strong>
+          <span>{money(sum(open))} still awaiting payment</span>
+        </article>
+        <article className="desk-stat">
+          <p>Successful</p>
+          <strong>{done.length}</strong>
+          <span>{money(sum(done))} paid, packed, or shipped</span>
+        </article>
+        <article className="desk-stat">
+          <p>Cancelled</p>
+          <strong>{cancelled.length}</strong>
+          <span>{money(sum(cancelled))} will not be sent</span>
+        </article>
+      </div>
+      <div className="chip-rail" style={{ marginTop: 16 }} aria-label="Order groups">
+        {([
+          ["all", `All ${orders.length}`],
+          ["open", `Not completed ${open.length}`],
+          ["done", `Successful ${done.length}`],
+          ["cancelled", `Cancelled ${cancelled.length}`],
+        ] as const).map(([id, label]) => (
+          <button key={id} className={`chip ${filter === id ? "on" : ""}`} type="button" onClick={() => onFilter(id)}>{label}</button>
+        ))}
+      </div>
+      {visible.length === 0 ? (
+        <div className="empty" style={{ marginTop: 16 }}>No orders in this group.</div>
+      ) : (
+        <div className="desk-list">
+          {visible.map((order) => (
+            <article className="order-file" key={order.id}>
+              <header>
+                <div>
+                  <p className="eyebrow">{order.id}</p>
+                  <h2>{order.name}</h2>
+                  <p className="muted">{new Date(order.createdAt).toLocaleString(isZa ? "en-ZA" : "de-CH")}</p>
+                </div>
+                <label>
+                  Status
+                  <select className="field" aria-label={`${order.id} status`} value={order.status} onChange={(event) => onStatus(order.id, event.target.value as OrderStatus)}>
+                    {orderStatuses.map((status) => (
+                      <option key={status} value={status}>{deskStatus[status]}</option>
+                    ))}
+                  </select>
+                </label>
+              </header>
+              <div className="order-grid">
+                <div>
+                  <p className="eyebrow">Buyer</p>
+                  <p>{order.email}</p>
+                  <p>{order.phone?.trim() || "No phone on this order"}</p>
+                </div>
+                <div>
+                  <p className="eyebrow">Delivery address</p>
+                  <p>{order.line1}</p>
+                  <p>{order.postcode} {order.city}</p>
+                  <p>{order.country}</p>
+                  <p className="muted">{order.shipping === "express" ? "Express" : "Standard"} · {order.shippingCost === 0 ? "Free shipping" : money(order.shippingCost)}</p>
+                </div>
+                <div>
+                  <p className="eyebrow">Amount</p>
+                  <p>Goods {money(order.subtotal)}</p>
+                  <p>Shipping {order.shippingCost === 0 ? "Free" : money(order.shippingCost)}</p>
+                  <p><strong>{money(order.total)}</strong></p>
+                </div>
+              </div>
+              <ul className="order-lines">
+                {order.lines.map((line) => (
+                  <li key={`${line.sku}-${line.variantId}`}>
+                    <span>{line.name} · {line.variant} × {line.qty}</span>
+                    <span>{line.sku}</span>
+                    <span>{money(line.price * line.qty)}</span>
+                  </li>
+                ))}
+              </ul>
+              {order.note ? <p className="notice">Note: {order.note}</p> : null}
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }

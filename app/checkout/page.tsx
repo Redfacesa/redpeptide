@@ -47,6 +47,7 @@ export default function CheckoutPage() {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
     line1: "",
     city: "",
     postcode: "",
@@ -117,6 +118,10 @@ export default function CheckoutPage() {
       setError(tx("Name, eine gültige E-Mail und eine vollständige Adresse sind erforderlich.", "A name, a valid email, and a full address are required."));
       return;
     }
+    if (form.phone.replace(/\D/g, "").length < 7) {
+      setError(tx("Geben Sie eine Telefonnummer an.", "Enter a phone number."));
+      return;
+    }
     if (!form.country) {
       setError(tx("Wählen Sie ein Land.", "Choose a country."));
       return;
@@ -135,6 +140,7 @@ export default function CheckoutPage() {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${store.token}` },
       body: JSON.stringify({
         name: form.name,
+        phone: form.phone,
         line1: form.line1,
         city: form.city,
         postcode: form.postcode,
@@ -233,6 +239,7 @@ export default function CheckoutPage() {
             <label>{tx("Name", "Name")}<input className="field" value={form.name} onChange={(event) => update("name", event.target.value)} required /></label>
             <label>{tx("E-Mail", "Email")}<input className="field" type="email" value={store.profile?.email || form.email} readOnly={Boolean(store.profile)} onChange={(event) => update("email", event.target.value)} required /></label>
           </div>
+          <label>{tx("Telefon", "Phone")}<input className="field" type="tel" autoComplete="tel" inputMode="tel" value={form.phone} onChange={(event) => update("phone", event.target.value)} required /></label>
           <label>{tx("Adresse", "Address")}<input className="field" value={form.line1} onChange={(event) => update("line1", event.target.value)} required /></label>
           <div className="form-row">
             <label>{tx("Ort", "City")}<input className="field" value={form.city} onChange={(event) => update("city", event.target.value)} required /></label>

@@ -36,6 +36,7 @@ export type Order = {
   status: OrderStatus;
   email: string;
   name: string;
+  phone?: string;
   line1: string;
   city: string;
   postcode: string;

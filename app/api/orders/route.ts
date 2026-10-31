@@ -15,6 +15,7 @@ export async function POST(request: Request) {
   if (!user) return Response.json({ message: "Melden Sie sich vor der Kasse an." }, { status: 401 });
   const body = (await request.json().catch(() => null)) as {
     name?: string;
+    phone?: string;
     line1?: string;
     city?: string;
     postcode?: string;
@@ -28,6 +29,7 @@ export async function POST(request: Request) {
   const order = await createOrder({
     email: user.email,
     name: body.name || user.name,
+    phone: body.phone || "",
     line1: body.line1 || "",
     city: body.city || "",
     postcode: body.postcode || "",

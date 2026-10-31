@@ -50,6 +50,7 @@ type DraftLine = { slug?: string; variantId?: string; qty?: number };
 export async function createOrder(input: {
   email: string;
   name: string;
+  phone?: string;
   line1: string;
   city: string;
   postcode: string;
@@ -59,6 +60,8 @@ export async function createOrder(input: {
   lines: DraftLine[];
 }): Promise<Order | { error: string }> {
   const name = clean(input.name || "", 80);
+  const phone = clean(input.phone || "", 24).replace(/[^\d+\s()-]/g, "");
+  const phoneDigits = phone.replace(/\D/g, "");
   const line1 = clean(input.line1 || "", 120);
   const city = clean(input.city || "", 80);
   const postcode = clean(input.postcode || "", 16);
@@ -66,6 +69,7 @@ export async function createOrder(input: {
   const note = clean(input.note || "", 400);
   const shipping = input.shipping === "express" ? "express" : input.shipping === "standard" ? "standard" : "";
   if (!name || !line1 || !city || !postcode || !shipping) return { error: tx("Name und vollständige Adresse sind erforderlich.", "A name and a full address are required.") };
+  if (phoneDigits.length < 7 || phoneDigits.length > 15) return { error: tx("Geben Sie eine Telefonnummer an.", "Enter a phone number.") };
   if (!countries.includes(country)) return { error: tx("Wählen Sie ein Land.", "Choose a country.") };
   if (!Array.isArray(input.lines) || input.lines.length === 0 || input.lines.length > 20) {
     return { error: tx("Legen Sie eine Verbindung in den Warenkorb.", "Add a compound to the basket.") };
@@ -110,6 +114,7 @@ export async function createOrder(input: {
     status: "pending",
     email: input.email.toLowerCase(),
     name,
+    phone,
     line1,
     city,
     postcode,
