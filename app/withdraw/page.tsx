@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { tx } from "@/lib/region";
 
 export default function WithdrawPage() {
   const [reference, setReference] = useState("");
@@ -20,32 +21,35 @@ export default function WithdrawPage() {
 
   return (
     <article className="wrap pad prose">
-      <p className="eyebrow">Bestellungen</p>
-      <h1>Von einem Vertrag zurücktreten</h1>
+      <p className="eyebrow">{tx("Bestellungen", "Orders")}</p>
+      <h1>{tx("Von einem Vertrag zurücktreten", "Withdraw from a contract")}</h1>
       <p className="lede">
-        Nutzen Sie diese Seite innerhalb von 14 Tagen nach Erhalt eines ungeöffneten Vials. Sie müssen keinen Grund nennen. Das Öffnen des Siegels beendet dieses Recht, weil das Material aus Gesundheits- und Hygienegründen nicht zurückgenommen werden kann.
+        {tx(
+          "Nutzen Sie diese Seite innerhalb von 14 Tagen nach Erhalt eines ungeöffneten Vials. Sie müssen keinen Grund nennen. Das Öffnen des Siegels beendet dieses Recht, weil das Material aus Gesundheits- und Hygienegründen nicht zurückgenommen werden kann.",
+          "Use this page within 14 days of receiving an unopened vial. You do not have to give a reason. Opening the seal ends this right, because the material cannot be taken back for health and hygiene reasons.",
+        )}
       </p>
       {reference ? (
         <div className="panel">
-          <h2>Widerruf erfasst</h2>
-          <p>Referenz {reference}. Bewahren Sie diese Referenz mit Ihrer Bestellnummer auf. Der Antrag wirkt, sobald Sie ihn hier absenden.</p>
-          <p>Senden Sie das ungeöffnete Vial erst zurück, wenn der Desk die Rücksendeadresse bestätigt. Eine Rückerstattung der Ware und des günstigsten Standardversands folgt der Rückgaberegel.</p>
+          <h2>{tx("Widerruf erfasst", "Withdrawal recorded")}</h2>
+          <p>{tx(`Referenz ${reference}. Bewahren Sie diese Referenz mit Ihrer Bestellnummer auf. Der Antrag wirkt, sobald Sie ihn hier absenden.`, `Reference ${reference}. Keep this reference with your order number. The request takes effect when you submit it here.`)}</p>
+          <p>{tx("Senden Sie das ungeöffnete Vial erst zurück, wenn der Desk die Rücksendeadresse bestätigt. Eine Rückerstattung der Ware und des günstigsten Standardversands folgt der Rückgaberegel.", "Send the unopened vial back only after the desk confirms the return address. A refund of the goods and the cheapest standard shipping follows the returns rule.")}</p>
         </div>
       ) : (
         <form className="form panel" onSubmit={submit}>
           <label>
-            Bestellnummer
+            {tx("Bestellnummer", "Order number")}
             <input className="field" name="order" required placeholder="NV-10001" />
           </label>
           <label>
-            E-Mail von der Kasse
+            {tx("E-Mail von der Kasse", "Email from checkout")}
             <input className="field" type="email" name="email" required />
           </label>
           <label>
-            Notiz
-            <textarea className="field" name="note" rows={4} placeholder="Optional. Sie müssen nicht erklären, warum." />
+            {tx("Notiz", "Note")}
+            <textarea className="field" name="note" rows={4} placeholder={tx("Optional. Sie müssen nicht erklären, warum.", "Optional. You do not have to explain why.")} />
           </label>
-          <button className="btn" type="submit">Widerruf bestätigen</button>
+          <button className="btn" type="submit">{tx("Widerruf bestätigen", "Confirm withdrawal")}</button>
         </form>
       )}
     </article>

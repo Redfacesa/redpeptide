@@ -10,6 +10,7 @@ import {
 import { getVariant, products, type Product } from "@/lib/catalog";
 import { customerTokenKey, readCustomer, requestCustomerAccount, requestCustomerSession } from "@/lib/customer-auth";
 import type { Order } from "@/lib/order";
+import { tx } from "@/lib/region";
 
 export type { Order } from "@/lib/order";
 
@@ -182,7 +183,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       profile,
       saveProfile: (next) => {
         setProfile(next);
-        setToast("Profil in diesem Browser gespeichert");
+        setToast(tx("Profil in diesem Browser gespeichert", "Profile saved in this browser"));
       },
       signInCustomer: async (email, password) => {
         const session = await requestCustomerSession(email, password);
@@ -198,7 +199,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       signUpCustomer: async (name, email, password) => {
         const session = await requestCustomerAccount(name, email, password);
         if ("error" in session) return session.error;
-        if ("confirm" in session) return "Prüfen Sie Ihre E-Mail, bestätigen Sie das Konto und melden Sie sich dann an.";
+        if ("confirm" in session) return tx("Prüfen Sie Ihre E-Mail, bestätigen Sie das Konto und melden Sie sich dann an.", "Check your email, confirm the account, then sign in.");
         localStorage.setItem(customerTokenKey, session.token);
         setToken(session.token);
         setProfile({ name: session.name, email: session.email });

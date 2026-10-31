@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useMoney } from "@/components/currency";
 import { useStore } from "@/components/store";
 import { statusLabel } from "@/lib/order";
+import { tx } from "@/lib/region";
 
 export default function AccountPage() {
   const store = useStore();
@@ -19,7 +20,7 @@ export default function AccountPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    document.title = "Konto · Novion Biopharma";
+    document.title = tx("Konto · Novion Biopharma", "Account · Novion Biopharma");
   }, []);
 
   function afterSignIn() {
@@ -47,46 +48,46 @@ export default function AccountPage() {
   return (
     <div className="wrap pad">
       <div className="page-title">
-        <p className="eyebrow">Konto</p>
-        <h1>{store.profile ? "Ihre Bestellungen" : "Anmelden"}</h1>
+        <p className="eyebrow">{tx("Konto", "Account")}</p>
+        <h1>{store.profile ? tx("Ihre Bestellungen", "Your orders") : tx("Anmelden", "Sign in")}</h1>
         <p className="lede">
           {store.profile
-            ? "Jede Bestellung bleibt auf Zahlung ausstehend, bis die Zahlung bestätigt ist, und geht dann zu gepackt und versendet."
-            : "Legen Sie ein Konto an, um zu bestellen und den Weg von der Zahlung bis zum Versand zu sehen."}
+            ? tx("Jede Bestellung bleibt auf Zahlung ausstehend, bis die Zahlung bestätigt ist, und geht dann zu gepackt und versendet.", "Each order stays awaiting payment until payment is confirmed, then moves to packed and shipped.")
+            : tx("Legen Sie ein Konto an, um zu bestellen und den Weg von der Zahlung bis zum Versand zu sehen.", "Create an account to order and follow the path from payment to shipping.")}
         </p>
       </div>
       <div className="split" style={{ marginTop: 18 }}>
         {store.profile ? (
           <div className="panel">
-            <p className="eyebrow">Angemeldet</p>
-            <h2 style={{ fontSize: 32 }}>{store.profile.name || "Konto"}</h2>
+            <p className="eyebrow">{tx("Angemeldet", "Signed in")}</p>
+            <h2 style={{ fontSize: 32 }}>{store.profile.name || tx("Konto", "Account")}</h2>
             <p className="muted">{store.profile.email}</p>
-            <button className="btn secondary" style={{ marginTop: 16 }} type="button" onClick={store.signOut}>Abmelden</button>
+            <button className="btn secondary" style={{ marginTop: 16 }} type="button" onClick={store.signOut}>{tx("Abmelden", "Sign out")}</button>
           </div>
         ) : (
           <form className="form panel" onSubmit={submit}>
             <div className="actions">
-              <button className={mode === "in" ? "btn" : "btn secondary"} type="button" onClick={() => setMode("in")}>Anmelden</button>
-              <button className={mode === "up" ? "btn" : "btn secondary"} type="button" onClick={() => setMode("up")}>Konto erstellen</button>
+              <button className={mode === "in" ? "btn" : "btn secondary"} type="button" onClick={() => setMode("in")}>{tx("Anmelden", "Sign in")}</button>
+              <button className={mode === "up" ? "btn" : "btn secondary"} type="button" onClick={() => setMode("up")}>{tx("Konto erstellen", "Create account")}</button>
             </div>
             {mode === "up" && (
               <label>Name<input className="field" value={name} onChange={(event) => setName(event.target.value)} required /></label>
             )}
-            <label>E-Mail<input className="field" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} required /></label>
-            <label>Passwort<input className="field" type="password" autoComplete={mode === "up" ? "new-password" : "current-password"} minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} required /></label>
-            {message && <p className={message.startsWith("Prüfen Sie") ? "notice" : "error"}>{message}</p>}
-            <button className="btn" type="submit" disabled={busy}>{busy ? "Prüfen…" : mode === "up" ? "Konto erstellen" : "Anmelden"}</button>
+            <label>{tx("E-Mail", "Email")}<input className="field" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} required /></label>
+            <label>{tx("Passwort", "Password")}<input className="field" type="password" autoComplete={mode === "up" ? "new-password" : "current-password"} minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} required /></label>
+            {message && <p className={message.startsWith("Prüfen Sie") || message.startsWith("Check your email") ? "notice" : "error"}>{message}</p>}
+            <button className="btn" type="submit" disabled={busy}>{busy ? tx("Prüfen…", "Checking…") : mode === "up" ? tx("Konto erstellen", "Create account") : tx("Anmelden", "Sign in")}</button>
           </form>
         )}
         <div>
-          <h2 style={{ fontSize: 32, marginBottom: 10 }}>Bestellungen</h2>
-          {!store.profile && <div className="empty">Melden Sie sich an, um die Bestellungen dieses Kontos zu sehen.</div>}
-          {store.profile && store.orders.length === 0 && <div className="empty">Für dieses Konto gibt es noch keine Bestellung.</div>}
+          <h2 style={{ fontSize: 32, marginBottom: 10 }}>{tx("Bestellungen", "Orders")}</h2>
+          {!store.profile && <div className="empty">{tx("Melden Sie sich an, um die Bestellungen dieses Kontos zu sehen.", "Sign in to see this account's orders.")}</div>}
+          {store.profile && store.orders.length === 0 && <div className="empty">{tx("Für dieses Konto gibt es noch keine Bestellung.", "This account has no orders yet.")}</div>}
           {store.profile && store.orders.map((order) => (
             <Link className="line" key={order.id} href={`/order/${order.id}`} style={{ display: "flex" }}>
               <div>
                 <strong>{order.id}</strong>
-                <div className="muted">{new Date(order.createdAt).toLocaleString("de-CH")} · {statusLabel[order.status] || "Zahlung ausstehend"}</div>
+                <div className="muted">{new Date(order.createdAt).toLocaleString(tx("de-CH", "en-ZA"))} · {statusLabel[order.status] || tx("Zahlung ausstehend", "Awaiting payment")}</div>
               </div>
               <strong>{format(order.total)}</strong>
             </Link>

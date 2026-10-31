@@ -76,6 +76,17 @@ function cleanSlug(value: string) {
 }
 
 function researchCopy(name: string): Pick<Product, "tagline" | "summary" | "overview" | "purity" | "appearance" | "storage" | "image"> {
+  if (process.env.NEXT_PUBLIC_STORE === "za") {
+    return {
+      tagline: "Lyophilized research vial",
+      summary: `${name} is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.`,
+      overview: `${name} is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only. This page does not give preparation, dose, or human-use instructions.`,
+      purity: "> 99% HPLC (specification)",
+      appearance: "Lyophilized solid in a sealed vial",
+      storage: "2–8 °C. Protect from light. Do not freeze.",
+      image: "",
+    };
+  }
   return {
     tagline: "Lyophilisiertes Forschungsvial · Genf",
     summary: `${name} ist als versiegeltes Forschungsvial gelistet. Nur für das Labor. Kein Arzneimittel und keine Dosierungsanleitung.`,

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { products } from "@/lib/catalog";
 import { readMergedCatalog } from "@/lib/catalog-store";
 import { ProductDetail } from "@/components/product-detail";
+import { moneyCode, siteUrl, tx } from "@/lib/region";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +19,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const catalog = await readMergedCatalog();
   const product = catalog.find((item) => item.slug === slug);
-  if (!product) return { title: "Verbindung" };
+  if (!product) return { title: tx("Verbindung", "Compound") };
   return {
     title: product.name,
     description: product.summary,
@@ -45,19 +46,19 @@ export default async function ProductPage({
     "@type": "Product",
     name: product.name,
     description: product.summary,
-    image: product.image ? `https://novion.ch${product.image}` : undefined,
+    image: product.image ? `${siteUrl}${product.image}` : undefined,
     sku: offer?.sku,
     brand: { "@type": "Brand", name: "Novion Biopharma" },
     offers: {
       "@type": "AggregateOffer",
-      priceCurrency: "CHF",
+      priceCurrency: moneyCode,
       lowPrice: Math.min(...product.variants.map((variant) => variant.price)).toFixed(2),
       highPrice: Math.max(...product.variants.map((variant) => variant.price)).toFixed(2),
       offerCount: product.variants.length,
       availability: product.variants.some((variant) => variant.stock > 0)
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
-      url: `https://novion.ch/product/${product.slug}`,
+      url: `${siteUrl}/product/${product.slug}`,
     },
   };
   return (

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useMemo } from "react";
 import { formatMoney } from "@/lib/currency";
+import { isZa, moneyCode, moneyLocale } from "@/lib/region";
 
 type Quote = {
   country: string;
@@ -10,21 +11,23 @@ type Quote = {
   rates: Record<string, number>;
 };
 
-const fallback: Quote = { country: "CH", currency: "CHF", locale: "de-CH", rates: { CHF: 1 } };
+const fallback: Quote = isZa
+  ? { country: "ZA", currency: "ZAR", locale: "en-ZA", rates: { ZAR: 1 } }
+  : { country: "CH", currency: "CHF", locale: "de-CH", rates: { CHF: 1 } };
 
 const CurrencyContext = createContext<{
   quote: Quote;
   format: (zarAmount: number) => string;
 }>({
   quote: fallback,
-  format: (value) => formatMoney(value, "CHF", 1, "de-CH"),
+  format: (value) => formatMoney(value, moneyCode, 1, moneyLocale),
 });
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo(
     () => ({
       quote: fallback,
-      format: (amount: number) => formatMoney(amount, "CHF", 1, "de-CH"),
+      format: (amount: number) => formatMoney(amount, moneyCode, 1, moneyLocale),
     }),
     [],
   );

@@ -1,14 +1,24 @@
+import { isZa } from "@/lib/region";
+
 export const orderStatuses = ["pending", "paid", "packed", "shipped", "cancelled"] as const;
 
 export type OrderStatus = (typeof orderStatuses)[number];
 
-export const statusLabel: Record<OrderStatus, string> = {
-  pending: "Zahlung ausstehend",
-  paid: "Bezahlt",
-  packed: "Gepackt",
-  shipped: "Versendet",
-  cancelled: "Storniert",
-};
+export const statusLabel: Record<OrderStatus, string> = isZa
+  ? {
+      pending: "Payment pending",
+      paid: "Paid",
+      packed: "Packed",
+      shipped: "Shipped",
+      cancelled: "Cancelled",
+    }
+  : {
+      pending: "Zahlung ausstehend",
+      paid: "Bezahlt",
+      packed: "Gepackt",
+      shipped: "Versendet",
+      cancelled: "Storniert",
+    };
 
 export type OrderLine = {
   slug: string;

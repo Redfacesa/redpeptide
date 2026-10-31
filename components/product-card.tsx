@@ -5,6 +5,7 @@ import { defaultVariant, hasPriceRange, inStock, minPrice, type Product } from "
 import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
+import { tx } from "@/lib/region";
 
 export function ProductCard({ product: source }: { product: Product }) {
   const store = useStore();
@@ -17,11 +18,11 @@ export function ProductCard({ product: source }: { product: Product }) {
     <article className="card">
       <Link href={`/product/${product.slug}`} className="card-art" aria-label={product.name}>
         {product.badge && <span className="flag">{product.badge}</span>}
-        <ProductPhoto product={product} variant={variant} alt={`${product.name} Forschungsvial`} />
+        <ProductPhoto product={product} variant={variant} alt={tx(`${product.name} Forschungsvial`, `${product.name} research vial`)} />
       </Link>
       <button
         className={`wish ${wished ? "on" : ""}`}
-        aria-label={wished ? `${product.name} von der Merkliste nehmen` : `${product.name} merken`}
+        aria-label={wished ? tx(`${product.name} von der Merkliste nehmen`, `Remove ${product.name} from the wishlist`) : tx(`${product.name} merken`, `Save ${product.name}`)}
         onClick={() => store.toggleWish(product.slug)}
       >
         <Heart filled={wished} />
@@ -33,7 +34,7 @@ export function ProductCard({ product: source }: { product: Product }) {
         <p className="muted">{product.variants.map((item) => item.label).join(" · ")}</p>
         <div className="card-row">
           <span className="price">
-            {hasPriceRange(product) ? "Ab " : ""}
+            {hasPriceRange(product) ? tx("Ab ", "From ") : ""}
             {format(minPrice(product))}
           </span>
           <button
@@ -41,7 +42,7 @@ export function ProductCard({ product: source }: { product: Product }) {
             disabled={!inStock(product)}
             onClick={() => store.add(product.slug, variant.id)}
           >
-            {inStock(product) ? "Kaufen" : "Weg"}
+            {inStock(product) ? tx("Kaufen", "Buy") : tx("Weg", "Gone")}
           </button>
         </div>
       </div>

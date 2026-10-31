@@ -1,5 +1,6 @@
 import { orderById } from "@/lib/orders";
 import { chfToZar, zarPerChf } from "@/lib/fx";
+import { isZa, siteUrl } from "@/lib/region";
 
 const COMMERCE = process.env.REDFACE_COMMERCE_API ?? "https://bpzzgilwlkghgfkvkkxx.supabase.co/functions/v1/commerce-api";
 
@@ -13,24 +14,26 @@ export async function POST(request: Request) {
   const label = String(body.label || "Novion Biopharma order").slice(0, 80);
   const orderId = String(body.orderId || "").replace(/\s+/g, "-").slice(0, 48);
   const email = String(body.email || "");
-  const returnUrl = String(body.returnUrl || "https://novion.ch/account");
+  const returnUrl = String(body.returnUrl || `${siteUrl}/account`);
   const merchantId = process.env.NOVION_MERCHANT_ID || "";
   const apiKey = process.env.REDFACE_API_KEY || "";
   const order = orderId ? await orderById(orderId) : null;
   if (!order || !(order.total > 0)) {
-    return Response.json({ message: "Die Bestellung wurde nicht gefunden." }, { status: 404 });
+    return Response.json({ message: isZa ? "That order was not found." : "Die Bestellung wurde nicht gefunden." }, { status: 404 });
   }
 
-  let rate = 0;
-  try {
-    rate = await zarPerChf();
-  } catch {
-    return Response.json({ message: "Der Franken-Rand-Kurs ist gerade nicht verfügbar. Die Zahlung wurde nicht geöffnet." }, { status: 503 });
+  let rate = 1;
+  if (!isZa) {
+    try {
+      rate = await zarPerChf();
+    } catch {
+      return Response.json({ message: "Der Franken-Rand-Kurs ist gerade nicht verfügbar. Die Zahlung wurde nicht geöffnet." }, { status: 503 });
+    }
   }
-  const amount = chfToZar(order.total, rate);
+  const amount = isZa ? Math.round(order.total) : chfToZar(order.total, rate);
   const lines = order.lines.map((line) => ({
     product_name: `${line.name} ${line.variant}`,
-    price_zar: chfToZar(line.price, rate),
+    price_zar: isZa ? Math.round(line.price) : chfToZar(line.price, rate),
     quantity: line.qty,
     sku: line.sku,
   }));
@@ -54,7 +57,7 @@ export async function POST(request: Request) {
           ecosystem_from: "novion",
           email,
           brand: "novion",
-          catalog_currency: "CHF",
+          catalog_currency: isZa ? "ZAR" : "CHF",
           catalog_amount: order.total,
           zar_per_chf: rate,
         },

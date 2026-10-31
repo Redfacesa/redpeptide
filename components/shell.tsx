@@ -8,10 +8,11 @@ import { FREE_SHIPPING_AT } from "@/lib/format";
 import { useMoney } from "@/components/currency";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
+import { tx } from "@/lib/region";
 
 const links = [
   { href: "/shop", label: "Shop" },
-  { href: "/quality", label: "Qualität" },
+  { href: "/quality", label: tx("Qualität", "Quality") },
 ];
 
 export function Shell({ children }: { children: React.ReactNode }) {
@@ -80,9 +81,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
   if (blocked) {
     return (
       <main className="wrap pad prose">
-        <p className="eyebrow">Forschungskatalog</p>
-        <h1>Diese Seite ist für Erwachsene.</h1>
-        <p>Novion Biopharma listet Laborstoffe für Personen ab 18 Jahren.</p>
+        <p className="eyebrow">{tx("Forschungskatalog", "Research catalog")}</p>
+        <h1>{tx("Diese Seite ist für Erwachsene.", "This page is for adults.")}</h1>
+        <p>{tx("Novion Biopharma listet Laborstoffe für Personen ab 18 Jahren.", "Novion Biopharma lists laboratory materials for people aged 18 and over.")}</p>
       </main>
     );
   }
@@ -90,11 +91,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="announce">
-        Nur für die Forschung · Ab 18 Jahren
+        {tx("Nur für die Forschung · Ab 18 Jahren", "Research use only · Ages 18 and over")}
       </div>
       <header className="header">
         <div className="wrap header-row">
-          <button className="icon-btn menu-btn" aria-label="Menü öffnen" onClick={() => setMenuOpen((open) => !open)}>
+          <button className="icon-btn menu-btn" aria-label={tx("Menü öffnen", "Open menu")} onClick={() => setMenuOpen((open) => !open)}>
             <MenuIcon />
           </button>
           <Link href="/" className="brand brand-lockup" aria-label="Novion Biopharma home">
@@ -115,19 +116,19 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div className="tools">
             <button className="search-launch" onClick={() => setSearchOpen(true)}>
               <SearchIcon />
-              <span>Suchen</span>
+              <span>{tx("Suchen", "Search")}</span>
             </button>
-            <button className="icon-btn search-icon" aria-label="Katalog durchsuchen" onClick={() => setSearchOpen(true)}>
+            <button className="icon-btn search-icon" aria-label={tx("Katalog durchsuchen", "Search the catalog")} onClick={() => setSearchOpen(true)}>
               <SearchIcon />
             </button>
-            <Link className="icon-btn" href="/account" aria-label="Konto">
+            <Link className="icon-btn" href="/account" aria-label={tx("Konto", "Account")}>
               <UserIcon />
             </Link>
-            <Link className="icon-btn" href="/wishlist" aria-label="Merkliste">
+            <Link className="icon-btn" href="/wishlist" aria-label={tx("Merkliste", "Wishlist")}>
               <HeartIcon />
               {store.wishlist.length > 0 && <span className="badge">{store.wishlist.length}</span>}
             </Link>
-            <button className="icon-btn" aria-label="Warenkorb öffnen" onClick={() => setCartOpen(true)}>
+            <button className="icon-btn" aria-label={tx("Warenkorb öffnen", "Open basket")} onClick={() => setCartOpen(true)}>
               <BagIcon />
               {store.cartCount > 0 && <span className="badge">{store.cartCount}</span>}
             </button>
@@ -139,8 +140,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
               {link.label}
             </Link>
           ))}
-          <Link href="/contact">Kontakt</Link>
-          <Link href="/help">Hilfe</Link>
+          <Link href="/contact">{tx("Kontakt", "Contact")}</Link>
+          <Link href="/help">{tx("Hilfe", "Help")}</Link>
         </div>
       </header>
       <main>{children}</main>
@@ -149,54 +150,54 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div>
             <Link href="/" className="brand brand-lockup"><span className="brand-mark">N</span>Novion</Link>
             <p style={{ marginTop: 12 }}>
-              Forschungsvials von Novion Biopharma, Genf. Preise in Schweizer Franken.
+              {tx("Forschungsvials von Novion Biopharma, Genf. Preise in Schweizer Franken.", "Research vials from Novion Biopharma. Prices in South African rand.")}
             </p>
           </div>
           <div>
-            <h3>Katalog</h3>
-            <Link href="/shop">Alle Verbindungen</Link>
+            <h3>{tx("Katalog", "Catalog")}</h3>
+            <Link href="/shop">{tx("Alle Verbindungen", "All compounds")}</Link>
             {categories.filter((category) => store.catalog.some((product) => product.category === category.id)).map((category) => (
               <Link key={category.id} href={`/shop?cat=${category.id}`}>{category.name}</Link>
             ))}
           </div>
           <div>
-            <h3>Labor</h3>
-            <Link href="/quality">Qualitätsstandard</Link>
-            <Link href="/lab-reports">Laborberichte</Link>
-            <Link href="/calculator">Konzentrationsrechner</Link>
-            <Link href="/journal">Journal</Link>
+            <h3>{tx("Labor", "Laboratory")}</h3>
+            <Link href="/quality">{tx("Qualitätsstandard", "Quality standard")}</Link>
+            <Link href="/lab-reports">{tx("Laborberichte", "Lab reports")}</Link>
+            <Link href="/calculator">{tx("Konzentrationsrechner", "Concentration calculator")}</Link>
+            <Link href="/journal">{tx("Journal", "Journal")}</Link>
           </div>
           <div>
-            <h3>Unternehmen</h3>
-            <Link href="/contact">Kontakt</Link>
-            <Link href="/help">Hilfe</Link>
-            <Link href="/legal/privacy">Datenschutz</Link>
-            <Link href="/legal/terms">AGB</Link>
-            <Link href="/legal/shipping">Versand</Link>
-            <Link href="/legal/returns">Rückgabe</Link>
+            <h3>{tx("Unternehmen", "Company")}</h3>
+            <Link href="/contact">{tx("Kontakt", "Contact")}</Link>
+            <Link href="/help">{tx("Hilfe", "Help")}</Link>
+            <Link href="/legal/privacy">{tx("Datenschutz", "Privacy")}</Link>
+            <Link href="/legal/terms">{tx("AGB", "Terms")}</Link>
+            <Link href="/legal/shipping">{tx("Versand", "Shipping")}</Link>
+            <Link href="/legal/returns">{tx("Rückgabe", "Returns")}</Link>
             <Link href="/legal/cookies">Cookies</Link>
-            <Link href="/legal/imprint">Impressum</Link>
-            <Link href="/research-use">Forschungshinweis</Link>
-            <Link href="/withdraw">Widerruf</Link>
+            <Link href="/legal/imprint">{tx("Impressum", "Imprint")}</Link>
+            <Link href="/research-use">{tx("Forschungshinweis", "Research notice")}</Link>
+            <Link href="/withdraw">{tx("Widerruf", "Withdrawal")}</Link>
           </div>
         </div>
         <div className="wrap legal-line">
           <span>© {new Date().getFullYear()} Novion Biopharma</span>
-          <span>Nur für die Laborforschung. Nicht zur Anwendung am Menschen.</span>
+          <span>{tx("Nur für die Laborforschung. Nicht zur Anwendung am Menschen.", "Laboratory research only. Not for use in people.")}</span>
         </div>
       </footer>
 
       {store.ready && !store.ageOk && (
         <div className="overlay" role="presentation">
           <div className="modal" role="dialog" aria-modal="true" aria-labelledby="age-title">
-            <p className="eyebrow">Zugang</p>
-            <h2 id="age-title">Bitte bestätigen Sie, dass Sie 18 oder älter sind.</h2>
+            <p className="eyebrow">{tx("Zugang", "Access")}</p>
+            <h2 id="age-title">{tx("Bitte bestätigen Sie, dass Sie 18 oder älter sind.", "Please confirm that you are 18 or older.")}</h2>
             <p className="muted" style={{ margin: "10px 0 16px" }}>
-              Novion Biopharma listet Forschungsstoffe für das Labor. Der Katalog ist Erwachsenen vorbehalten und enthält keine medizinische Beratung und keine Dosierung.
+              {tx("Novion Biopharma listet Forschungsstoffe für das Labor. Der Katalog ist Erwachsenen vorbehalten und enthält keine medizinische Beratung und keine Dosierung.", "Novion Biopharma lists research materials for the laboratory. The catalog is for adults and does not contain medical advice or dosing.")}
             </p>
             <div className="actions">
-              <button className="btn secondary" onClick={() => setBlocked(true)}>Verlassen</button>
-              <button className="btn" onClick={store.confirmAge}>Katalog öffnen</button>
+              <button className="btn secondary" onClick={() => setBlocked(true)}>{tx("Verlassen", "Leave")}</button>
+              <button className="btn" onClick={store.confirmAge}>{tx("Katalog öffnen", "Open the catalog")}</button>
             </div>
           </div>
         </div>
@@ -204,13 +205,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       {cartOpen && (
         <div className="overlay" onClick={() => setCartOpen(false)}>
-          <aside className="drawer" role="dialog" aria-modal="true" aria-label="Warenkorb" onClick={(event) => event.stopPropagation()}>
+          <aside className="drawer" role="dialog" aria-modal="true" aria-label={tx("Warenkorb", "Basket")} onClick={(event) => event.stopPropagation()}>
             <div className="row">
-              <h2>Warenkorb</h2>
-              <button className="icon-btn" aria-label="Warenkorb schliessen" onClick={() => setCartOpen(false)}>✕</button>
+              <h2>{tx("Warenkorb", "Basket")}</h2>
+              <button className="icon-btn" aria-label={tx("Warenkorb schliessen", "Close basket")} onClick={() => setCartOpen(false)}>✕</button>
             </div>
             {lines.length === 0 ? (
-              <div className="empty">Ihr Warenkorb ist leer.</div>
+              <div className="empty">{tx("Ihr Warenkorb ist leer.", "Your basket is empty.")}</div>
             ) : (
               lines.map(({ line, product, variant }) => (
                 <div className="line" key={`${line.slug}-${line.variantId}`}>
@@ -219,23 +220,23 @@ export function Shell({ children }: { children: React.ReactNode }) {
                     <strong>{product.name}</strong>
                     <div className="muted">{variant.label} · {variant.sku}</div>
                     <div className="qty" style={{ marginTop: 8 }}>
-                      <button aria-label="Menge verringern" onClick={() => store.setQty(line.slug, line.variantId, line.qty - 1)}>−</button>
-                      <input readOnly value={line.qty} aria-label="Menge" />
-                      <button aria-label="Menge erhöhen" onClick={() => store.setQty(line.slug, line.variantId, line.qty + 1)}>+</button>
+                      <button aria-label={tx("Menge verringern", "Decrease quantity")} onClick={() => store.setQty(line.slug, line.variantId, line.qty - 1)}>−</button>
+                      <input readOnly value={line.qty} aria-label={tx("Menge", "Quantity")} />
+                      <button aria-label={tx("Menge erhöhen", "Increase quantity")} onClick={() => store.setQty(line.slug, line.variantId, line.qty + 1)}>+</button>
                     </div>
                   </div>
                   <div className="line-side">
                     <strong>{format(variant.price * line.qty)}</strong>
-                    <button className="text-btn" onClick={() => store.remove(line.slug, line.variantId)}>Entfernen</button>
+                    <button className="text-btn" onClick={() => store.remove(line.slug, line.variantId)}>{tx("Entfernen", "Remove")}</button>
                   </div>
                 </div>
               ))
             )}
-            <div className="row total"><span>Zwischensumme</span><strong>{format(subtotal)}</strong></div>
-            <p className="muted">Der Versand wird an der Kasse berechnet. Standardversand kostenlos ab {format(FREE_SHIPPING_AT)}.</p>
+            <div className="row total"><span>{tx("Zwischensumme", "Subtotal")}</span><strong>{format(subtotal)}</strong></div>
+            <p className="muted">{tx(`Der Versand wird an der Kasse berechnet. Standardversand kostenlos ab ${format(FREE_SHIPPING_AT)}.`, `Shipping is calculated at checkout. Free standard shipping from ${format(FREE_SHIPPING_AT)}.`)}</p>
             <div className="actions" style={{ marginTop: 14 }}>
-              <Link className="btn secondary" href="/cart">Warenkorb</Link>
-              <button className="btn" disabled={lines.length === 0} onClick={() => router.push("/checkout")}>Zur Kasse</button>
+              <Link className="btn secondary" href="/cart">{tx("Warenkorb", "Basket")}</Link>
+              <button className="btn" disabled={lines.length === 0} onClick={() => router.push("/checkout")}>{tx("Zur Kasse", "Checkout")}</button>
             </div>
           </aside>
         </div>
@@ -243,17 +244,17 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       {searchOpen && (
         <div className="overlay" onClick={() => setSearchOpen(false)}>
-          <div className="modal search-modal" role="dialog" aria-modal="true" aria-label="Suche" onClick={(event) => event.stopPropagation()}>
+          <div className="modal search-modal" role="dialog" aria-modal="true" aria-label={tx("Suche", "Search")} onClick={(event) => event.stopPropagation()}>
             <input
               className="search"
               style={{ maxWidth: "none" }}
               autoFocus
-              placeholder="Verbindungen suchen"
+              placeholder={tx("Verbindungen suchen", "Search compounds")}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
             <div style={{ marginTop: 8 }}>
-              {hits.length === 0 && <p className="muted">Keine Treffer.</p>}
+              {hits.length === 0 && <p className="muted">{tx("Keine Treffer.", "No matches.")}</p>}
               {hits.map((product) => (
                 <Link className="search-hit" key={product.slug} href={`/product/${product.slug}`}>
                   <span>

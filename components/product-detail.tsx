@@ -12,6 +12,7 @@ import { useMoney } from "@/components/currency";
 import { ProductCard } from "@/components/product-card";
 import { ProductPhoto } from "@/components/product-photo";
 import { useStore } from "@/components/store";
+import { tx } from "@/lib/region";
 
 export function ProductDetail({ product: source }: { product: Product }) {
   const store = useStore();
@@ -43,9 +44,9 @@ export function ProductDetail({ product: source }: { product: Product }) {
           <div className="specs">
             <span>{product.purity}</span>
             <span>{variant.sku}</span>
-            <span>{variant.stock > 0 ? `${variant.stock} auf Lager` : "Nicht auf Lager"}</span>
+            <span>{variant.stock > 0 ? tx(`${variant.stock} auf Lager`, `${variant.stock} in stock`) : tx("Nicht auf Lager", "Out of stock")}</span>
           </div>
-          <p className="eyebrow">Grösse</p>
+          <p className="eyebrow">{tx("Grösse", "Size")}</p>
           <div className="option-row">
             {product.variants.map((item) => (
               <button
@@ -58,15 +59,15 @@ export function ProductDetail({ product: source }: { product: Product }) {
                 }}
               >
                 <strong>{item.label}</strong>
-                <small>{item.stock > 0 ? format(item.price) : "Nicht verfügbar"}</small>
+                <small>{item.stock > 0 ? format(item.price) : tx("Nicht verfügbar", "Unavailable")}</small>
               </button>
             ))}
           </div>
           <div className="buy">
             <div className="qty">
-              <button aria-label="Menge verringern" onClick={() => setQty((value) => Math.max(1, value - 1))}>−</button>
+              <button aria-label={tx("Menge verringern", "Decrease quantity")} onClick={() => setQty((value) => Math.max(1, value - 1))}>−</button>
               <input
-                aria-label="Menge"
+                aria-label={tx("Menge", "Quantity")}
                 value={qty}
                 onChange={(event) => {
                   const next = Number(event.target.value);
@@ -74,7 +75,7 @@ export function ProductDetail({ product: source }: { product: Product }) {
                 }}
               />
               <button
-                aria-label="Menge erhöhen"
+                aria-label={tx("Menge erhöhen", "Increase quantity")}
                 onClick={() => setQty((value) => Math.min(variant.stock || 1, value + 1))}
               >
                 +
@@ -85,14 +86,14 @@ export function ProductDetail({ product: source }: { product: Product }) {
               disabled={variant.stock <= 0}
               onClick={() => store.add(product.slug, variant.id, qty)}
             >
-              {variant.stock > 0 ? "In den Warenkorb" : "Nicht auf Lager"}
+              {variant.stock > 0 ? tx("In den Warenkorb", "Add to basket") : tx("Nicht auf Lager", "Out of stock")}
             </button>
             <button className="btn secondary" onClick={() => store.toggleWish(product.slug)}>
-              {wished ? "Gemerkt" : "Merken"}
+              {wished ? tx("Gemerkt", "Saved") : tx("Merken", "Save")}
             </button>
           </div>
           <div className="notice">
-            Nur für die Laborforschung. Nicht zur Anwendung an Mensch oder Tier. Keine Anleitung zu Lösungsmittel oder Anwendung.
+            {tx("Nur für die Laborforschung. Nicht zur Anwendung an Mensch oder Tier. Keine Anleitung zu Lösungsmittel oder Anwendung.", "Laboratory research only. Not for use in people or animals. No instructions for solvent or use.")}
           </div>
         </div>
       </div>
@@ -100,9 +101,9 @@ export function ProductDetail({ product: source }: { product: Product }) {
       <div className="tabs" role="tablist">
         {(
           [
-            ["overview", "Überblick"],
-            ["spec", "Spezifikation"],
-            ["handling", "Handhabung"],
+            ["overview", tx("Überblick", "Overview")],
+            ["spec", tx("Spezifikation", "Specification")],
+            ["handling", tx("Handhabung", "Handling")],
           ] as const
         ).map(([id, label]) => (
           <button key={id} className={`chip ${tab === id ? "on" : ""}`} onClick={() => setTab(id)} role="tab" aria-selected={tab === id}>
@@ -115,20 +116,23 @@ export function ProductDetail({ product: source }: { product: Product }) {
         {tab === "spec" && (
           <table className="table">
             <tbody>
-              <tr><th>Katalogname</th><td>{product.name}</td></tr>
-              <tr><th>Grösse</th><td>{variant.label}</td></tr>
+              <tr><th>{tx("Katalogname", "Catalog name")}</th><td>{product.name}</td></tr>
+              <tr><th>{tx("Grösse", "Size")}</th><td>{variant.label}</td></tr>
               <tr><th>SKU</th><td>{variant.sku}</td></tr>
-              <tr><th>Reinheit</th><td>{product.purity}</td></tr>
-              <tr><th>Aussehen</th><td>{product.appearance}</td></tr>
-              <tr><th>Form</th><td>Lyophilisierter Feststoff</td></tr>
-              <tr><th>Lagerung</th><td>{product.storage}</td></tr>
-              <tr><th>Zweck</th><td>Laborforschung</td></tr>
+              <tr><th>{tx("Reinheit", "Purity")}</th><td>{product.purity}</td></tr>
+              <tr><th>{tx("Aussehen", "Appearance")}</th><td>{product.appearance}</td></tr>
+              <tr><th>{tx("Form", "Form")}</th><td>{tx("Lyophilisierter Feststoff", "Lyophilized solid")}</td></tr>
+              <tr><th>{tx("Lagerung", "Storage")}</th><td>{product.storage}</td></tr>
+              <tr><th>{tx("Zweck", "Purpose")}</th><td>{tx("Laborforschung", "Laboratory research")}</td></tr>
             </tbody>
           </table>
         )}
         {tab === "handling" && (
           <p>
-            Lassen Sie das Siegel geschlossen, bis der Chargencode zum Zertifikat passt. {product.storage} Lassen Sie das Vial vor dem Öffnen Raumtemperatur annehmen, damit kein Kondensat in den Kuchen gelangt. Diese Seite beschreibt weder Rekonstitution noch Dosierung.
+            {tx(
+              `Lassen Sie das Siegel geschlossen, bis der Chargencode zum Zertifikat passt. ${product.storage} Lassen Sie das Vial vor dem Öffnen Raumtemperatur annehmen, damit kein Kondensat in den Kuchen gelangt. Diese Seite beschreibt weder Rekonstitution noch Dosierung.`,
+              `Keep the seal closed until the batch code matches the certificate. ${product.storage} Let the vial reach room temperature before opening so condensate does not enter the cake. This page does not describe reconstitution or dosing.`,
+            )}
           </p>
         )}
       </div>
@@ -136,7 +140,7 @@ export function ProductDetail({ product: source }: { product: Product }) {
       {related.length > 0 && (
         <section className="section">
           <div className="section-head">
-            <h2>Dazu passend</h2>
+            <h2>{tx("Dazu passend", "Related")}</h2>
           </div>
           <div className="grid">
             {related.map((item) => (

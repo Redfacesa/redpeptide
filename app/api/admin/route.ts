@@ -1,5 +1,6 @@
 import { products } from "@/lib/catalog";
 import { chfToZar, zarPerChf } from "@/lib/fx";
+import { isZa } from "@/lib/region";
 import { requireCatalogEditor } from "@/lib/admin-auth";
 import { catalogFromEditor, readMergedCatalog, readSavedCatalog, writeSavedCatalog, type PriceRow } from "@/lib/catalog-store";
 import type { Product } from "@/lib/catalog";
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
       rate = 0;
     }
   }
-  if (merchantId && apiKey && rate > 0) {
+  if (merchantId && apiKey && (isZa || rate > 0)) {
     const endpoint = process.env.REDFACE_COMMERCE_API ?? "https://bpzzgilwlkghgfkvkkxx.supabase.co/functions/v1/commerce-api";
     const previous = new Map(before.rows.map((row) => [`${row.slug}:${row.variantId}`, row]));
     for (const row of built.rows) {
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           merchant_id: merchantId,
           name: `${row.name ?? row.slug} ${row.label ?? row.variantId}`,
-          price: chfToZar(row.price, rate),
+          price: isZa ? Math.round(row.price) : chfToZar(row.price, rate),
           currency: "ZAR",
           stock_quantity: row.stock,
           track_inventory: true,

@@ -3,6 +3,7 @@ import { readMergedCatalog } from "@/lib/catalog-store";
 import { shippingCost } from "@/lib/format";
 import { isOrderStatus, type Order, type OrderStatus } from "@/lib/order";
 import { readStore, writeStore } from "@/lib/storage";
+import { tx } from "@/lib/region";
 
 const FILE = ".data/orders.json";
 const KEY = "orders";
@@ -64,10 +65,10 @@ export async function createOrder(input: {
   const country = clean(input.country || "", 80);
   const note = clean(input.note || "", 400);
   const shipping = input.shipping === "express" ? "express" : input.shipping === "standard" ? "standard" : "";
-  if (!name || !line1 || !city || !postcode || !shipping) return { error: "Name und vollständige Adresse sind erforderlich." };
-  if (!countries.includes(country)) return { error: "Wählen Sie ein Land." };
+  if (!name || !line1 || !city || !postcode || !shipping) return { error: tx("Name und vollständige Adresse sind erforderlich.", "A name and a full address are required.") };
+  if (!countries.includes(country)) return { error: tx("Wählen Sie ein Land.", "Choose a country.") };
   if (!Array.isArray(input.lines) || input.lines.length === 0 || input.lines.length > 20) {
-    return { error: "Legen Sie eine Verbindung in den Warenkorb." };
+    return { error: tx("Legen Sie eine Verbindung in den Warenkorb.", "Add a compound to the basket.") };
   }
 
   const catalog = await readMergedCatalog();
@@ -78,8 +79,8 @@ export async function createOrder(input: {
     const qty = Math.floor(Number(raw.qty) || 0);
     const product = catalog.find((item) => item.slug === slug);
     const variant = product?.variants.find((item) => item.id === variantId);
-    if (!product || !variant) return { error: "Eine Verbindung im Warenkorb ist nicht mehr gelistet." };
-    if (qty < 1 || qty > 20) return { error: "Prüfen Sie die Menge vor der Kasse." };
+    if (!product || !variant) return { error: tx("Eine Verbindung im Warenkorb ist nicht mehr gelistet.", "A compound in the basket is no longer listed.") };
+    if (qty < 1 || qty > 20) return { error: tx("Prüfen Sie die Menge vor der Kasse.", "Check the quantity before checkout.") };
     if (qty > variant.stock) return { error: `${product.name} ${variant.label} ist nicht in dieser Menge auf Lager.` };
     lines.push({
       slug,
@@ -121,7 +122,7 @@ export async function createOrder(input: {
     total: subtotal + shippingCostValue,
   };
   const saved = await writeOrders([order, ...orders]);
-  if (!saved) return { error: "Die Bestellung konnte nicht gespeichert werden." };
+  if (!saved) return { error: tx("Die Bestellung konnte nicht gespeichert werden.", "The order could not be saved.") };
   return order;
 }
 

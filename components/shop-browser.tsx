@@ -5,12 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { categories, inStock, type CategoryId } from "@/lib/catalog";
 import { ProductCard } from "@/components/product-card";
 import { useStore } from "@/components/store";
+import { tx } from "@/lib/region";
 
 const sorts = [
-  { id: "featured", label: "Empfohlen" },
+  { id: "featured", label: tx("Empfohlen", "Featured") },
   { id: "name", label: "Name" },
-  { id: "price-asc", label: "Preis aufsteigend" },
-  { id: "price-desc", label: "Preis absteigend" },
+  { id: "price-asc", label: tx("Preis aufsteigend", "Price, low to high") },
+  { id: "price-desc", label: tx("Preis absteigend", "Price, high to low") },
 ] as const;
 
 export function ShopBrowser() {
@@ -44,7 +45,7 @@ export function ShopBrowser() {
       return categoryOk && textOk && stockOk;
     });
     list = [...list].sort((a, b) => {
-      if (sort === "name") return a.name.localeCompare(b.name, "de");
+      if (sort === "name") return a.name.localeCompare(b.name, tx("de", "en"));
       if (sort === "price-asc") return Math.min(...a.variants.map((v) => v.price)) - Math.min(...b.variants.map((v) => v.price));
       if (sort === "price-desc") return Math.min(...b.variants.map((v) => v.price)) - Math.min(...a.variants.map((v) => v.price));
       return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
@@ -58,10 +59,10 @@ export function ShopBrowser() {
     <div className="wrap storefront">
       <div className="store-head">
         <h1>Shop</h1>
-        <span className="muted">{items.length} Verbindungen</span>
+        <span className="muted">{items.length} {tx("Verbindungen", "compounds")}</span>
       </div>
-      <div className="chip-rail" aria-label="Kategorien">
-        <button className={`chip ${category === "all" ? "on" : ""}`} onClick={() => chooseCategory("all")}>Alle</button>
+      <div className="chip-rail" aria-label={tx("Kategorien", "Categories")}>
+        <button className={`chip ${category === "all" ? "on" : ""}`} onClick={() => chooseCategory("all")}>{tx("Alle", "All")}</button>
         {visible.map((item) => (
           <button
             key={item.id}
@@ -73,19 +74,19 @@ export function ShopBrowser() {
         ))}
       </div>
       <div className="toolbar">
-        <input className="search" placeholder="Suchen" value={query} onChange={(event) => setQuery(event.target.value)} aria-label="Katalog durchsuchen" />
-        <select className="field" style={{ width: "auto" }} value={sort} onChange={(event) => setSort(event.target.value as typeof sort)} aria-label="Sortierung">
+        <input className="search" placeholder={tx("Suchen", "Search")} value={query} onChange={(event) => setQuery(event.target.value)} aria-label={tx("Katalog durchsuchen", "Search the catalog")} />
+        <select className="field" style={{ width: "auto" }} value={sort} onChange={(event) => setSort(event.target.value as typeof sort)} aria-label={tx("Sortierung", "Sort")}>
           {sorts.map((item) => (
             <option key={item.id} value={item.id}>{item.label}</option>
           ))}
         </select>
         <label className="check">
           <input type="checkbox" checked={availableOnly} onChange={(event) => setAvailableOnly(event.target.checked)} />
-          Auf Lager
+          {tx("Auf Lager", "In stock")}
         </label>
       </div>
       {items.length === 0 ? (
-        <div className="empty">Nichts passt zu dieser Auswahl.</div>
+        <div className="empty">{tx("Nichts passt zu dieser Auswahl.", "Nothing matches this selection.")}</div>
       ) : (
         <div className="grid">
           {items.map((product) => (

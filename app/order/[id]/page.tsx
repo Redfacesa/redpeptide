@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useMoney } from "@/components/currency";
 import { useStore } from "@/components/store";
 import { statusLabel, type Order, type OrderStatus } from "@/lib/order";
+import { tx } from "@/lib/region";
 
 const steps: OrderStatus[] = ["pending", "paid", "packed", "shipped"];
 
@@ -28,22 +29,22 @@ export default function OrderPage() {
           store.rememberOrder(data.order);
           return;
         }
-        setMessage(data.message || "Diese Bestellung gehört nicht zu diesem Konto.");
+        setMessage(data.message || tx("Diese Bestellung gehört nicht zu diesem Konto.", "This order does not belong to this account."));
       })
-      .catch(() => setMessage("Die Bestellung konnte nicht geladen werden."));
+      .catch(() => setMessage(tx("Die Bestellung konnte nicht geladen werden.", "The order could not be loaded.")));
   }, [store.ready, store.token, params.id]);
 
-  if (!store.ready) return <div className="wrap pad">Bestellung wird geladen…</div>;
+  if (!store.ready) return <div className="wrap pad">{tx("Bestellung wird geladen…", "Loading order…")}</div>;
 
   if (!store.token) {
     return (
       <div className="wrap pad prose">
-        <p className="eyebrow">Bestellung</p>
-        <h1>Melden Sie sich an, um {params.id} zu verfolgen</h1>
-        <p>Bestellungen bleiben auf dem Konto, das sie aufgegeben hat.</p>
+        <p className="eyebrow">{tx("Bestellung", "Order")}</p>
+        <h1>{tx("Melden Sie sich an, um", "Sign in to track")} {params.id}</h1>
+        <p>{tx("Bestellungen bleiben auf dem Konto, das sie aufgegeben hat.", "Orders stay on the account that placed them.")}</p>
         <p>
           <Link className="btn" href="/account" onClick={() => sessionStorage.setItem("nv-next", `/order/${params.id}`)}>
-            Anmelden
+            {tx("Anmelden", "Sign in")}
           </Link>
         </p>
       </div>
@@ -53,9 +54,9 @@ export default function OrderPage() {
   if (!order) {
     return (
       <div className="wrap pad prose">
-        <h1>Bestellung nicht auf diesem Konto</h1>
-        <p>{message || "Melden Sie sich mit der E-Mail von der Kasse an."}</p>
-        <p><Link className="btn" href="/account">Konto öffnen</Link></p>
+        <h1>{tx("Bestellung nicht auf diesem Konto", "Order is not on this account")}</h1>
+        <p>{message || tx("Melden Sie sich mit der E-Mail von der Kasse an.", "Sign in with the email from checkout.")}</p>
+        <p><Link className="btn" href="/account">{tx("Konto öffnen", "Open account")}</Link></p>
       </div>
     );
   }
@@ -64,10 +65,10 @@ export default function OrderPage() {
 
   return (
     <div className="wrap pad">
-      <p className="eyebrow">Bestellung · {statusLabel[order.status]}</p>
+      <p className="eyebrow">{tx("Bestellung", "Order")} · {statusLabel[order.status]}</p>
       <h1 style={{ fontSize: "clamp(40px, 5vw, 64px)" }}>{order.id}</h1>
       {order.status === "cancelled" ? (
-        <p className="lede">Diese Bestellung wurde storniert.</p>
+        <p className="lede">{tx("Diese Bestellung wurde storniert.", "This order was cancelled.")}</p>
       ) : (
         <ol className="track">
           {steps.map((step, index) => (
@@ -83,18 +84,18 @@ export default function OrderPage() {
               <span>{format(line.price * line.qty)}</span>
             </div>
           ))}
-          <div className="row"><span>Versand</span><span>{order.shippingCost === 0 ? "Kostenlos" : format(order.shippingCost)}</span></div>
-          <div className="row total"><span>Total</span><strong>{format(order.total)}</strong></div>
+          <div className="row"><span>{tx("Versand", "Shipping")}</span><span>{order.shippingCost === 0 ? tx("Kostenlos", "Free") : format(order.shippingCost)}</span></div>
+          <div className="row total"><span>{tx("Total", "Total")}</span><strong>{format(order.total)}</strong></div>
         </div>
         <aside className="summary">
-          <h2>Lieferadresse</h2>
+          <h2>{tx("Lieferadresse", "Delivery address")}</h2>
           <p>{order.name}</p>
           <p>{order.line1}</p>
           <p>{order.postcode} {order.city}</p>
           <p>{order.country}</p>
           <p className="muted" style={{ marginTop: 8 }}>{order.email}</p>
-          <p className="muted">{order.shipping === "express" ? "Express" : "Standard"}versand</p>
-          <Link className="btn" href="/account" style={{ marginTop: 14 }}>Alle Bestellungen</Link>
+          <p className="muted">{order.shipping === "express" ? tx("Expressversand", "Express shipping") : tx("Standardversand", "Standard shipping")}</p>
+          <Link className="btn" href="/account" style={{ marginTop: 14 }}>{tx("Alle Bestellungen", "All orders")}</Link>
         </aside>
       </div>
     </div>

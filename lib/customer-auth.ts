@@ -1,4 +1,5 @@
 import { supabasePublishableKey, supabaseUrl } from "@/lib/supabase-public";
+import { tx } from "@/lib/region";
 
 export const customerTokenKey = "nv-customer-token";
 
@@ -20,7 +21,7 @@ export async function requestCustomerSession(email: string, password: string): P
   });
   const data = (await response.json().catch(() => ({}))) as { access_token?: string; user?: AuthUser };
   if (!response.ok || !data.access_token || !data.user?.email) {
-    return { error: "Diese Angaben wurden nicht akzeptiert." };
+    return { error: tx("Diese Angaben wurden nicht akzeptiert.", "Those details were not accepted.") };
   }
   return {
     token: data.access_token,
@@ -50,8 +51,8 @@ export async function requestCustomerAccount(
     return { token: data.access_token, email: data.user.email, name };
   }
   const detail = `${data.error_code || ""} ${data.msg || ""} ${data.message || ""}`.toLowerCase();
-  if (detail.includes("already")) return { error: "Diese E-Mail hat bereits ein Konto. Melden Sie sich an." };
-  if (!response.ok) return { error: "Das Konto konnte nicht angelegt werden. Verwenden Sie mindestens 8 Zeichen." };
+  if (detail.includes("already")) return { error: tx("Diese E-Mail hat bereits ein Konto. Melden Sie sich an.", "That email already has an account. Sign in.") };
+  if (!response.ok) return { error: tx("Das Konto konnte nicht angelegt werden. Verwenden Sie mindestens 8 Zeichen.", "The account could not be created. Use at least 8 characters.") };
   return { confirm: true };
 }
 

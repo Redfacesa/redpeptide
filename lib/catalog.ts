@@ -1,3 +1,6 @@
+import { isZa } from "@/lib/region";
+import { zarBySku } from "@/lib/zar-prices";
+
 export type CategoryId = "recovery" | "metabolic" | "cognitive" | "longevity" | "signaling";
 
 export type Variant = {
@@ -46,7 +49,7 @@ export type LabBatch = {
   status: "Specification";
 };
 
-export const categories = [
+const deCategories = [
   {
     "id": "metabolic",
     "name": "Stoffwechsel",
@@ -79,7 +82,17 @@ export const categories = [
   }
 ] as const;
 
-export const products: Product[] = [
+const enCategories = [
+  { id: "metabolic", name: "Metabolic", blurb: "Incretin research", tone: "#12315f" },
+  { id: "recovery", name: "Recovery", blurb: "Tissue-signaling sequences", tone: "#12315f" },
+  { id: "cognitive", name: "Cognitive", blurb: "Nootropic analogs", tone: "#12315f" },
+  { id: "longevity", name: "Longevity", blurb: "Mitochondrial solids", tone: "#12315f" },
+  { id: "signaling", name: "Signaling", blurb: "Secretagogues", tone: "#12315f" },
+] as const;
+
+export const categories = isZa ? enCategories : deCategories;
+
+const sourceProducts: Product[] = [
   {
     "slug": "semaglutide",
     "name": "Semaglutide",
@@ -268,6 +281,34 @@ function size(id: string, label: string, mg: number, price: number, sku: string,
   return { id, label, mg, price, sku, stock: 24, image };
 }
 
+const englishNames: Record<string, string> = {
+  "cjc-1295-no-dac": "CJC-1295 no DAC",
+  "cjc-1295-with-dac": "CJC-1295 with DAC",
+  "cjc-1295-ipa": "CJC-1295 no DAC + Ipamorelin",
+};
+
+function toSouthAfrica(list: Product[]): Product[] {
+  return list.map((product) => {
+    const name = englishNames[product.slug] ?? product.name;
+    return {
+      ...product,
+      name,
+      tagline: "Lyophilized research vial",
+      summary: `${name} is listed as a sealed research vial. Laboratory use only. Not a medicine and not a dosing protocol.`,
+      overview: `${name} is supplied by Novion Biopharma as a lyophilized research solid. The label states research use only. This page does not give preparation, dose, or human-use instructions.`,
+      purity: "> 99% HPLC (specification)",
+      appearance: "Lyophilized solid in a sealed vial",
+      storage: "2–8 °C. Protect from light. Do not freeze.",
+      variants: product.variants.map((variant) => ({
+        ...variant,
+        price: zarBySku[variant.sku] ?? Math.round(variant.price / 0.049),
+      })),
+    };
+  });
+}
+
+export const products: Product[] = isZa ? toSouthAfrica(sourceProducts) : sourceProducts;
+
 function compound(slug: string, name: string, code: string, category: CategoryId, image: string, variants: Variant[]): Product {
   return {
     slug,
@@ -286,7 +327,7 @@ function compound(slug: string, name: string, code: string, category: CategoryId
   };
 }
 
-export const articles: Article[] = [
+const deArticles: Article[] = [
   {
     slug: "what-a-coa-reports",
     title: "Was ein Zertifikat tatsächlich ausweist",
@@ -327,6 +368,50 @@ export const articles: Article[] = [
     ],
   },
 ];
+
+const enArticles: Article[] = [
+  {
+    slug: "what-a-coa-reports",
+    title: "What a certificate actually reports",
+    date: "12 March 2026",
+    kicker: "Quality",
+    excerpt: "A purity figure is one line. Identity and method sit beside it.",
+    body: [
+      "A vial label can name a target purity. A certificate ties that figure to a method, a batch, and an identity test. A percentage on its own does not say which peak was measured, or whether the document belongs to the vial in hand.",
+      "Read the certificate in this order: compound name, batch code, method, main peak, and date. If one of those lines is missing, the page is a layout, not a finished report.",
+      "Novion lists chromatographic purity as a specification. The cards on the lab page are previews with placeholder batches. A real certificate attaches to a batch once the lab file is connected. Until then, a preview is not an issued analysis.",
+      "The shop shows no ISO, GMP, FDA, SAHPRA, or other certification marks. A certificate of analysis is a batch file. It is not permission to use the material in people or animals.",
+    ],
+  },
+  {
+    slug: "cold-chain-lyophilized",
+    title: "Why dry vials still travel cold",
+    date: "2 March 2026",
+    kicker: "Shipping",
+    excerpt: "Lyophilized solids are packed for a short, cool trip.",
+    body: [
+      "The solid in the vial is lyophilized. It is dry, and it is still packed for the short trip printed on the carton: store at 2–8 °C, do not freeze.",
+      "The cold pack follows that storage line. It does not turn the vial into a liquid. The outer carton is plain. The inner pack holds the temperature for the transit window.",
+      "On arrival, check the seal before you book the vial in. A broken cap, a wet label, or a carton that arrived open is a shipping problem. Write to the desk with the order number and photos before you open the seal.",
+      "These notes describe packing and storage of a research solid. They are not a preparation guide and not a use protocol.",
+    ],
+  },
+  {
+    slug: "reading-a-batch-number",
+    title: "Read the batch number first",
+    date: "18 February 2026",
+    kicker: "Laboratory",
+    excerpt: "The batch code ties the vial, the carton, and any document that claims to describe both.",
+    body: [
+      "Start with the batch number. It is on the vial and again on the carton. Those two codes have to match before any other line on a document is useful.",
+      "A certificate, a delivery note, and a catalog specification can name the same compound and still describe different fills. The batch number makes them the same object. If the codes differ, the document does not belong to this vial.",
+      "Keep the batch code in the laboratory file. Quote it when you write about a shipment, a seal, or a document. The desk cannot match a question to a fill from the compound name alone.",
+      "The previews in this catalog use placeholder batches. They show where a batch file will sit. They are not the results of an issued analysis.",
+    ],
+  },
+];
+
+export const articles: Article[] = isZa ? enArticles : deArticles;
 
 export const labBatches: LabBatch[] = products.slice(0, 8).map((product) => ({
   id: product.variants[0].sku,
@@ -397,7 +482,7 @@ export function getArticle(slug: string) {
   return articles.find((article) => article.slug === canonical);
 }
 
-export const faqs = [
+const deFaqs = [
   { q: "Wie verfolge ich eine Bestellung?", a: "Melden Sie sich auf der Kontoseite mit der E-Mail an, die Sie an der Kasse verwendet haben. Die Bestellung bleibt auf Zahlung ausstehend, bis der Desk sie als bezahlt, dann gepackt und dann versendet markiert." },
   { q: "In welcher Währung stehen die Preise?", a: "Die Katalogpreise sind in Schweizer Franken. Die Zahlung wird in Rand abgebucht, umgerechnet zum Tageskurs. Auf der Zahlungsseite steht der Rand-Betrag. Ihre Bank kann diesen Betrag danach in die Währung Ihrer Karte umrechnen." },
   { q: "Wer nimmt die Zahlung entgegen?", a: "Die Kasse führt auf die gesicherte Zahlungsseite. Karte und die dort angebotenen Wege werden dort abgewickelt." },
@@ -405,3 +490,14 @@ export const faqs = [
   { q: "Ist das für die Anwendung am Menschen?", a: "Nein. Jedes Vial ist nur für die Forschung gekennzeichnet. Der Shop gibt keine Zubereitungs- oder Dosierungsanleitung." },
   { q: "Sind die Vials zertifiziert?", a: "Die Seite zeigt keine ISO-, GMP-, FDA-, Swissmedic- oder anderen Zertifizierungszeichen. Eine Reinheitszeile ist eine Spezifikation, bis ein Laborbericht für diese Charge angebunden ist." },
 ];
+
+const enFaqs = [
+  { q: "How do I track an order?", a: "Sign in on the account page with the email you used at checkout. The order stays as payment pending until the desk marks it paid, then packed, then shipped." },
+  { q: "What currency are the prices in?", a: "Catalog prices are in South African rand. The payment page charges that rand amount. Your bank may then convert it into the currency of your card." },
+  { q: "Who takes the payment?", a: "Checkout opens a secure payment page. Card and the methods offered there are handled on that page." },
+  { q: "Can I return a vial?", a: "You can withdraw while the seal is unbroken, and you can report a wrong or damaged shipment. Opened research material is not taken back. The steps are on the returns page." },
+  { q: "Is this for use in people?", a: "No. Every vial is marked for research only. The shop does not give preparation or dosing instructions." },
+  { q: "Are the vials certified?", a: "The page shows no ISO, GMP, FDA, SAHPRA, or other certification marks. A purity line is a specification until a laboratory report is attached to that batch." },
+];
+
+export const faqs = isZa ? enFaqs : deFaqs;

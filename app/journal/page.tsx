@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { articles } from "@/lib/catalog";
+import { tx } from "@/lib/region";
 
 export const metadata: Metadata = { title: "Journal" };
 
@@ -9,7 +10,7 @@ export default function JournalPage() {
     <div className="wrap pad">
       <div className="page-title">
         <p className="eyebrow">Journal</p>
-        <h1>Notizen zu Qualität und Versand</h1>
+        <h1>{tx("Notizen zu Qualität und Versand", "Notes on quality and shipping")}</h1>
       </div>
       <div className="news" style={{ marginTop: 20 }}>
         {articles.map((article) => (

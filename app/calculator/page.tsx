@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { moneyLocale, tx } from "@/lib/region";
 
 export default function CalculatorPage() {
   const [mg, setMg] = useState("10");
@@ -17,35 +18,38 @@ export default function CalculatorPage() {
   return (
     <div className="wrap pad">
       <div className="page-title">
-        <p className="eyebrow">Laborrechnung</p>
-        <h1>Konzentrationsrechner</h1>
+        <p className="eyebrow">{tx("Laborrechnung", "Laboratory calculation")}</p>
+        <h1>{tx("Konzentrationsrechner", "Concentration calculator")}</h1>
         <p className="lede">
-          Masse geteilt durch Lösungsmittelvolumen. Das ist ein Laborblatt für eine angesetzte Lösung. Es ist keine Dosierungsanleitung und empfiehlt kein Volumen.
+          {tx(
+            "Masse geteilt durch Lösungsmittelvolumen. Das ist ein Laborblatt für eine angesetzte Lösung. Es ist keine Dosierungsanleitung und empfiehlt kein Volumen.",
+            "Mass divided by solvent volume. This is a laboratory sheet for a prepared solution. It is not a dosing instruction and it does not recommend a volume.",
+          )}
         </p>
       </div>
       <div className="calc" style={{ marginTop: 20 }}>
         <form className="form panel" onSubmit={(event) => event.preventDefault()}>
           <label>
-            Peptidmasse (mg)
+            {tx("Peptidmasse (mg)", "Peptide mass (mg)")}
             <input className="field" inputMode="decimal" value={mg} onChange={(event) => setMg(event.target.value)} />
           </label>
           <label>
-            Lösungsvolumen (mL)
+            {tx("Lösungsvolumen (mL)", "Solution volume (mL)")}
             <input className="field" inputMode="decimal" value={ml} onChange={(event) => setMl(event.target.value)} />
           </label>
-          <p className="notice">Tragen Sie die gewogene Masse und das angesetzte Volumen ein. Das Ergebnis ist nur die Konzentration.</p>
+          <p className="notice">{tx("Tragen Sie die gewogene Masse und das angesetzte Volumen ein. Das Ergebnis ist nur die Konzentration.", "Enter the weighed mass and the prepared volume. The result is only the concentration.")}</p>
         </form>
         <div className="result">
-          <p className="stage-kicker">Konzentration</p>
+          <p className="stage-kicker">{tx("Konzentration", "Concentration")}</p>
           {result ? (
             <>
-              <strong>{result.mgPerMl.toLocaleString("de-CH", { maximumFractionDigits: 3 })} mg/mL</strong>
-              <p>{result.ugPerMl.toLocaleString("de-CH", { maximumFractionDigits: 1 })} µg/mL</p>
+              <strong>{result.mgPerMl.toLocaleString(moneyLocale, { maximumFractionDigits: 3 })} mg/mL</strong>
+              <p>{result.ugPerMl.toLocaleString(moneyLocale, { maximumFractionDigits: 1 })} µg/mL</p>
             </>
           ) : (
             <strong>—</strong>
           )}
-          <p style={{ marginTop: 16 }}>Für Forschungsrechnungen. Nicht zur Anwendung an Mensch oder Tier.</p>
+          <p style={{ marginTop: 16 }}>{tx("Für Forschungsrechnungen. Nicht zur Anwendung an Mensch oder Tier.", "For research calculations. Not for use in people or animals.")}</p>
         </div>
       </div>
     </div>

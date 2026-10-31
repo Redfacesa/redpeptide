@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { zaPages } from "@/lib/legal-za";
+import { isZa, tx } from "@/lib/region";
 
-const pages = {
+const dePages = {
   privacy: {
-    title: "Datenschutz",
+    title: isZa ? "Privacy" : "Datenschutz",
     intro: "Dieser Hinweis erklärt, was der Novion-Katalog behält und warum. Es ist die Beschreibung des Betreibers, kein Rechtsgutachten.",
     sections: [
       {
@@ -38,7 +40,7 @@ const pages = {
     ],
   },
   terms: {
-    title: "Verkaufsbedingungen",
+    title: isZa ? "Terms of sale" : "Verkaufsbedingungen",
     intro: "Diese Bedingungen gelten für Bestellungen im Katalog von Novion Biopharma. Zwingende Schutzrechte in Ihrem Land bleiben bestehen, wo das Gesetz keinen Verzicht erlaubt.",
     sections: [
       {
@@ -58,7 +60,9 @@ const pages = {
       {
         heading: "Preis und Zahlung",
         body: [
-          "Die Katalogpreise sind in Schweizer Franken. Die Zahlung wird in Rand zum Tageskurs abgebucht. Die Zahlungsseite zeigt den Rand-Betrag, nicht dieselbe Zahl in Franken. Ein Vertrag entsteht, wenn die Zahlung angenommen wird.",
+          isZa
+            ? "Catalog prices are in South African rand. Payment is collected in rand. The payment page shows that rand amount. A contract is formed when payment is accepted."
+            : "Die Katalogpreise sind in Schweizer Franken. Die Zahlung wird in Rand zum Tageskurs abgebucht. Die Zahlungsseite zeigt den Rand-Betrag, nicht dieselbe Zahl in Franken. Ein Vertrag entsteht, wenn die Zahlung angenommen wird.",
           "Novion kann einen offensichtlichen Preisfehler vor dem Versand korrigieren und statt der Lieferung eine Rückerstattung anbieten.",
         ],
       },
@@ -79,7 +83,7 @@ const pages = {
     ],
   },
   shipping: {
-    title: "Versand",
+    title: isZa ? "Shipping" : "Versand",
     intro: "Bestellungen verlassen das Haus als versiegelte Forschungsvials in einem schlichten Aussenkarton.",
     sections: [
       {
@@ -99,7 +103,7 @@ const pages = {
     ],
   },
   returns: {
-    title: "Rückgabe und Widerruf",
+    title: isZa ? "Returns and withdrawal" : "Rückgabe und Widerruf",
     intro: "Sie können eine ungeöffnete Bestellung rückgängig machen. Geöffnete Forschungsvials werden nicht zurückgenommen.",
     sections: [
       {
@@ -121,7 +125,7 @@ const pages = {
     ],
   },
   cookies: {
-    title: "Cookies und Speicher",
+    title: isZa ? "Cookies and storage" : "Cookies und Speicher",
     intro: "Der Katalog nutzt den Speicher, den er zum Betrieb braucht. Er setzt keine Werbe- oder Analyse-Cookies.",
     sections: [
       {
@@ -135,13 +139,15 @@ const pages = {
     ],
   },
   imprint: {
-    title: "Impressum",
+    title: isZa ? "Imprint" : "Impressum",
     intro: "Diese Seite benennt den Katalog. Sie erfindet keine Registernummer und keine Zertifizierung.",
     sections: [
       {
         heading: "Betreiber",
         body: [
-          "Novion Biopharma, Genf. Anfragen laufen über das Kontaktformular.",
+          isZa
+            ? "Novion Biopharma. Enquiries go through the contact form."
+            : "Novion Biopharma, Genf. Anfragen laufen über das Kontaktformular.",
           "Hier steht keine Handelsregisternummer, keine Mehrwertsteuernummer und kein Siegel eines Dritten. Solche Angaben werden erst gedruckt, wenn sie tatsächlich ausgestellt sind. Ein Zeichen, das der Betreiber nicht hält, wird nicht gezeigt.",
         ],
       },
@@ -153,7 +159,9 @@ const pages = {
       },
     ],
   },
-} as const;
+};
+
+const pages = isZa ? zaPages : dePages;
 
 export function generateStaticParams() {
   return Object.keys(pages).map((slug) => ({ slug }));
@@ -195,11 +203,11 @@ export default async function LegalPage({
         </section>
       ))}
       <p>
-        <Link href="/research-use">Forschungshinweis</Link>
+        <Link href="/research-use">{tx("Forschungshinweis", "Research notice")}</Link>
         {" · "}
-        <Link href="/withdraw">Widerruf</Link>
+        <Link href="/withdraw">{tx("Widerruf", "Withdrawal")}</Link>
         {" · "}
-        <Link href="/contact">Kontakt</Link>
+        <Link href="/contact">{tx("Kontakt", "Contact")}</Link>
       </p>
     </article>
   );

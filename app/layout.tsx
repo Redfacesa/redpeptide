@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { CurrencyProvider } from "@/components/currency";
 import { Shell } from "@/components/shell";
 import { StoreProvider } from "@/components/store";
+import { htmlLang, isZa, siteUrl } from "@/lib/region";
 import "./globals.css";
 
 const sans = Inter({
@@ -12,17 +13,20 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://novion.ch"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Novion Biopharma",
     template: "%s · Novion Biopharma",
   },
-  description:
-    "Novion Biopharma, Genf. Versiegelte Forschungspeptide für das Labor. Kein Arzneimittel und nicht zur Anwendung am Menschen.",
+  description: isZa
+    ? "Novion Biopharma. Sealed research peptides for the laboratory. Not a medicine and not for use in people. Prices in rand."
+    : "Novion Biopharma, Genf. Versiegelte Forschungspeptide für das Labor. Kein Arzneimittel und nicht zur Anwendung am Menschen.",
   openGraph: {
     title: "Novion Biopharma",
-    description: "Versiegelte Forschungspeptide für das Labor. Katalog aus Genf. Nicht zur Anwendung am Menschen.",
-    url: "https://novion.ch",
+    description: isZa
+      ? "Sealed research peptides for the laboratory. Prices in South African rand. Not for use in people."
+      : "Versiegelte Forschungspeptide für das Labor. Katalog aus Genf. Nicht zur Anwendung am Menschen.",
+    url: siteUrl,
     siteName: "Novion Biopharma",
     type: "website",
   },
@@ -31,7 +35,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de-CH" className={sans.variable}>
+    <html lang={htmlLang} className={sans.variable}>
       <body>
         <CurrencyProvider>
           <StoreProvider>
