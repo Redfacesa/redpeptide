@@ -1,21 +1,39 @@
+import { orderById } from "@/lib/orders";
+import { chfToZar, zarPerChf } from "@/lib/fx";
+
 const COMMERCE = process.env.REDFACE_COMMERCE_API ?? "https://bpzzgilwlkghgfkvkkxx.supabase.co/functions/v1/commerce-api";
 
 export async function POST(request: Request) {
   const body = (await request.json()) as {
-    amount?: number;
     label?: string;
     email?: string;
     returnUrl?: string;
     orderId?: string;
-    lines?: unknown;
   };
-  const amount = Number(body.amount);
   const label = String(body.label || "Novion Biopharma order").slice(0, 80);
-  const orderId = String(body.orderId || label).replace(/\s+/g, "-").slice(0, 48);
+  const orderId = String(body.orderId || "").replace(/\s+/g, "-").slice(0, 48);
   const email = String(body.email || "");
   const returnUrl = String(body.returnUrl || "https://novion.ch/account");
   const merchantId = process.env.NOVION_MERCHANT_ID || "";
   const apiKey = process.env.REDFACE_API_KEY || "";
+  const order = orderId ? await orderById(orderId) : null;
+  if (!order || !(order.total > 0)) {
+    return Response.json({ message: "Die Bestellung wurde nicht gefunden." }, { status: 404 });
+  }
+
+  let rate = 0;
+  try {
+    rate = await zarPerChf();
+  } catch {
+    return Response.json({ message: "Der Franken-Rand-Kurs ist gerade nicht verfügbar. Die Zahlung wurde nicht geöffnet." }, { status: 503 });
+  }
+  const amount = chfToZar(order.total, rate);
+  const lines = order.lines.map((line) => ({
+    product_name: `${line.name} ${line.variant}`,
+    price_zar: chfToZar(line.price, rate),
+    quantity: line.qty,
+    sku: line.sku,
+  }));
 
   if (merchantId && apiKey && amount > 0) {
     const response = await fetch(`${COMMERCE}/payments`, {
@@ -29,15 +47,31 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         merchant_id: merchantId,
         amount,
-        currency: "CHF",
+        currency: "ZAR",
         label,
-        cart_items: body.lines ?? [],
-        metadata: { ecosystem_from: "novion", email, brand: "novion" },
+        cart_items: lines,
+        metadata: {
+          ecosystem_from: "novion",
+          email,
+          brand: "novion",
+          catalog_currency: "CHF",
+          catalog_amount: order.total,
+          zar_per_chf: rate,
+        },
       }),
     });
     const data = (await response.json().catch(() => ({}))) as { data?: { checkout_url?: string } };
     if (response.ok && data.data?.checkout_url) {
-      return Response.json({ checkoutUrl: data.data.checkout_url });
+      let checkoutUrl = data.data.checkout_url;
+      try {
+        const branded = new URL(checkoutUrl);
+        branded.searchParams.set("ecosystem_from", "novion");
+        branded.searchParams.set("utm_source", "novion");
+        checkoutUrl = branded.toString();
+      } catch {
+        checkoutUrl = data.data.checkout_url;
+      }
+      return Response.json({ checkoutUrl, amountZar: amount, zarPerChf: rate });
     }
   }
 
@@ -45,8 +79,8 @@ export async function POST(request: Request) {
     ecosystem_from: "novion",
     utm_source: "novion",
     utm_medium: "checkout",
-    amount: String(Math.round(amount)),
-    currency: "CHF",
+    amount: String(amount),
+    currency: "ZAR",
     label,
     return_url: returnUrl,
   });

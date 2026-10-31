@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { countries, getVariant } from "@/lib/catalog";
-import { shippingCost } from "@/lib/format";
+import { shippingCost, zar } from "@/lib/format";
+import { chfToZar } from "@/lib/fx";
 import { useMoney } from "@/components/currency";
 import { useStore } from "@/components/store";
 
@@ -37,11 +37,12 @@ const countryNames: Record<string, string> = {
 export default function CheckoutPage() {
   const store = useStore();
   const { format } = useMoney();
-  const router = useRouter();
   const [method, setMethod] = useState<Method>("standard");
   const [research, setResearch] = useState(false);
   const [error, setError] = useState("");
   const [paying, setPaying] = useState(false);
+  const [zarPerChf, setZarPerChf] = useState<number | null>(null);
+  const [rateError, setRateError] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -61,6 +62,27 @@ export default function CheckoutPage() {
       email: current.email || store.profile?.email || "",
     }));
   }, [store.profile]);
+
+  useEffect(() => {
+    let cancel = false;
+    fetch("/api/fx")
+      .then(async (response) => {
+        const data = (await response.json().catch(() => ({}))) as { zarPerChf?: number; message?: string };
+        if (cancel) return;
+        if (response.ok && data.zarPerChf) {
+          setZarPerChf(data.zarPerChf);
+          setRateError("");
+          return;
+        }
+        setRateError(data.message || "Der Franken-Rand-Kurs ist gerade nicht verfügbar.");
+      })
+      .catch(() => {
+        if (!cancel) setRateError("Der Franken-Rand-Kurs ist gerade nicht verfügbar.");
+      });
+    return () => {
+      cancel = true;
+    };
+  }, []);
 
   const lines = useMemo(
     () =>
@@ -170,13 +192,13 @@ export default function CheckoutPage() {
         })),
       }),
     });
-    const data = (await response.json().catch(() => ({}))) as { checkoutUrl?: string };
+    const data = (await response.json().catch(() => ({}))) as { checkoutUrl?: string; message?: string };
     if (data.checkoutUrl) {
       window.location.href = data.checkoutUrl;
       return;
     }
     setPaying(false);
-    router.push(`/order/${order.id}`);
+    setError(data.message || "Die Zahlung konnte nicht geöffnet werden.");
   }
 
   if (lines.length === 0) {
@@ -234,7 +256,8 @@ export default function CheckoutPage() {
             Ich bin 18 oder älter und bestelle für die Laborforschung, nicht zur Anwendung an Mensch oder Tier. Ich habe die AGB, die Rückgabe und den Forschungshinweis gelesen.
           </label>
           {error && <p className="error">{error}</p>}
-          <button className="btn" type="submit" disabled={paying}>{paying ? "Zahlung wird geöffnet…" : "Weiter zur Zahlung"}</button>
+          {rateError && <p className="error">{rateError}</p>}
+          <button className="btn" type="submit" disabled={paying || !zarPerChf}>{paying ? "Zahlung wird geöffnet…" : "Weiter zur Zahlung"}</button>
           <p className="muted">Mit dem Weitergehen akzeptieren Sie die <Link href="/legal/terms">AGB</Link>, die <Link href="/legal/returns">Rückgabe</Link> und den <Link href="/research-use">Forschungshinweis</Link>.</p>
         </div>
         <aside className="summary">
@@ -249,7 +272,11 @@ export default function CheckoutPage() {
           ))}
           <div className="row"><span>Versand</span><span>{delivery === 0 ? "Kostenlos" : format(delivery)}</span></div>
           <div className="row total"><span>Total</span><strong>{format(subtotal + delivery)}</strong></div>
-          <p className="muted">Die Beträge sind in Schweizer Franken. Die Zahlungsseite bestätigt die Summe.</p>
+          {zarPerChf && (
+            <p className="notice">
+              Zahlung in Rand: {zar(chfToZar(subtotal + delivery, zarPerChf))}. Kurs heute: 1 CHF = {zarPerChf.toLocaleString("de-CH", { maximumFractionDigits: 2 })} ZAR. Die Zahlungsseite zeigt diesen Rand-Betrag. Visa, Mastercard und Apple Pay bleiben möglich. Ihre Bank kann den Rand-Betrag danach in die Währung Ihrer Karte umrechnen.
+            </p>
+          )}
         </aside>
       </form>
     </div>

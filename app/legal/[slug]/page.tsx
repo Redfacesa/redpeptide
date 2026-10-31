@@ -58,7 +58,7 @@ const pages = {
       {
         heading: "Preis und Zahlung",
         body: [
-          "Die Katalogpreise sind in Schweizer Franken. Die Zahlungsseite zeigt den Betrag erneut, bevor Sie zahlen. Ein Vertrag entsteht, wenn die Zahlung angenommen wird.",
+          "Die Katalogpreise sind in Schweizer Franken. Die Zahlung wird in Rand zum Tageskurs abgebucht. Die Zahlungsseite zeigt den Rand-Betrag, nicht dieselbe Zahl in Franken. Ein Vertrag entsteht, wenn die Zahlung angenommen wird.",
           "Novion kann einen offensichtlichen Preisfehler vor dem Versand korrigieren und statt der Lieferung eine Rückerstattung anbieten.",
         ],
       },

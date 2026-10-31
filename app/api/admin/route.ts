@@ -1,4 +1,5 @@
 import { products } from "@/lib/catalog";
+import { chfToZar, zarPerChf } from "@/lib/fx";
 import { requireCatalogEditor } from "@/lib/admin-auth";
 import { catalogFromEditor, readMergedCatalog, readSavedCatalog, writeSavedCatalog, type PriceRow } from "@/lib/catalog-store";
 import type { Product } from "@/lib/catalog";
@@ -24,7 +25,15 @@ export async function POST(request: Request) {
   const merchantId = process.env.NOVION_MERCHANT_ID || "";
   const apiKey = process.env.REDFACE_API_KEY || "";
   let synced = 0;
+  let rate = 0;
   if (merchantId && apiKey) {
+    try {
+      rate = await zarPerChf();
+    } catch {
+      rate = 0;
+    }
+  }
+  if (merchantId && apiKey && rate > 0) {
     const endpoint = process.env.REDFACE_COMMERCE_API ?? "https://bpzzgilwlkghgfkvkkxx.supabase.co/functions/v1/commerce-api";
     const previous = new Map(before.rows.map((row) => [`${row.slug}:${row.variantId}`, row]));
     for (const row of built.rows) {
@@ -44,8 +53,8 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           merchant_id: merchantId,
           name: `${row.name ?? row.slug} ${row.label ?? row.variantId}`,
-          price: row.price,
-          currency: "CHF",
+          price: chfToZar(row.price, rate),
+          currency: "ZAR",
           stock_quantity: row.stock,
           track_inventory: true,
         }),

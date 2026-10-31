@@ -399,7 +399,7 @@ export function getArticle(slug: string) {
 
 export const faqs = [
   { q: "Wie verfolge ich eine Bestellung?", a: "Melden Sie sich auf der Kontoseite mit der E-Mail an, die Sie an der Kasse verwendet haben. Die Bestellung bleibt auf Zahlung ausstehend, bis der Desk sie als bezahlt, dann gepackt und dann versendet markiert." },
-  { q: "In welcher Währung stehen die Preise?", a: "Die Katalogpreise sind in Schweizer Franken. Die Zahlungsseite bestätigt den Betrag, bevor Sie zahlen." },
+  { q: "In welcher Währung stehen die Preise?", a: "Die Katalogpreise sind in Schweizer Franken. Die Zahlung wird in Rand abgebucht, umgerechnet zum Tageskurs. Auf der Zahlungsseite steht der Rand-Betrag. Ihre Bank kann diesen Betrag danach in die Währung Ihrer Karte umrechnen." },
   { q: "Wer nimmt die Zahlung entgegen?", a: "Die Kasse führt auf die gesicherte Zahlungsseite. Karte und die dort angebotenen Wege werden dort abgewickelt." },
   { q: "Kann ich ein Vial zurückgeben?", a: "Sie können widerrufen, solange das Siegel ungeöffnet ist, und eine falsche oder beschädigte Sendung melden. Geöffnetes Forschungsmaterial wird nicht zurückgenommen. Die Schritte stehen unter Rückgabe." },
   { q: "Ist das für die Anwendung am Menschen?", a: "Nein. Jedes Vial ist nur für die Forschung gekennzeichnet. Der Shop gibt keine Zubereitungs- oder Dosierungsanleitung." },
